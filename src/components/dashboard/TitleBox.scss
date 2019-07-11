@@ -1,0 +1,27 @@
+
+$boxcolor: white;
+$boxstyle: solid 1px;
+
+.titlebox {
+  width: 50%;
+  min-height: 543px;
+  max-height: 543px;
+}
+
+.titlebox-title {
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  font-size: 18px;
+  padding-top: 6px;
+  border: $boxstyle;
+  border-color: $boxcolor;
+}
+
+.titlebox-content {
+  width: 100%;
+  height: 470px;
+  border: $boxstyle;
+  border-color: $boxcolor;
+  overflow: auto;
+}

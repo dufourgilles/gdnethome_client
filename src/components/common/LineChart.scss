@@ -1,0 +1,70 @@
+@import '../constants.scss';
+
+$left-margin: 15px;
+$text-color: white;
+$backgroud-color: black;
+
+.linechart {
+  position: relative;
+  background-color: $backgroud-color;
+}
+
+.linechart-ymin {
+  position:absolute;
+  top: 80%;
+  left: 2px;
+  color: $text-color;
+  z-index: 130;
+  font-size: 8px;
+}
+
+.linechart-ymax {
+  position:absolute;
+  top: 0;
+  left: 4px;
+  color: $text-color;
+  z-index: 130;
+  font-size: 8px;
+}
+
+.linechar-rightend {
+  position: absolute;
+  width: $left-margin;
+  left: 100%;
+  top: 0;
+  height: 100%;
+  background-color: $backgroud-color;
+  z-index: 110;
+  margin-right:5px;
+}
+
+.linechart-plots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  overflow: hidden;
+  padding-top: 5px;
+}
+
+
+.linechart-axis
+{
+  margin-left: $left-margin;
+  padding-top: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.linechar-title {
+  margin-left: $left-margin;
+  padding-top: 10px;
+  padding-left: 5px;
+  position: absolute;
+  color: $text-color;
+  top: 0;
+  left: 0;
+  z-index: 20;
+}

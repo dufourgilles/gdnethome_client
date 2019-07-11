@@ -1,0 +1,90 @@
+.selectable-datapoint-list {
+  padding: 5px;
+  width: 250px;
+  border: solid 1px purple;
+  border-radius: 7px;
+  box-shadow: 2px 2px 3px 2px purple;
+  height: 95%;
+  overflow: scroll;
+  float: left;
+}
+
+.selected-datapoint-list {
+  padding: 5px;
+  width: 250px;
+  border: solid 1px purple;
+  border-radius: 7px;
+  box-shadow: 2px 2px 3px 2px purple;
+  height: 95%;
+  overflow: scroll;
+  float: left;
+  margin-right: 10px;
+}
+
+.datapointlisteditor-datapoint-line-select .datapointlisteditor-datapoint-line-text {
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  float: left;
+  width: 180px;
+  height: 18px;
+  overflow: hidden;
+}
+
+.datapointlisteditor-datapoint-line-select span  {
+  float: right;
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.datapointlisteditor-datapoint-line-unselect {
+  float: unset;
+}
+
+.datapointlisteditor-datapoint-line-unselect span  {
+  float: left;
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.datapointlisteditor-datapoint-line-unselect .datapointlisteditor-datapoint-line-text {
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  width: 180px;
+  height: 18px;
+  overflow: hidden;
+}
+
+.datapointlisteditor-middle-arrow {
+  float: left;
+  padding-top: 37%;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.datapointlisteditor-body {
+  min-width: 600px;
+  max-width: 600px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.datapointlisteditor-tooltip {
+  display: none;
+  background: white;
+  z-index: 1100;
+  max-width: 300px;
+  max-height: 80px;
+  position: fixed;
+  overflow: hidden;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  border-radius: 7px;
+}
+
+.datapointlisteditor-tooltip p {
+  padding: 2px;
+  margin: 2px;
+}

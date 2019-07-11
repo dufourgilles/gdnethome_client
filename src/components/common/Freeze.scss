@@ -1,0 +1,49 @@
+@import "../constants.scss";
+
+.gdnet-freeze {
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-align: center;
+  background-color: transparent;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+}
+
+.gdnet-freeze-blurred {
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-align: center;
+  background-color: $gdnet-grey-blur;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+}
+
+.gdnet-freeze-message p {
+  position: absolute;
+  margin: auto;
+  top: 35%;
+  left: 35%;
+  height: 50px;
+  width: 50%;
+  border: solid 1px;
+  background-color: $gdnet-grey;
+  color: $gdnet-purple;
+  font-size: 25px;
+  z-index: 1000;
+}
+
+.freeze-view-container {
+  width: 100%;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}

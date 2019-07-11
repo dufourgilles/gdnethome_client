@@ -1,0 +1,17 @@
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.gdnet-app {
+  position: absolute;
+  top: 100px;
+  left: 0px;
+  width: 100%;
+  overflow: hidden;
+}
+
+#root {
+    width: 100%;
+    overflow: hidden;
+}

@@ -1,0 +1,33 @@
+.action-view-container {
+  margin-left: 10%;
+  width: 80%; }
+
+.action-creator {
+  display: flex;
+  flex-direction: column; }
+
+.action-actions {
+  display: flex;
+  flex-direction: row; }
+
+.action-list {
+  width: 50%;
+  padding-right: 20px; }
+
+.action-list-item {
+  display: flex;
+  flex-direction: row; }
+
+.action-item-name {
+  height: 38px;
+  font-size: 18px;
+  padding-top: 5px;
+  padding-right: 20px;
+  padding-left: 10px;
+  max-width: 250px;
+  min-width: 250px;
+  vertical-align: middle; }
+
+.action-editor {
+  display: flex;
+  flex-direction: row; }

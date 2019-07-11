@@ -1,0 +1,28 @@
+@import "../constants.scss";
+
+.text-select {
+  overflow: visible;
+}
+
+.text-select-options {
+  position: absolute;
+  z-index: 200;
+  background-color: $gdnet-grey;
+  color: $gdnet-purple;
+  max-height: 200px;
+  width: 293px;
+  margin-left: 40px;
+  overflow: hidden;
+}
+
+.text-select-selection {
+  z-index: 100;
+}
+
+.text-select-option {
+  padding: 3px;
+}
+
+.text-select-option:hover {
+  cursor: pointer;
+}

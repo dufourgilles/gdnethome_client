@@ -1,0 +1,61 @@
+@import "../constants.scss";
+
+.datapoint-editor {
+  padding-top: 10px;
+  width: 60%;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+.datapoint-editor-entry {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 5px;
+}
+
+.datapoint-editor-key {
+  min-width: 40%;
+}
+
+.datapoint-editor-actions {
+  display: flex;
+  flex-direction: row;
+}
+
+.datapoint-editor-button {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 7px;
+  border: solid 1px white;
+  background-color: $gdnet-purple;
+}
+
+.datapoint-editor-button:hover {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 7px;
+  border: solid 1px white;
+  background-color: $gdnet-purple;
+  cursor: pointer;
+}
+
+
+.datapoint-editor-button-disabled {
+  margin: 5px;
+  border-radius: 7px;
+  border: solid 1px white;
+  background-color: $gdnet-grey;
+  padding: 5px;
+}
+
+.datapoint-parameter-invalid {
+  height: 3px;
+  width: 131px;
+  background-color: red;
+}
+
+.datapoint-parameter-valid {
+  height: 3px;
+  width: 131px;
+}
