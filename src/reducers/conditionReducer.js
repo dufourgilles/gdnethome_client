@@ -19,7 +19,10 @@ const initialState = { isFetching: false, items: [], error: null, types: [] };
 
 const genericConditionPending = state => ({ ...state, isFetching: true, error: null });
 
-const genericConditionSuccess = (state, action) => ({ ...state, isFetching: false, items: [{id: "none"}].concat(action.conditions) });
+const genericConditionSuccess = (state, action) => (
+    { ...state, isFetching: false, 
+        items: action.conditions == null ? [{id: "none"}] : [{id: "none"}].concat(action.conditions) 
+    });
 
 const genericConditionFailure = (state, action) => ({ ...state, isFetching: false, error: action.error });
 

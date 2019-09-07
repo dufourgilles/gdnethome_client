@@ -5,7 +5,7 @@ import "./TextSelect.css";
 
 class TextSelect extends Component {
     state = {
-        value: this.getDisplayValue(this.props.data[this.props.name]),
+        value: this.getDisplayValue(this.props.index == null ? this.props.data[this.props.name] : this.props.data[this.props.name][this.props.index]),
         options: [],
         hidden: true,
         maxOptions: this.props.maxOptions == null ? 5 : this.props.maxOptions
@@ -72,7 +72,9 @@ class TextSelect extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
-            this.setState({value: this.getDisplayValue(this.props.data[this.props.name]), options: []});
+            this.setState({value: this.getDisplayValue(
+                this.props.index == null ? this.props.data[this.props.name] : this.props.data[this.props.name][this.props.index]
+                ), options: []});
         }
     }
 
@@ -86,6 +88,7 @@ class TextSelect extends Component {
                         onChange={this.handleValueChange}
                         onFocus={this.handleFocusIn}
                         onBlur={this.handleFocusOut}
+                        autoComplete="off"
                         size="40"
                     />
                 </div>

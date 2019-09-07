@@ -8,10 +8,19 @@
 .datapoint-editor-entry {
   display: flex;
   flex-direction: row;
+  min-width: 500px;
   padding-bottom: 5px; }
 
 .datapoint-editor-key {
-  min-width: 40%; }
+  min-width: 208px;
+  height: 30px; }
+
+.datapoint-editor-value {
+  display: flex;
+  flex-direction: row; }
+
+.datapoint-editor-value select {
+  width: 250px; }
 
 .datapoint-editor-actions {
   display: flex;
@@ -22,7 +31,9 @@
   padding: 5px;
   border-radius: 7px;
   border: solid 1px white;
-  background-color: mediumpurple; }
+  background-color: mediumpurple;
+  width: 70px;
+  text-align: center; }
 
 .datapoint-editor-button:hover {
   margin: 5px;

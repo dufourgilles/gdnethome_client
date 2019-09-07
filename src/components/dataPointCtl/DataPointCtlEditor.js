@@ -4,7 +4,7 @@ import FreezeView from "../common/FreezeView";
 import PropTypes from 'prop-types';
 import DatapointParameter from '../datapoint/DatapointParameter';
 import {getDataPointCtlByID, EMPTY_DATAPOINTCTL} from "../../reducers/dataPointCtlReducer";
-import {fetchDPCTLTypes, createNewDataPointCtl, updateDataPointCtl, deleteAllDataPointCtls} from "../../actions/dataPointCtlAction";
+import {fetchDPCTLTypes, createNewDataPointCtl, updateDataPointCtl, deleteDataPointCtl} from "../../actions/dataPointCtlAction";
 import { toastr } from "react-redux-toastr";
 import DataPointCtlActions from "./DataPointCtlActions";
 
@@ -40,22 +40,29 @@ class DataPointCtlEditor extends FreezeView {
         else {
             action = this.props.updateDataPointCtl(this.state.dataPointCtl);
         }
-        return action.catch(e => {
+        return action
+        .then(() => {
+            toastr.success('Success', "Save OK");
+        })
+        .catch(e => {
             toastr.error('Error', e.message);
         })
-            .then(() => {
-                toastr.success('Success', "Save OK");
-                this.setFreezeOff();
-            });
+        .then(() => {
+            this.setFreezeOff();
+        });
     };
 
     deleteDataPointCtl = () => {
         debugger;
-        return this.props.deleteAllDataPointCtls(this.state.dataPointCtl.id).catch(e => {
+        return this.props.deleteDataPointCtl(this.state.dataPointCtl)
+        .then(() => {
+            toastr.success('Success', "Delete OK");
+            this.newDataPointCtl();
+        })
+        .catch(e => {
             toastr.error('Error', e.message);
         })
         .then(() => {
-            toastr.success('Success', "Delete OK");
             this.setFreezeOff();
         });
     };
@@ -210,8 +217,7 @@ DataPointCtlEditor.propTypes = {
     types: PropTypes.array.isRequired,
     getDataPointCtlByID: PropTypes.func.isRequired,
     createNewDataPointCtl: PropTypes.func.isRequired,
-    updateDataPointCtl: PropTypes.func.isRequired,
-    deleteAllDataPointCtls: PropTypes.func.isRequired
+    updateDataPointCtl: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -226,7 +232,7 @@ const mapDispatchToProps = dispatch => {
     return {
         createNewDataPointCtl: createNewDataPointCtl(dispatch),
         updateDataPointCtl: updateDataPointCtl(dispatch),
-        deleteAllDataPointCtls: deleteAllDataPointCtls(dispatch)
+        deleteDataPointCtl: deleteDataPointCtl(dispatch)
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DataPointCtlEditor);

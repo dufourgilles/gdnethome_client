@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {fetchActionTypes} from "../../actions/actionActions";
 import ActionParameter from "./ActionParameter";
-import {EMPTY_ACTION} from "../../reducers/actionReducer";
 import PropTypes from "prop-types";
 
 class ActionParameters extends Component {
@@ -29,7 +27,7 @@ class ActionParameters extends Component {
 
         parameterTypeKeys.map(name => {
             if (name == null || name.length === 0 || name[0] === "_") {
-                return;
+                return null;
             }
             const _handleChange = (fullParamName, value) => {
                 handleChange(fullParamName, value);
@@ -37,6 +35,7 @@ class ActionParameters extends Component {
             renderedParameters.push(
                  <ActionParameter key={name} name={name} parameterInfo={parameterTypes[name]} data={parameters} onChange={_handleChange} />
             );
+            return null;
         });
         return (
             <div className="action-parameters">

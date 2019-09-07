@@ -1,0 +1,95 @@
+
+$left-margin: 15px;
+$text-color: white;
+$backgroud-color: black;
+
+.graphdata {
+  position: relative;
+  background-color: $backgroud-color;
+}
+
+.graphdata-ymin {
+  position:absolute;
+  top: 80%;
+  left: 2px;
+  color: $text-color;
+  z-index: 130;
+  font-size: 8px;
+}
+
+.graphdata-ymax {
+  position:absolute;
+  top: 0;
+  left: 4px;
+  color: $text-color;
+  z-index: 130;
+  font-size: 8px;
+}
+
+.graphdata-rightend {
+  position: relative;
+  width: $left-margin;
+  background-color: $backgroud-color;
+  margin-right:5px;
+}
+
+.graphdata-plots {
+  position: absolute;
+  margin-left: $left-margin;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  overflow: hidden;
+  padding-top: 5px;
+}
+
+
+.graphdata-axis
+{
+  margin-left: $left-margin;
+  padding-top: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.graphdata-title {
+  margin-left: $left-margin;
+  padding-top: 10px;
+  padding-left: 5px;
+  position: absolute;
+  color: $text-color;
+  top: 0;
+  left: 0;
+  z-index: 20;
+}
+
+.graphdata-actions {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.graphdata-btn {
+    display: block;
+    background-color: black;
+    color: white;
+    padding: 5px 5px 5px 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.graphdata-btn-grey {
+    display: block;
+    background-color: grey;
+    color: darkgrey;
+    padding: 5px 5px 5px 5px;
+    margin-right: 5px;
+}
+
+.graphdata-actions p {
+  margin-top: 5px;
+  margin-bottom: 0px;
+}

@@ -12,22 +12,34 @@ import { toastr } from "react-redux-toastr";
 class ActionCreator extends FreezeView {
     state = {
         actionTypes: [],
+        advanced: false,
         action: this.props.action == null ? EMPTY_ACTION : this.props.action
     };
 
     componentDidMount() {
         fetchActionTypes()
             .then(actionTypes => {
-                this.setState({actionTypes})
+                const action = this.state.action;
+                if (this.props.action == null) {
+                    action.parameters = this.getActionTypeDefaultParameters(action.type, actionTypes);
+                }
+                this.setState({actionTypes, action})
         });
     }
 
-    getActionTypeIndex(type) {
+    componentDidUpdate(prevProps) {
+        if (this.props.action === prevProps.action) {
+            return;
+        }
+        this.setState({action: this.props.action});
+    }
+
+    getActionTypeIndex(type, types) {
         return getActionTypeIndex(this.state.actionTypes, type);
     }
 
-    getActionTypeDefaultParameters(type) {
-        return getActionTypeDefaultParameters(this.state.actionTypes, type);
+    getActionTypeDefaultParameters(type, types = null) {
+        return getActionTypeDefaultParameters(types == null ? this.state.actionTypes : types, type);
     }
 
     handleValueChange = (key, value) =>  {
@@ -38,7 +50,7 @@ class ActionCreator extends FreezeView {
         else if (key === "triggerEventID" && value === "none") {
             value = "";
         }
-        action[key] = value;
+        action[key] = value.id == null ? value : value.id;
         this.setState({action});
     };
 
@@ -52,6 +64,81 @@ class ActionCreator extends FreezeView {
         return true;
     };
 
+    renderAdvancedParams = action => {
+        const toggleAdvancedParams = () => {
+            this.setState({advanced: !this.state.advanced})
+        }
+        if (this.state.advanced) {
+            return (
+                <div className="action-advanced-params">
+                    <div onMouseUp={toggleAdvancedParams}>hide advanced params</div>
+                    <DatapointParameter
+                        key="maxExecute"
+                        onChange={this.handleValueChange}
+                        label="Max Execution"
+                        name="maxExecute"
+                        editable={true}
+                        data={action}
+                    />
+                    <DatapointParameter
+                        key="enable"
+                        onChange={this.handleValueChange}
+                        label="enabled"
+                        name="enable"
+                        data={action}
+                        list={[{id: "true", value: true}, {id: "false", value: false}]}
+                        display="id"
+                        match="value"
+                    />
+                    <DatapointParameter
+                        key="delaySeconds"
+                        onChange={this.handleValueChange}
+                        label="Delay"
+                        name="delaySeconds"
+                        data={action}
+                        editable={true}
+                    />
+                    <DatapointParameter
+                        key="minIntervalSeconds"
+                        onChange={this.handleValueChange}
+                        label="Min Interval"
+                        name="minIntervalSeconds"
+                        data={action}
+                        editable={true}
+                    />
+                    <DatapointParameter
+                        key="executeIntervalSeconds"
+                        onChange={this.handleValueChange}
+                        label="Execute Interval"
+                        name="executeIntervalSeconds"
+                        data={action}
+                        editable={true}
+                    />
+                    <DatapointParameter
+                        key="totalExecuted"
+                        onChange={this.handleValueChange}
+                        label="Total Executed"
+                        name="totalExecuted"
+                        data={action}
+                        editable={false}
+                    />
+                    <DatapointParameter
+                        key="executedCounter"
+                        onChange={this.handleValueChange}
+                        label="Interval Executed"
+                        name="executedCounter"
+                        data={action}
+                        editable={false}
+                    />
+                </div>
+            );
+        }
+        else {
+            return (
+                <div className="action-advanced-params" onMouseUp={toggleAdvancedParams}>advanced params</div>
+            );
+        }
+    }
     renderContent() {
         const saveFunc = () => {
             this.setFreezeOn();
@@ -69,7 +156,7 @@ class ActionCreator extends FreezeView {
         };
 
         const cancelFunc = () => {
-            this.setState({action: this.props.action == null ? EMPTY_ACTION : this.props.action});
+            this.setState({action: this.props.action == null ? EMPTY_ACTION : Object.assign({}, this.props.action)});
         };
 
         const action = this.state.action;
@@ -85,6 +172,11 @@ class ActionCreator extends FreezeView {
                     />
             );
         }
+        const displayTriggerName = item => {
+            return `${item.name}(${item.id})`;
+        };
+
+        const advancedParams = this.renderAdvancedParams(action);
         return (
             <div className="action-creator">
                 <div className="action-actions">
@@ -95,7 +187,7 @@ class ActionCreator extends FreezeView {
                     key="id"
                     validator={this.validateID}
                     onChange={this.handleValueChange}
-                    editable={true}
+                    editable={this.props.action == null}
                     label="id"
                     name="id"
                     data={action}
@@ -117,8 +209,9 @@ class ActionCreator extends FreezeView {
                     name="triggerEventID"
                     data={action}
                     list={this.props.triggers}
-                    display="id"
                     match="id"
+                    display={displayTriggerName}
+                    filterKeys={["id", "name"]}
                 />
                 <DatapointParameter
                     key="conditionID"
@@ -129,7 +222,9 @@ class ActionCreator extends FreezeView {
                     list={this.props.conditions}
                     display="id"
                     match="id"
+                    filterKeys={["id", "name"]}
                 />
+                {advancedParams}
                 {actionParameters}
             </div>
         );

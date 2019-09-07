@@ -26,17 +26,24 @@ class DatapointList extends Component {
         }
     };
 
-    setFilterList = (e) => {
+    setFilterList = e => {
         this.setState({filter: e.target.value});
     };
 
-    filterList = (dp) => {
+    filterList = dp => {
         const filter = this.state.filter;
         if (filter.length === 0) return true;
-        if (filter.match(/\d+([.]\d)*/)) {
-            return dp.id.indexOf(filter) >= 0;
+        try {
+            const res = (dp.name.indexOf(filter) >= 0) || (dp.id.indexOf(filter) >= 0) ||
+            (dp.description != undefined && dp.description.indexOf(filter) >= 0) ||
+            (dp.statusReaderID != undefined && dp.statusReaderID.indexOf(filter) >= 0) || 
+            (dp.commandWriterID != undefined && dp.commandWriterID.indexOf(filter) >= 0);
+            return res;
         }
-        return (dp.name.indexOf(filter) >= 0) || (dp.description.indexOf(filter) >= 0);
+        catch(e) {
+            console.log(dp, e);
+        }
+        return false;
     };
 
     render() {
@@ -47,7 +54,7 @@ class DatapointList extends Component {
         const datapoints = this.props.datapoints;
 
         return (
-            <div>
+            <div className="datapoint-list-block">
                 <div className="datapoint-filter">
                     <input name="datapoint-filter" value={this.state.filter} onChange={this.setFilterList}/>
                 </div>

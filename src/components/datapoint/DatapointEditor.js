@@ -7,8 +7,6 @@ import {createNewDatapoint, updateDatapoint, deleteDatapoint} from "../../action
 import './DatapointEditor.css';
 import { toastr } from "react-redux-toastr";
 
-const DATAPOINT_NONE = {id: null, name: "none"};
-
 
 class DatapointEditor extends Component {
     state = {
@@ -157,7 +155,7 @@ class DatapointEditor extends Component {
                     data={datapoint}
                     list={this.props.types}
                     display="name"
-                    match="id"
+                    match="name"
                 />
             </div>
         );

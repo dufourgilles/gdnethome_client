@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Freeze from "./Freeze";
 import "./Freeze.css"
 

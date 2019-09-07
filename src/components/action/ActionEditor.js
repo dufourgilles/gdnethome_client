@@ -18,7 +18,7 @@ class ActionEditor extends Component {
             const handleDelete = () => {
                 this.props.deleteAction(action)
                     .then(() => {
-                        if (this.state.action == action) {
+                        if (this.state.action === action) {
                             this.setState({action: null});
                         }
                         toastr.success('Success', "Save OK");

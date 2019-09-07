@@ -14,7 +14,14 @@ export const fetchActionTypes = () => {
     return Api.get(`${ACTION_BASE_URI}/types`);
 };
 
+export const fetchActionData = names => {
+    const nameList = names.join(",");
+    return Api.get(`${ACTION_BASE_URI}/data?info=${nameList}`);
+}
 
+export const fetchActionFiles = name => {
+    return Api.get(`${ACTION_BASE_URI}/files/${name}`);
+}
 
 const _fetchActions = dispatch => {
     dispatch({type: types.FETCH_ACTIONS_PENDING});

@@ -1,3 +1,4 @@
+@import "../constants.scss";
 
 .action-view-container {
   margin-left: 10%;
@@ -7,6 +8,7 @@
 .action-creator {
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 .action-actions {
@@ -38,4 +40,50 @@
 .action-editor {
   display: flex;
   flex-direction: row;
+}
+
+.action-parameter-info {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+}
+
+.action-advanced-params {
+  display: block;
+  border-top: solid white 1px;
+  border-bottom: solid white 1px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.action-parameter-info-name {
+  min-width: $gdnet-paramlength;
+}
+
+.action-monitor {
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+.action-monitor-files-select {
+  display: flex;
+  flex-direction: column;
+  max-height: 7em;
+  overflow: scroll;
+  margin-top: 10px;
+  border: solid 1px white;
+  padding: 5px 5px 5px 5px;
+}
+
+.action-monitor-action-select {
+  display: flex;
+  flex-direction: row;
+}
+
+.action-monitor-action-select select {
+  width: 200px;
+  margin-left: 20px;
 }

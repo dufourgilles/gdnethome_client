@@ -4,15 +4,41 @@ import PropTypes from 'prop-types';
 import TextSelect from "../common/TextSelect";
 
 class DatapointParameter extends Component {
+    state = {
+        disableFilter: false
+    };
+
+    handleFilterSelect = e => {
+        this.setState({disableFilter: !this.state.disableFilter});
+    }
+
     valueChanged = (e) => {
         if (this.props.onChange != null) {
             this.props.onChange(this.props.name, e.target.value);
         }
     };
 
+    getValue() {
+        if (this.props.index != null) {
+            const table = this.props.data[this.props.name];
+            const index = Number(this.props.index);
+            if ((isNaN(index)) ||
+                (table == null) ||
+                (index < 0) ||
+                (index > table.length)) {
+                return "";
+            }
+            return table[index];
+        }
+        else {
+            return this.props.data[this.props.name];
+        }
+    }
+
     renderEditable = (valid) => {
         let invalid;
-        if (!valid) {
+        const value = this.getValue();
+        if (!valid || value == null) {
             invalid = (<div className="datapoint-parameter-invalid"></div>);
         }
         else {
@@ -20,41 +46,18 @@ class DatapointParameter extends Component {
         }
         return (
             <div className="datapoint-editor-value">
-                <input name={this.props.name} onChange={this.valueChanged} value={this.props.data[this.props.name]} size="40" />
+                <input name={this.props.name} onChange={this.valueChanged} value={value} size="40" />
                 {invalid}
             </div>
         );
     };
 
-    renderArrayItem = () => {
-        let invalid,valid,value;
-        const table = this.props.data[this.props.name];
-        const index = Number(this.props.index);
-        if ((isNaN(index)) ||
-            (table == null) ||
-            (index < 0) ||
-            (index > table.length)) {
-            valid = false;
-        }
-        else {
-            valid = true;
-        }
-        if (!valid) {
-            invalid = (<div className="datapoint-parameter-invalid"></div>);
-        }
-        else {
-            invalid = (<div className="datapoint-parameter-valid"></div>);
-        }
-        return (
-            <div className="datapoint-editor-value">
-                <input name={`${this.props.name}:${index}`} onChange={this.valueChanged} value={table[index]} size="40" />
-                {invalid}
-            </div>
-        );
-    }
-
     renderList = () => {
         const option = item => {
+            if (item == null) {
+                console.log(new Error("Error null item"), "\n", this.props, this.state);
+                return "";
+            }
             let displayName;
             if (typeof(this.props.display) === "function") {
                 displayName = this.props.display(item);
@@ -68,28 +71,52 @@ class DatapointParameter extends Component {
                 </option>
             );
         };
+        let checkBox;
+        const className = this.props.className == null ? "datapoint-editor-value" : "";
+        if (this.props.filterKeys) {
+            checkBox = (
+                <input 
+                    type="checkbox" 
+                    name="disableFilter" 
+                    style={{marginTop: "7px", marginLeft: "7px"}}
+                    onChange={this.handleFilterSelect}
+                    checked
+                />
+            );
+        }
+        const value = this.getValue();        
         return (
-            <div className="datapoint-editor-value">
-                <select name={this.props.name} value={this.props.data[this.props.name]} onChange={this.valueChanged} >
+            <div className={className}>
+                <select name={this.props.name} value={value} onChange={this.valueChanged} >
                     {
                         this.props.list.map(option)
                     }
                 </select>
+                {checkBox}
             </div>
         );
     };
 
     renderTextList = () => {
         return (
-            <TextSelect
-                data={this.props.data}
-                name={this.props.name}
-                list={this.props.list}
-                onChange={this.valueChanged}
-                display={this.props.display}
-                match={this.props.match}
-                filterKeys={this.props.filterKeys}
-            />
+            <React.Fragment>
+                <TextSelect
+                    data={this.props.data}
+                    name={this.props.name}
+                    list={this.props.list}
+                    onChange={this.valueChanged}
+                    display={this.props.display}
+                    match={this.props.match}
+                    index={this.props.index}
+                    filterKeys={this.props.filterKeys}
+                />
+                <input 
+                    type="checkbox" 
+                    name="disableFilter" 
+                    style={{marginTop: "7px", marginLeft: "7px"}}
+                    onChange={this.handleFilterSelect}
+                />
+            </React.Fragment>
         )
     };
 
@@ -102,24 +129,22 @@ class DatapointParameter extends Component {
             if (this.props.editable) {
                 return this.renderEditable(valid);
             }
-            else if (this.props.filterKeys) {
+            else if (this.props.filterKeys && this.state.disableFilter === false) {
                 return this.renderTextList();
             }
             else if (this.props.list) {
                 return this.renderList();
-            }
-            else if (this.props.index) {
-                return this.renderArrayItem();
             }
             else {
                 return (<div className="datapoint-editor-value">{this.props.data[this.props.name]}</div>);
             }
         };
 
-
+        const entryClass = this.props.className == null ? "datapoint-editor-entry" : this.props.className;
+        const keyClass = this.props.className == null ? "datapoint-editor-key" : "";
         return (
-            <div className="datapoint-editor-entry">
-                <div className="datapoint-editor-key">{this.props.name}</div>
+            <div key={this.props.key} className={entryClass}>
+                <div className={keyClass}>{this.props.label}</div>
                 {valueLine()}
             </div>
         );
@@ -127,6 +152,8 @@ class DatapointParameter extends Component {
 }
 
 DatapointParameter.propTypes = {
+    key: PropTypes.string,
+    className: PropTypes.string,
     data: PropTypes.object.isRequired,
     editable: PropTypes.bool,
     index: PropTypes.number,

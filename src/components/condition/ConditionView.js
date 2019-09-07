@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import FreezeView from "../common/FreezeView";
 import ConditionCreator from "./ConditionCreator";
@@ -27,14 +27,14 @@ class ConditionView extends FreezeView {
         }
         const renderedConditions = conditions.map(condition => {
             if (condition == null) {
-                console.log(new Error("null condition"));
+                console.log(new Error("null condition"), "\n",conditions,"\n",this.state, this.props);
                 debugger;
-                return;
+                return null;
             }
             const handleDelete = () => {
                 this.props.deleteCondition(condition)
                     .then(() => {
-                        if (this.state.condition == condition) {
+                        if (this.state.condition === condition) {
                             this.setState({condition: null});
                         }
                         toastr.success('Success', "Save OK");
@@ -63,7 +63,11 @@ class ConditionView extends FreezeView {
                     <div className="condition-list">
                         {renderedConditions}
                     </div>
-                    <ConditionCreator id={this.state.condition == null ? null : this.state.condition.id} condition={this.state.condition} />
+                    <ConditionCreator 
+                        id={this.state.condition == null ? null : this.state.condition.id} 
+                        condition={this.state.condition}
+                        reset={() => {this.setState({condition: null})}}
+                    />
                 </div>
             </div>
         );

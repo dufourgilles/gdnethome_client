@@ -6,6 +6,7 @@ import {Redirect, Route, Switch} from 'react-router';
 import Dashboard from './dashboard/Dashboard';
 import ActionView from "./action/ActionView";
 import ConditionView from "./condition/ConditionView";
+import ReplayView from "./replay/ReplayView";
 import {pollSystem} from '../actions/systemActions';
 import '../themes/GDNetBoostrapThemes.css';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
@@ -36,6 +37,7 @@ class App extends Component {
                     <Route path="/dashboard" component={Dashboard}/>
                     <Route path="/datapointlist" component={DatapointView}/>
                     <Route path="/datapointctl" component={DataPointCtlView}/>
+                    <Route path="/replay" component={ReplayView}/>
                   <Redirect from="/" to="/dashboard"/>
                 </Switch>
             </div>

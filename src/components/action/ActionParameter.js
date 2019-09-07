@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import {getDataPointCtlByID} from "../../reducers/dataPointCtlReducer";
+import DatapointParameter from "../datapoint/DatapointParameter";
 
 class ActionParameter extends Component {
     getValue(paramName, data) {
@@ -21,7 +22,7 @@ class ActionParameter extends Component {
         const {name, parameterInfo, data, dataPointCtls} = this.props;
         
         if (typeof(parameterInfo) === "string") {
-            const _handleChange = (ev) => {
+            const _handleChange = ev => {
                 this.props.onChange(name, ev.target.value);
             };
             if (parameterInfo === "DataPointCtlID") {
@@ -32,16 +33,24 @@ class ActionParameter extends Component {
                         </option>
                     );
                 };
+                const handleChange = (key,value) => {
+                    this.props.onChange(key, value.id);
+                }
                 return (
                     <div className="action-parameter-info">
-                        <div className="action-parameter-info-name">{name}</div>
-                        <div className="action-parameter-info-value">
-                            <select name={name} value={this.getValue(name, data)} onChange={_handleChange}>
-                                {[{id: "none", name: "none"}].concat(dataPointCtls).map(option)}
-                            </select>
-                        </div>
+                        <DatapointParameter 
+                            key="triggerID"
+                            onChange={handleChange}
+                            label={name}
+                            name={name}
+                            data={data}
+                            list={dataPointCtls}
+                            match="id"
+                            display="name"                         
+                            filterKeys={["id", "name"]}
+                        />
                     </div>
-                );
+                )
             }
             else {
                 return (
@@ -83,12 +92,13 @@ class ActionParameter extends Component {
             const renderedParameters = [];
             parameterInfoKeys.map(paramName => {
                 if (paramName == null || paramName.length === 0 || paramName[0] === "_") {
-                    return;
+                    return null;
                 }
                 const fullParamName = `${name}.${paramName}`;
                 renderedParameters.push(
                      <ActionParameter key={fullParamName} name={fullParamName} parameterInfo={parameterInfo[paramName]} data={data} onChange={this.props.onChange} />
                 );
+                return null;
             });
             return (
                 <div className="action-parameter-info">

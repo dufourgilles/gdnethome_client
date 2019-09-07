@@ -57,7 +57,7 @@ export const getDataPointCtlByID = state => id => getDataPointCtlIndexedByName(s
 export const EMPTY_DATAPOINTCTL = {
     name: "",
     id: "",
-    type: "",
+    type: "SwitchCtl",
     actions: [],
     statusReaderID: null,
     commandWriterID: null

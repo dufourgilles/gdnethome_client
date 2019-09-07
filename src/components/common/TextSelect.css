@@ -14,6 +14,9 @@
 .text-select-selection {
   z-index: 100; }
 
+input {
+  width: 250px; }
+
 .text-select-option {
   padding: 3px; }
 

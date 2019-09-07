@@ -54,5 +54,10 @@ export const EMPTY_ACTION = {
     type: "SaveEventAction",
     parameters: {},
     triggerEventID: "",
-    conditionID: ""
+    conditionID: "",
+    enable: true,
+    maxExecute: 0,
+    minIntervalSeconds: 0,
+    executeIntervalSeconds: 0,
+    delaySeconds: 0
 };
