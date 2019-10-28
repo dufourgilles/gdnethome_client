@@ -6,7 +6,7 @@
   "scripts": {
     "start": "history-server -p 8181 -a build",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "build": "npm run build-css && react-scripts build",
+    "build": "rm -rf ../bin/build && npm run build-css && react-scripts build && mv build ../bin/",
     "dev-js": "react-scripts start",
     "dev": "npm-run-all -p watch-css dev-js",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
