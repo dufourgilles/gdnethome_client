@@ -21,10 +21,7 @@ class ActionParameter extends Component {
     render() {
         const {name, parameterInfo, data, dataPointCtls} = this.props;
         
-        if (typeof(parameterInfo) === "string") {
-            const _handleChange = ev => {
-                this.props.onChange(name, ev.target.value);
-            };
+        if (typeof(parameterInfo) === "string") {            
             if (parameterInfo === "DataPointCtlID") {
                 const option = dpctl => {
                     return (
@@ -53,11 +50,31 @@ class ActionParameter extends Component {
                 )
             }
             else {
+                const handleChange = evt => {
+                    let _value = evt.target.value;
+                    if (parameterInfo === "number") {
+                        _value = Number(value);
+                    }
+                    else if (parameterInfo === "array") {
+                        try {
+                            _value = _value.split(",");
+                        }
+                        catch(e) {
+                            console.log(e);
+                            return;
+                        }
+                    }
+                    this.props.onChange(name, _value);
+                }
+                let value = this.getValue(name, data);
+                if (parameterInfo === "array") {
+                    value = value.join(",");
+                }
                 return (
                     <div className="action-parameter-info">
                         <div className="action-parameter-info-name">{name}</div>
                         <div className="action-parameter-info-value">
-                            <input name={name} value={this.getValue(name, data)} onChange={_handleChange}/>
+                            <input name={name} value={value} onChange={handleChange}/>
                         </div>
                     </div>
                 );

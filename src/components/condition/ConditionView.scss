@@ -18,7 +18,11 @@
 }
 
 .condition-list {
-    width: 50%;
+    width: 360px;
+    min-width: 360px;
+    max-height: 600px;
+    min-height: 600px;
+    overflow: scroll;
     padding-left: 10px;
     padding-right: 10px;
 }
