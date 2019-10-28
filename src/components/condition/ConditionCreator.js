@@ -207,6 +207,16 @@ class ConditionCreator extends FreezeView {
                     display="id"
                     match="id"
                 />
+                <DatapointParameter 
+                    key="emitChangesOnly"
+                    onChange={this.handleValueChange}
+                    label="Emit Only Changes"
+                    name="emitChangesOnly"
+                    data={condition}
+                    list={[{id: "true"}, {id: "false"}]}
+                    display="id"
+                    match="id"
+                />
                 {conditionParameters}
             </div>
         );
