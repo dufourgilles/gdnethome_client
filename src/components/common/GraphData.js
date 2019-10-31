@@ -8,6 +8,18 @@ const MODE = [
     "max"  
 ];
 
+const DEFAULT_COLORS = [
+    "mediumpurple",
+    "mediumaquamarine",
+    "mediumspringgreen",
+    "lightcoral",
+    "lightgray",
+    "red",
+    "yellow",
+    "blue",
+    "green"
+];
+
 class GraphData extends Component {
     state = {
         dataStartIndex: 0,
@@ -51,27 +63,33 @@ class GraphData extends Component {
         if (samples.length === 0) {
             return 0;
         }
-        let max = samples[0].y;
-        let min = samples[0].y;
-        let count = samples[0].y;
-        for(let i = 1; i < samples.length; i++) {
-            const y = samples[i].y;
-            if (y > max) {
-                max = y;
+        const val = [];
+        for(let yIndex = 0; yIndex < samples[0].y.length; yIndex++) {
+            let max = samples[0].y[yIndex];
+            let min = samples[0].y[yIndex];
+            let count = samples[0].y[yIndex];
+            for(let i = 1; i < samples.length; i++) {
+                const y = samples[i].y[yIndex];
+                if (y > max) {
+                    max = y;
+                }
+                else if (y < min) {
+                    min = y;
+                }
+                count += y;
             }
-            else if (y < min) {
-                min = y;
+            const avg = count / samples.length;
+            if (this.state.mode === 1) {
+                val.push(avg);
             }
-            count += y;
+            else if (this.state.mode === 0) {
+                val.push(min);
+            }
+            else {
+                val.push(max);
+            }
         }
-        const avg = count / samples.length;
-        if (this.state.mode === 1) {
-            return avg;
-        }
-        else if (this.state.mode === 0) {
-            return min;
-        }
-        return max;
+        return val
     }
 
     getVisibleData = (data, interval) => {
@@ -134,24 +152,18 @@ class GraphData extends Component {
         return curIndex;
     }
 
-    renderLines = (width, height, interval, values) => {
-        const boxStyle = {
-            height: height + 15,
-            width: width
-        };
-
+    getPoints = (values, index, height, interval, minY, maxY) => {
         let points = "";
-
         // reverse min and max so that we can compute real values.
-        let max = this.props.maxVal == null ? values[0].y : this.props.maxVal;
-        let min = this.props.minVal == null ? values[0].y : this.props.minVal;
+        let max = this.props.maxVal == null ? values[0].y[index] : this.props.maxVal;
+        let min = this.props.minVal == null ? values[0].y[index] : this.props.minVal;
         if (this.props.fixedAxis !== true) {
             for (let i = 1; i < values.length; i++) {
-                if (values[i].y > max) {
-                    max = values[i].y;
+                if (values[i].y[index] > max) {
+                    max = values[i].y[index];
                 }
-                else if (values[i].y < min) {
-                    min = values[i].y;
+                else if (values[i].y[index] < min) {
+                    min = values[i].y[index];
                 }
             }
             max = 1 + Math.round(max * 1.10);
@@ -160,15 +172,36 @@ class GraphData extends Component {
         const yInterval = max - min;
         for(let i = 0; i <  values.length; i++) {
             try {
-                const value = values[i].y;
+                const value = values[i].y[index];
                 const y =  height - (((value - min) * height) / yInterval) - 12;
                 
                 const x = (values[i].x - values[0].x) / interval;
                 points = `${points}${x},${y} `;
             }
             catch(e) {
-                console.log(e,i, values[i]);
+                console.log(e,i,index,values[i]);
                 throw e;
+            }
+        }
+        minY[index] = min;
+        maxY[index] = max;
+        return points;
+    }
+
+    renderLines = (width, height, interval, values) => {
+        const boxStyle = {
+            height: height + 15,
+            width: width
+        };
+
+        const pointsList = [];
+        const minY = [];
+        const maxY = [];
+        if (values.length > 0 && values[0].y != null) {
+            for(let i = 0; i < values[0].y.length; i++) {
+                minY.push(0);
+                maxY.push(0);
+                pointsList.push(this.getPoints(values, i, height, interval, minY, maxY));
             }
         }
 
@@ -218,11 +251,29 @@ class GraphData extends Component {
             }
             zoom(1);
         }
+
+        const renderedLines = pointsList.map((points,index) => {
+            return (
+                <polyline key={`line${index}`} points={points} style={{fill: "none", stroke: DEFAULT_COLORS[index], strokeWidth: 1}} />
+            );
+        });
+
+        const renderInfo = () => {
+            return minY.map((min, index) => {
+                return (
+                    <div key={`info${index}`} className="graphdata-info">
+                        <span style={{color: DEFAULT_COLORS[index]}}>
+                            {this.props.dataInfo ? this.props.dataInfo[index] : ""} min: {min}, max: {maxY[index]}
+                        </span>
+                    </div>
+                );
+            });
+        };
         return (
             <div>
                 <div className="graphdata" id={this.props.id} style={boxStyle}>
-                    <div className="graphdata-ymin">{min}</div>
-                    <div className="graphdata-ymax">{max}</div>
+                    <div className="graphdata-ymin">{minY[0]}</div>
+                    <div className="graphdata-ymax">{maxY[0]}</div>
                     <div className="graphdata-title">{this.props.title}</div>
                     <div className="graphdata-axis">
                         <svg height={height} width={width}>
@@ -234,7 +285,7 @@ class GraphData extends Component {
                     </div>
                     <div className="graphdata-plots">
                         <svg height={height} width={width - 15}>
-                            <polyline points={points} style={{fill: "none", stroke: "mediumpurple", strokeWidth: 1}} />
+                            {renderedLines}
                         </svg>
                     </div>
                 </div>
@@ -266,6 +317,7 @@ class GraphData extends Component {
                     <div>ratio: 1/{interval}</div>
                     <div>First X: {minX}</div>
                     <div>Last X: {maxX} </div>
+                    <div>{renderInfo()}</div>
                 </div>
             </div>
         )
@@ -286,6 +338,7 @@ GraphData.propTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
     data: PropTypes.array.isRequired,
+    dataInfo: PropTypes.array,
     mode: PropTypes.string,
     minVal: PropTypes.number,
     maxVal: PropTypes.number,

@@ -4,22 +4,46 @@ import PropTypes from "prop-types";
 import FreezeView from "../common/FreezeView";
 import DatapointParameter from "../datapoint/DatapointParameter";
 import {fetchActionData, fetchActionFiles} from "../../actions/actionActions";
+import {getDatapointByID} from "../../reducers/datapointReducer";
+import {getActionByID} from "../../reducers/actionReducer";
 import { toastr } from "react-redux-toastr";
 import GraphData from "../common/GraphData";
 
 class ActionMonitor extends FreezeView {
     state = {
-        action: "",
+        actionID: "",
+        action: null,
         data: null,
+        dataInfo: null,
         file: "",
         files: [],
         selectedFiles: new Set()
     }
 
-    handleActionSelect = (name, action) => {
+    handleActionSelect = (name, actionID) => {
         this.setFreezeOn();
-        fetchActionFiles(action).then(files => {
-            this.setState({action, files});
+        fetchActionFiles(actionID).then(files => {
+            const action = this.props.getActionByID(actionID);
+            let dataInfo = [];
+            if (action == null) {
+                throw new Error(`Invalid action ${actionID}`);
+            }
+            if (action.triggerEventID != null) {
+                const datapoint = this.props.getDatapointByID(action.triggerEventID);
+                if (datapoint != null) {
+                    dataInfo.push(datapoint.name);
+                }
+            }
+            else if (action.parameters.dataPoints) {
+                dataInfo = action.parameters.dataPoints.map(id => {
+                    const datapoint = this.props.getDatapointByID(id);
+                    if (datapoint != null) {
+                        return datapoint.name;
+                    }
+                    return "unknown"
+                });
+            }
+            this.setState({action, actionID, dataInfo, files});
         }).catch(e => {
             console.log(e);
             toastr.error('Error', e.message);
@@ -85,12 +109,13 @@ class ActionMonitor extends FreezeView {
         const width = Math.max(500, window.innerWidth);
         return (
             <GraphData 
-                title="Wind Speed" 
-                height={200} 
+                title={this.state.actionID} 
+                height={300} 
                 width={1000} 
                 data={this.state.data}
+                dataInfo={this.state.dataInfo}
                 getX={ d => Math.floor(Number(d.timestamp) / 1000)}
-                getY={ d => Number(d.data)}
+                getY={ d => {return d.data.map(x => Number(x));}}
                 xView={3600}
                 xInterval={300}
                 xDisplay={x => {const d = new Date(1000 * x); return `${x} / ${d.toString()}`;}}
@@ -102,7 +127,9 @@ class ActionMonitor extends FreezeView {
         const fileSelector = this.renderFileSelector();
         const actions = [{id: ""}];
         this.props.actions.map(action => {
-            if (action.type === "SaveValueAction") {
+            if (action.type === "SaveValueAction" || 
+                action.type === "SaveMultiValueAction"
+               ) {
                 actions.push(action);
             }
             return null;
@@ -117,7 +144,7 @@ class ActionMonitor extends FreezeView {
                         data={this.state}
                         display="id"
                         match="id"
-                        name="action"
+                        name="actionID"
                         onChange={this.handleActionSelect}
                     />        
                     <input type="submit" onClick={this.handleSubmit} />            
@@ -132,11 +159,16 @@ class ActionMonitor extends FreezeView {
 ActionMonitor.propTypes = {
     action: PropTypes.object,
     actions: PropTypes.array.isRequired,
+    getDatapointByID: PropTypes.func.isRequired,
+    getActionByID: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-    actions: state.actions.items || []
+    actions: state.actions.items || [],
+    getDatapointByID: getDatapointByID(state),
+    getActionByID: getActionByID(state)
 });
+
 
 export default connect(mapStateToProps, undefined)(ActionMonitor);
 

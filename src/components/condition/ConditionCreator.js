@@ -213,9 +213,9 @@ class ConditionCreator extends FreezeView {
                     label="Emit Only Changes"
                     name="emitChangesOnly"
                     data={condition}
-                    list={[{id: "true"}, {id: "false"}]}
+                    list={[{id: "true", value: true}, {id: "false", value:false}]}
                     display="id"
-                    match="id"
+                    match="value"
                 />
                 {conditionParameters}
             </div>

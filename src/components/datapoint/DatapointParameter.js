@@ -84,7 +84,7 @@ class DatapointParameter extends Component {
                 />
             );
         }
-        const value = this.getValue();        
+        const value = this.getValue() != null ? this.getValue() : "";        
         return (
             <div className={className}>
                 <select name={this.props.name} value={value} onChange={this.valueChanged} >
