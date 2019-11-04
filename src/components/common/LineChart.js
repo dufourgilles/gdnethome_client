@@ -30,11 +30,12 @@ class LineChart extends Component {
             min = this.props.maxVal;
             max = this.props.minVal;
             for (let i = startIndex; i < this.props.values.length; i++) {
-                if (this.props.values[i] > max) {
-                    max = this.props.values[i];
+                const val = Number(this.props.values[i]);
+                if (val > max) {
+                    max = val;
                 }
-                else if (this.props.values[i] < min) {
-                    min = this.props.values[i];
+                if (val < min) {
+                    min = val;
                 }
             }
             max = 1 + Math.round(max * 1.10);

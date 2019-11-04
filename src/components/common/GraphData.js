@@ -20,6 +20,19 @@ const DEFAULT_COLORS = [
     "green"
 ];
 
+
+function svgPoint(element, x, y) {
+    const pt = element.createSVGPoint();
+    pt.x = x;
+    pt.y = y;
+  
+    const res = pt.matrixTransform(element.getScreenCTM().inverse());
+    res.x = Math.round(res.x);
+    res.y = Math.round(res.y);
+    return res;
+  }
+
+
 class GraphData extends Component {
     state = {
         dataStartIndex: 0,
@@ -29,7 +42,9 @@ class GraphData extends Component {
         mode: this.props.mode == null ? 1 : this.props.mode,
         xZoomFactors: this.props.xZoomFactors == null ? [ 0.25, 0.5, 1 , 2, 4, 8, 16, 24, 48, 144 ] : this.props.xZoomFactors,
         xZoomPos: 2,
-        xInterval: this.props.xInterval
+        xInterval: this.props.xInterval,
+        value: null,
+        valuePos: {x: -1,y: -1}
     }
 
     componentWillReceiveProps(nextProps) {
@@ -173,9 +188,9 @@ class GraphData extends Component {
         for(let i = 0; i <  values.length; i++) {
             try {
                 const value = values[i].y[index];
-                const y =  height - (((value - min) * height) / yInterval) - 12;
+                const y =  Math.round(height - (((value - min) * height) / yInterval) - 12);
                 
-                const x = (values[i].x - values[0].x) / interval;
+                const x = Math.round((values[i].x - values[0].x) / interval);
                 points = `${points}${x},${y} `;
             }
             catch(e) {
@@ -251,19 +266,73 @@ class GraphData extends Component {
             }
             zoom(1);
         }
-
+        const getValueAtPos = (x, index) => {
+            //const x = Math.round((values[i].x - values[0].x) / interval);
+            const timestamp = x * interval + values[0].x;
+            console.log(values);
+            for(let i = 0; i < values.length; i++) {
+                if (values[i].x >= timestamp) {
+                    return values[i].y[index];
+                }                
+            }
+            return -1;
+        }
         const renderedLines = pointsList.map((points,index) => {
-            return (
-                <polyline key={`line${index}`} points={points} style={{fill: "none", stroke: DEFAULT_COLORS[index], strokeWidth: 1}} />
-            );
+            if (this.props.dataInfo && this.props.dataInfo[index].enable) {
+                const handleMouseOver = event => {
+                    const element = document.getElementById("graphdata-lines");
+                    const svgP = svgPoint(element, event.clientX, event.clientY);
+                    const value = getValueAtPos(svgP.x, index);
+                    this.setState({valuePos: svgP, value});
+                };
+                return (
+                    <polyline 
+                    key={`line${index}`} 
+                    points={points} 
+                    style={{fill: "none", stroke: DEFAULT_COLORS[index], strokeWidth: 1}} 
+                    onMouseOver={handleMouseOver}
+                    />
+                );
+            }
+            else {
+                return "";
+            }
         });
 
+        const posValue = () => {
+            if (this.state == null || this.state.valuePos.x < 0 || this.state.valuePos.y < 0) {
+                return "";
+            }
+            return (
+                <text fill="white" x={this.state.valuePos.x} y={this.state.valuePos.y > 10 ? this.state.valuePos.y - 10: this.state.valuePos.y + 10}>
+                    {this.state.value}
+                </text>
+            );
+        }
+        const circleValuePos = () => {
+            if (this.state == null || this.state.valuePos.x < 0 || this.state.valuePos.y < 0) {
+                return "";
+            }
+            console.log(this.state.valuePos);
+            return (
+                <circle cx={this.state.valuePos.x} cy={this.state.valuePos.y} r="2" style={{fill: "none", stroke: "white", strokeWidth: 1}} />
+            )
+        }
         const renderInfo = () => {
             return minY.map((min, index) => {
+                const handleClick = e => {
+                    if (this.props.onDataInfoChanged) {
+                        this.props.onDataInfoChanged(index, "enable", !this.props.dataInfo[index].enable);
+                    }
+                };
                 return (
                     <div key={`info${index}`} className="graphdata-info">
                         <span style={{color: DEFAULT_COLORS[index]}}>
-                            {this.props.dataInfo ? this.props.dataInfo[index] : ""} min: {min}, max: {maxY[index]}
+                            <input type="checkbox" 
+                            name={`line${index}`} 
+                            checked={this.props.dataInfo && this.props.dataInfo[index].enable ? "checked": ""} 
+                            onChange={handleClick}/>
+                            {this.props.dataInfo ? this.props.dataInfo[index].name : ""} min: {min}, max: {maxY[index]}
                         </span>
                     </div>
                 );
@@ -284,8 +353,10 @@ class GraphData extends Component {
                         </svg>
                     </div>
                     <div className="graphdata-plots">
-                        <svg height={height} width={width - 15}>
+                        <svg id="graphdata-lines" height={height} width={width - 15}>
                             {renderedLines}
+                            {circleValuePos()}
+                            {posValue()}
                         </svg>
                     </div>
                 </div>

@@ -31,16 +31,16 @@ class ActionMonitor extends FreezeView {
             if (action.triggerEventID != null) {
                 const datapoint = this.props.getDatapointByID(action.triggerEventID);
                 if (datapoint != null) {
-                    dataInfo.push(datapoint.name);
+                    dataInfo.push({name: datapoint.name, enable: true});
                 }
             }
             else if (action.parameters.dataPoints) {
                 dataInfo = action.parameters.dataPoints.map(id => {
                     const datapoint = this.props.getDatapointByID(id);
                     if (datapoint != null) {
-                        return datapoint.name;
+                        return {name: datapoint.name, enable: true};
                     }
-                    return "unknown"
+                    return {name: "unknown", enable: true}
                 });
             }
             this.setState({action, actionID, dataInfo, files});
@@ -114,6 +114,7 @@ class ActionMonitor extends FreezeView {
                 width={1000} 
                 data={this.state.data}
                 dataInfo={this.state.dataInfo}
+                onDataInfoChanged={(index, key, value) => { const dataInfo = this.state.dataInfo; dataInfo[index][key] = value; this.setState(dataInfo);}}
                 getX={ d => Math.floor(Number(d.timestamp) / 1000)}
                 getY={ d => {return d.data.map(x => Number(x));}}
                 xView={3600}
