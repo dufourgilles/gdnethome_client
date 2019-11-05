@@ -40,7 +40,7 @@ function _formatDataPoint(dp, action, arrowLeft = false){
             {lineAndArrow}
             <div id={tooltipID} className="datapointlisteditor-tooltip">
                 <p>{dp.name}</p>
-                {`${dp.id} ${dp.description}`}
+                {`${dp.id} ${dp.description == null ? dp.statusReaderID : dp.description}`}
             </div>
         </div>
     );
@@ -67,7 +67,7 @@ class DataPointListEditor extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        if ((this.props.visible === prevProps.visible)&&
+        if ((this.props.visible === prevProps.visible) &&
             (this.props.group === prevProps.group)) {
             return;
         }
@@ -87,21 +87,20 @@ class DataPointListEditor extends Component {
     }
 
     render() {
-        const datapoints = this.props.datapoints;
-        const groupDatapoints = this.state.group.datapoints || [];
-        const selectableDatapoints = datapoints.filter(dp => {
-            for(let datapoint of groupDatapoints) {
-                if (datapoint.id === dp.id) {
+        const elements = this.props.dpctl ? this.props.datapointctls : this.props.datapoints;
+        const groupElements = this.state.group.elements || [];
+        const selectableElements = elements.filter(dp => {
+            for(let element of groupElements) {
+                if (element.id === dp.id) {
                     return false;
                 }
             }
             return true;
         });
-        //.map(dp => formatDataPoint(dp, this.props.select));
         const formatDatapoint = datapoint => {
             return _formatDataPoint(datapoint, this.props.select)
         };
-        const selectedDatapoints = groupDatapoints.map(dp => _formatDataPoint(dp, this.props.unselect, true));
+        const selectedDatapoints = groupElements.map(dp => _formatDataPoint(dp, this.props.unselect, true));
 
         return (
             <div className="modal-datapointlist-editor">
@@ -111,7 +110,7 @@ class DataPointListEditor extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <div className="datapointlisteditor-body">
-                            <DatapointList datapoints={selectableDatapoints} format={formatDatapoint}/>
+                            <DatapointList datapoints={selectableElements} format={formatDatapoint}/>
                             <div className="datapointlisteditor-middle-arrow">
                                 <div >
                                     <FontAwesome name="arrow-right"/>
@@ -136,14 +135,17 @@ class DataPointListEditor extends Component {
 
 DataPointListEditor.propTypes = {
     visible: PropTypes.bool,
-    datapoints: PropTypes.array,
+    datapoints: PropTypes.array.isRequired,
+    datapointctls: PropTypes.array.isRequired,
     group: PropTypes.object.isRequired,
     select: PropTypes.func.isRequired,
-    unselect: PropTypes.func.isRequired
+    unselect: PropTypes.func.isRequired,
+    dpctl: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
-    datapoints: state.datapoints.items
+    datapoints: state.datapoints.items,
+    datapointctls: state.datapointctls.items
 });
 
 

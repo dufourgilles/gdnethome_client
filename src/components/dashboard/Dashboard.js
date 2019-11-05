@@ -10,6 +10,7 @@ import DataPointListEditor from '../common/DataPointListEditor';
 import {getGroupByName} from '../../reducers/groupReducer';
 import {getDatapointByID} from '../../reducers/datapointReducer';
 import { toastr } from "react-redux-toastr";
+import { executeAction } from "../../actions/dataPointCtlAction";
 
 import './Dashboard.css';
 import '../common/LineChart.css';
@@ -24,6 +25,7 @@ class Dashboard extends Component {
     state = {
         openEditor: false,
         groupEdited: this.props.groups(STATUS_GROUPNAME),
+        dpctl: true,
         windValues: [],
         luxValues: []
     };
@@ -66,11 +68,17 @@ class Dashboard extends Component {
         return this.props.addEndpoint(this.state.groupEdited.name, datapoint.id)
             .then(() => {
                 this.setState({groupEdited: this.props.groups(this.state.groupEdited.name)});
+            })
+            .catch(e => {
+                toastr.error('Error', e.message);
             });
     };
 
     unselectDatapoint = (datapoint) => {
         return this.props.removendpoint(this.state.groupEdited.name, datapoint.id)
+            .catch(e => {
+                toastr.error('Error', e.message);
+            })
             .then(() => {
                 this.setState({groupEdited: this.props.groups(this.state.groupEdited.name)});
             });
@@ -81,19 +89,22 @@ class Dashboard extends Component {
             console.log("no status group");
             return;
         }
-        const statusLines = this.props.statusGroup.datapoints.map(dp => {
-            return <StatusLine key={dp.id} name={dp.name} status={dp.value || "unknown"}/>
+        const statusLines = this.props.statusGroup.elements.map(dpctl => {
+            const toggleSwitch = () => {
+                this.props.executeAction(dpctl, "toggle");
+            }
+            return <StatusLine key={dpctl.id} name={dpctl.name} status={dpctl.value == null ? "unknown" : dpctl.value} onClick={toggleSwitch} />
         });
 
-        const valuesLines = this.props.valuesGroup.datapoints.map(dp => {
-            return <StatusLine key={dp.id} name={dp.name} status={dp.value || "unknown"}/>
+        const valuesLines = this.props.valuesGroup.elements.map(dp => {
+            return <StatusLine key={dp.id} name={dp.name} status={dp.value == null ? "unknown" : dp.value}/>
         });
 
         const openStatusBoxEditor = () => {
-            this.setState({openEditor: true, groupEdited: this.props.statusGroup});
+            this.setState({openEditor: true, groupEdited: this.props.statusGroup, dpctl:true});
         };
         const openValuesBoxEditor = () => {
-            this.setState({openEditor: true, groupEdited: this.props.valuesGroup});
+            this.setState({openEditor: true, groupEdited: this.props.valuesGroup, dpctl: false});
         };
         const closeDataPointEditor = () => this.setState({openEditor: false});
 
@@ -127,6 +138,7 @@ class Dashboard extends Component {
                     group={this.state.groupEdited}
                     select={this.selectDatapoint}
                     unselect={this.unselectDatapoint}
+                    dpctl={this.state.dpctl}
                 />
             </div>
         );
@@ -138,6 +150,7 @@ Dashboard.propTypes = {
     valuesGroup: PropTypes.object.isRequired,
     addEndpoint: PropTypes.func.isRequired,
     removendpoint: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     groups: PropTypes.func.isRequired,
     datapoints: PropTypes.func.isRequired
 };
@@ -150,12 +163,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addEndpoint: (groupName, endpointID) => addEndpoint(groupName, endpointID)(dispatch).catch(e => {
-      toastr.error('Error', e.message);
-  }),
-  removendpoint:   (groupName, endpointID) => removendpoint(groupName,endpointID)(dispatch).catch(e => {
-      toastr.error('Error', e.message);
-  })
+  addEndpoint: addEndpoint(dispatch),
+  executeAction: executeAction(dispatch),
+  removendpoint: removendpoint(dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

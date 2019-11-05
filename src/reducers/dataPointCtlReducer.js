@@ -43,8 +43,8 @@ export const dataPointCtlReducer = createReducer(initialState, {
 /* SELECTORS */
 
 export const getDataPointCtlIndexedByName = createSelector(
-    state => state.datapoints.items,
-    datapoints => keyBy(datapoints, "id")
+    state => state.datapointctls.items,
+    datapointctls => keyBy(datapointctls, "id")
 );
 
 /* HELPERS */
@@ -52,7 +52,12 @@ export const getDataPointCtlIndexedByName = createSelector(
  * @param {object} state
  * @return {function(id: string): DataPointCtl}
  */
-export const getDataPointCtlByID = state => id => getDataPointCtlIndexedByName(state)[id];
+export const getDataPointCtlByID = state => {
+    const table = getDataPointCtlIndexedByName(state);
+    return id => {
+        return table[id];
+    };
+};
 
 export const EMPTY_DATAPOINTCTL = {
     name: "",

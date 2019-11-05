@@ -19,12 +19,12 @@ import {
 } from '../actions/ActionTypes';
 import { createReducer } from "../utils/reduxHelper";
 
-
 const initialState = { isFetching: false, items: [], error: null };
 
 const genericGroupPending = state => ({ ...state, isFetching: true, error: null });
 
 const genericGroupSuccess = (state, action) => ({ ...state, isFetching: false, items: action.groups });
+
 
 const genericGroupFailure = (state, action) => ({ ...state, isFetching: false, error: action.error });
 

@@ -22,14 +22,14 @@ export const fetchSystem = () => {
         dispatch({ type: APP_IS_FETCHING });
         lastSystemFetchPromise =
             Promise.all([
-                dispatch(fetchDatapointTypes),
-                dispatch(fetchGroups()),
+                dispatch(fetchDatapointTypes),                
                 dispatch(fetchDatapoints()),
-                dispatch(fetchDataPointCtls()),
+                dispatch(fetchDataPointCtls()),                
                 dispatch(fetchTriggers()),
                 dispatch(fetchConditions()),
                 dispatch(fetchActions()),
             ])
+                .then(() => dispatch(fetchGroups()))
                 .then(() => dispatch({ type: APP_IS_READY }))
                 .catch(error => dispatch({ type: APP_NOT_READY, error: error.message }));
         return lastSystemFetchPromise;

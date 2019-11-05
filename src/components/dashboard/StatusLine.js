@@ -6,7 +6,7 @@ import './StatusLine.css';
 class StatusLine extends Component {
     render() {
         return (
-            <div className="statusline">
+            <div className="statusline" onClick={this.props.onClick}>
                 <div className="statusline-name">{this.props.name}</div>
                 <div className="statusline-status">{this.props.status}</div>
             </div>
@@ -17,6 +17,7 @@ class StatusLine extends Component {
 StatusLine.propTypes = {
     name: PropTypes.string.isRequired,
     status: PropTypes.any.isRequired,
+    onClick: PropTypes.func
 };
 
 const mapStateToProps = state => ({
