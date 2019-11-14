@@ -53,19 +53,24 @@ class LineChart extends Component {
         }
 
         const verticalLines = [];
+        const xValues = [];
         let lineCount = 0;
+        let t = new Date();
         for(let x = 0; x < this.props.width; x += 10 * this.props.interval) {
-            verticalLines.push(<line key={`vert${lineCount}`} x1={x} y1={this.props.height - 12} x2={x} y2="0" style={{stroke: "white"}} />);
+            verticalLines.push(<line key={`vert${lineCount}`} x1={x} y1={this.props.height} x2={x} y2="0" style={{stroke: "white"}} />);
+            xValues.push(<div className="linechart-ymin-val">{`${("0" + t.getHours()).slice(-2)}:${("0"+t.getMinutes()).slice(-2)}:${("0" + t.getSeconds()).slice(-2)}`}</div>);
+            t = new Date(t.getTime() - this.props.interval * 1000 );
             lineCount++;
         }
+
         return (
             <div className="linechart" id={this.props.id} style={boxStyle}>
-                <div className="linechart-ymin">{min}</div>
+                <div className="linechart-ymin"><div>{min}</div><div className="linechart-ymin-values">{xValues.reverse()}</div></div>
                 <div className="linechart-ymax">{max}</div>
                 <div className="linechar-title">{this.props.title}</div>
                 <div className="linechart-axis">
                     <svg height={this.props.height} width={this.props.width}>
-                        <line x1="0" y1={this.props.height - 12} x2={this.props.width} y2={this.props.height - 12}
+                        <line x1="0" y1={this.props.height} x2={this.props.width} y2={this.props.height}
                               style={{stroke: "white"}} />
                         <line x1="0" y1={this.props.height} x2="0" y2="0" style={{stroke: "white"}} />
                         {verticalLines}

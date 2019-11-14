@@ -4,11 +4,15 @@ import PropTypes from 'prop-types';
 import './StatusLine.css';
 
 class StatusLine extends Component {
+    
     render() {
+        const status = this.props.formatStatus == null ? 
+        this.props.status :
+        this.props.formatStatus(this.props.status);
         return (
             <div className="statusline" onClick={this.props.onClick}>
                 <div className="statusline-name">{this.props.name}</div>
-                <div className="statusline-status">{this.props.status}</div>
+                <div className="statusline-status">{status}</div>
             </div>
         );
     }
@@ -17,7 +21,8 @@ class StatusLine extends Component {
 StatusLine.propTypes = {
     name: PropTypes.string.isRequired,
     status: PropTypes.any.isRequired,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    formatStatus: PropTypes.func
 };
 
 const mapStateToProps = state => ({

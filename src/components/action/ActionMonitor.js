@@ -106,7 +106,6 @@ class ActionMonitor extends FreezeView {
         if (this.state.data == null) {
             return "";
         }
-        const width = Math.max(500, window.innerWidth);
         return (
             <GraphData 
                 title={this.state.actionID} 

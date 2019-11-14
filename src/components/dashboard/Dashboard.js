@@ -5,12 +5,17 @@ import StatusLine from "./StatusLine";
 import TitleBox from './TitleBox';
 import EventBox from '../common/EventBox';
 import LineChart from '../common/LineChart';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import * as RegularFA from "@fortawesome/free-regular-svg-icons";
 
 import DataPointListEditor from '../common/DataPointListEditor';
 import {getGroupByName} from '../../reducers/groupReducer';
 import {getDatapointByID} from '../../reducers/datapointReducer';
 import { toastr } from "react-redux-toastr";
 import { executeAction } from "../../actions/dataPointCtlAction";
+import PopupBox from "../common/PopupBox";
+import DataPointSelect from "../common/DataPointSelect";
 
 import './Dashboard.css';
 import '../common/LineChart.css';
@@ -24,43 +29,72 @@ const MAX_WIND_ENTRIES = 100;
 class Dashboard extends Component {
     state = {
         openEditor: false,
+        openPopupBox: false,
+        popupBoxContent: "",
         groupEdited: this.props.groups(STATUS_GROUPNAME),
         dpctl: true,
-        windValues: [],
-        luxValues: []
+        leftValues: [],
+        rightValues: [],
+        leftDPID:"9.1.2",
+        rightDPID:"9.1.0",
+        leftTitle: "Wind Speed",
+        rightTitle: "Lux"
     };
 
     updateCharts = () => {
-        this.windUpdate();
-        this.luxUpdate();
+        this.leftUpdate();
+        this.rightUpdate();
         setTimeout(this.updateCharts, 1000);
     };
 
-    windUpdate = () => {
-        const len = this.state.windValues.length > MAX_WIND_ENTRIES ? MAX_WIND_ENTRIES : this.state.windValues.length;
-        const windValues = this.state.windValues.slice(
-            this.state.windValues.length - len,
+    leftUpdate = () => {
+        const len = this.state.leftValues.length > MAX_WIND_ENTRIES ? MAX_WIND_ENTRIES : this.state.leftValues.length;
+        const leftValues = this.state.leftValues.slice(
+            this.state.leftValues.length - len,
             len
             );
-        const windDP = this.props.datapoints("9.1.2");
-        if (windDP == null) { return; }
-        windValues.push(windDP.value);
-        this.setState({windValues});
+        const leftDP = this.props.datapoints(this.state.leftDPID);
+        if (leftDP == null) { return; }
+        leftValues.push(leftDP.value == null ? 0 : leftDP.value);
+        this.setState({leftValues});
     };
 
-    luxUpdate = () => {
-        const len = this.state.luxValues.length > MAX_WIND_ENTRIES ? MAX_WIND_ENTRIES : this.state.luxValues.length;
-        const luxValues = this.state.luxValues.slice(
-            this.state.luxValues.length - len,
+    rightUpdate = () => {
+        const len = this.state.rightValues.length > MAX_WIND_ENTRIES ? MAX_WIND_ENTRIES : this.state.rightValues.length;
+        const rightValues = this.state.rightValues.slice(
+            this.state.rightValues.length - len,
             len
         );
-        const luxDP = this.props.datapoints("9.1.0");
-        if (luxDP == null) { return; }
-        luxValues.push(luxDP.value);
-        this.setState({luxValues});
+        const rightDP = this.props.datapoints(this.state.rightDPID);
+        if (rightDP == null) { return; }
+
+        rightValues.push(rightDP.value == null ? 0 : rightDP.value);
+        this.setState({rightValues});
     };
 
+    editChart = name => {
+        const handleChange = value => {
+            localStorage.setItem(`${name}DPID`, value);
+            const content = <DataPointSelect selection={{datapoint: value}} onChange={handleChange}/>;
+            const dp = this.props.datapoints(value);
+            localStorage.setItem(`${name}Title`, dp.name);
+            this.setState({
+                [`${name}Title`]: dp.name,
+                [`${name}Values`]:  [], 
+                [`${name}DPID`]: value, 
+                popupBoxContent: content
+            });
+        }
+        const content = <DataPointSelect selection={{datapoint: this.state[`${name}DPID`]}} onChange={handleChange}/>;
+        this.setState({popupBoxContent: content, openPopupBox: true});
+    }
+
     componentDidMount() {
+        const leftDPID = localStorage.getItem('leftDPID') || this.state.leftDPID;
+        const rightDPID = localStorage.getItem('rightDPID') || this.state.rightDPID;
+        const leftTitle = localStorage.getItem('leftTitle') || this.state.leftTitle;
+        const rightTitle = localStorage.getItem('rightTitle') || this.state.rightTitle;
+        this.setState({leftDPID, rightDPID, leftTitle, rightTitle});
         setTimeout(this.updateCharts, 1000);
     }
 
@@ -74,7 +108,7 @@ class Dashboard extends Component {
             });
     };
 
-    unselectDatapoint = (datapoint) => {
+    unselectDatapoint = datapoint => {
         return this.props.removendpoint(this.state.groupEdited.name, datapoint.id)
             .catch(e => {
                 toastr.error('Error', e.message);
@@ -83,6 +117,24 @@ class Dashboard extends Component {
                 this.setState({groupEdited: this.props.groups(this.state.groupEdited.name)});
             });
     };
+
+    formatStatus = status => {
+        if (status == 1) {
+            return (
+            <FontAwesomeIcon 
+            icon={faLightbulb}
+            style={{color: "yellow"}} />
+            );
+        }
+        else {
+            //RegularFA.faLightbulb
+            return (
+                <FontAwesomeIcon 
+                icon={RegularFA.faLightbulb}
+                />
+            );
+        }
+    }
 
     render() {
         if (this.props.statusGroup == null) {
@@ -93,7 +145,15 @@ class Dashboard extends Component {
             const toggleSwitch = () => {
                 this.props.executeAction(dpctl, "toggle");
             }
-            return <StatusLine key={dpctl.id} name={dpctl.name} status={dpctl.value == null ? "unknown" : dpctl.value} onClick={toggleSwitch} />
+            return (
+                <StatusLine 
+                key={dpctl.id} 
+                name={dpctl.name} 
+                status={dpctl.value == null ? "unknown" : dpctl.value} 
+                onClick={toggleSwitch}
+                formatStatus={this.formatStatus}
+                />
+            );
         });
 
         const valuesLines = this.props.valuesGroup.elements.map(dp => {
@@ -107,16 +167,36 @@ class Dashboard extends Component {
             this.setState({openEditor: true, groupEdited: this.props.valuesGroup, dpctl: false});
         };
         const closeDataPointEditor = () => this.setState({openEditor: false});
-
+        const editLeftChart = () => {
+            return this.editChart("left");
+        }
+        const editRightChart = () => {
+            return this.editChart("right");
+        }
         const width = Math.round(0.49 * window.innerWidth);
         return (
             <div className="dashboard">
                 <div className="dashboard-charts">
-                    <div style={{width: width, overflow: "hidden"}}>
-                        <LineChart title="Wind Speed" height={100} width={width - 15} interval={10} maxVal={15} minVal={0} values={this.state.windValues}/>
+                    <div style={{width: width, overflow: "hidden"}} onClick={editLeftChart}>
+                        <LineChart 
+                        title={this.state.leftTitle} 
+                        height={100} 
+                        width={width - 15} 
+                        interval={10} 
+                        maxVal={15} 
+                        minVal={0} 
+                        values={this.state.leftValues}                        
+                        />
                     </div>
-                    <div style={{width: width}}>
-                        <LineChart title="Lux" height={100} width={width - 15} interval={10} maxVal={150000} minVal={0} values={this.state.luxValues}/>
+                    <div style={{width: width}} onClick={editRightChart}>
+                        <LineChart 
+                        title={this.state.rightTitle} 
+                        height={100} 
+                        width={width - 15} 
+                        interval={10} 
+                        maxVal={150000} 
+                        minVal={0} 
+                        values={this.state.rightValues}/>
                     </div>
                 </div>
                 <div className="dashboard-box">
@@ -132,6 +212,11 @@ class Dashboard extends Component {
                     />
                 </div>
                 <EventBox/>
+                <PopupBox 
+                    visible={this.state.openPopupBox} 
+                    content={this.state.popupBoxContent}
+                    close={() => this.setState({openPopupBox: false})}
+                />
                 <DataPointListEditor
                     visible={this.state.openEditor}
                     close={closeDataPointEditor}
