@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import connect from "react-redux/es/connect/connect";
 import FontAwesome from 'react-fontawesome';
 import DropDownMenu from "./DropDownMenu";
-
+import logo from "../../media/gdnet_home_logo.png"
 import './AppHeader.css';
 
 class AppHeader extends Component {
@@ -21,7 +21,7 @@ class AppHeader extends Component {
     render() {
         return (
             <div className="app-header">
-                <div className="app-header-title">GDNet HomeClient</div>
+                <div className="app-header-title"><img src={logo} style={{width: "100px"}}/></div>
                 <FontAwesome name="bars fa-4x header-menu-bars" onMouseEnter={this.openDropDownMenu}/>
                 <DropDownMenu visible={this.state.visible} close={this.closeDropDownMenu}/>
             </div>
