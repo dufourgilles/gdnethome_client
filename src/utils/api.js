@@ -14,12 +14,12 @@ class Api {
             .then(response => response.data);
     }
 
-    static postFullResponse(resourceApi, data) {
-        return Axios.post(Api.getURL(Config.serverURL + resourceApi), data);
+    static postFullResponse(resourceApi, data, options=null) {
+        return Axios.post(Api.getURL(Config.serverURL + resourceApi), data, options);
     }
 
-    static post(resourceApi, data) {
-        return this.postFullResponse(resourceApi, data)
+    static post(resourceApi, data, options=null) {
+        return this.postFullResponse(resourceApi, data, options)
             .then(response => response.data);
     }
 

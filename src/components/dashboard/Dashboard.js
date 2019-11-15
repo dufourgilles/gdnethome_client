@@ -30,7 +30,8 @@ class Dashboard extends Component {
     state = {
         openEditor: false,
         openPopupBox: false,
-        popupBoxContent: "",
+        popupBoxContent: null,
+        editedChart: null,
         groupEdited: this.props.groups(STATUS_GROUPNAME),
         dpctl: true,
         leftValues: [],
@@ -73,20 +74,26 @@ class Dashboard extends Component {
     };
 
     editChart = name => {
-        const handleChange = value => {
-            localStorage.setItem(`${name}DPID`, value);
-            const content = <DataPointSelect selection={{datapoint: value}} onChange={handleChange}/>;
-            const dp = this.props.datapoints(value);
-            localStorage.setItem(`${name}Title`, dp.name);
-            this.setState({
-                [`${name}Title`]: dp.name,
-                [`${name}Values`]:  [], 
-                [`${name}DPID`]: value, 
-                popupBoxContent: content
-            });
+        const dpid = this.state[`${name}DPID`];
+        const content = onChange => {            
+            return (<DataPointSelect selection={{datapoint: dpid}} onChange={onChange}/>);
         }
-        const content = <DataPointSelect selection={{datapoint: this.state[`${name}DPID`]}} onChange={handleChange}/>;
-        this.setState({popupBoxContent: content, openPopupBox: true});
+        this.setState({popupBoxContent: content, openPopupBox: true, editedChart: name});
+    }
+
+    chartDPSelect = dpid => {
+        const name = this.state.editedChart;
+        const dp = this.props.datapoints(dpid);
+        localStorage.setItem(`${name}DPID`, dpid);        
+        localStorage.setItem(`${name}Title`, dp.name);
+        this.setState({
+            [`${name}Title`]: dp.name,
+            [`${name}Values`]:  [], 
+            [`${name}DPID`]: dpid,
+            openPopupBox: false,
+            editedChart: null,
+            popupBoxContent: null
+        });
     }
 
     componentDidMount() {
@@ -213,9 +220,11 @@ class Dashboard extends Component {
                 </div>
                 <EventBox/>
                 <PopupBox 
+                    title="Select Datapoint to monitor"
                     visible={this.state.openPopupBox} 
                     content={this.state.popupBoxContent}
-                    close={() => this.setState({openPopupBox: false})}
+                    onConfirm={this.chartDPSelect}
+                    onExit={() => this.setState({openPopupBox: false})}
                 />
                 <DataPointListEditor
                     visible={this.state.openEditor}

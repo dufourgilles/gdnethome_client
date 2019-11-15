@@ -99,3 +99,15 @@ export const deleteAllDatapoints = dispatch => () => {
         );
 };
 
+export const uploadFile =  dispatch => data => {
+    dispatch({type: types.UPLOAD_DATAPOINT_ETS5_PENDING});
+    return Api.post(`${DATAPOINT_BASE_URI}/upload`, data, {headers: {'Content-Type': "text/html"}})
+        .then(
+            () => _fetchDatapoints(dispatch),
+            error => {
+                dispatch({type: types.UPLOAD_DATAPOINT_ETS5_FAILURE, error: error.message});
+                return Promise.reject(error);
+            }
+        );
+};
+

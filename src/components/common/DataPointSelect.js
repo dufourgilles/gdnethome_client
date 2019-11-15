@@ -4,26 +4,36 @@ import PropTypes from 'prop-types';
 import DatapointParameter from "../datapoint/DatapointParameter";
 
 class DataPointSelect extends Component {
-    handleValueChange = (name, value) => {
-        this.props.onChange(value);
+    state = {
+        selection: this.props.selection
     }
+
     componentDidUpdate(prevProps) {
         if ((this.props.selection == null || prevProps.selection == null) ||
             (this.props.selection.datapoint === prevProps.selection.datapoint)) {
                 return;
         }
     }
+
     render() {
         const displayName = item => {
             return `${item.name}(${item.id})`;
         }
+
+        const handleValueChange = (name, value) => {
+            if (this.props.onChange) {
+                this.props.onChange(value);
+            }
+            this.setState({selection: {datapoint: value}});
+        }
+
         return (
             <DatapointParameter
                 key="leftID"
-                onChange={this.handleValueChange}
+                onChange={handleValueChange}
                 label="Select DataPoint"
                 name="datapoint"
-                data={this.props.selection}
+                data={this.state.selection}
                 list={this.props.datapoints}
                 display={displayName}
                 match="id"

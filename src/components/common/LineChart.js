@@ -58,7 +58,7 @@ class LineChart extends Component {
         let t = new Date();
         for(let x = 0; x < this.props.width; x += 10 * this.props.interval) {
             verticalLines.push(<line key={`vert${lineCount}`} x1={x} y1={this.props.height} x2={x} y2="0" style={{stroke: "white"}} />);
-            xValues.push(<div className="linechart-ymin-val">{`${("0" + t.getHours()).slice(-2)}:${("0"+t.getMinutes()).slice(-2)}:${("0" + t.getSeconds()).slice(-2)}`}</div>);
+            xValues.push(<div key={`xval${lineCount}`} className="linechart-ymin-val">{`${("0" + t.getHours()).slice(-2)}:${("0"+t.getMinutes()).slice(-2)}:${("0" + t.getSeconds()).slice(-2)}`}</div>);
             t = new Date(t.getTime() - this.props.interval * 1000 );
             lineCount++;
         }

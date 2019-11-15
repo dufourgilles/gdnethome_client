@@ -6,6 +6,7 @@ import {Modal, Button} from 'react-bootstrap';
 class PopupBox extends Component {
     state = {
         visible: this.props.visible,
+        data: null
     };
 
     show = () => {
@@ -16,9 +17,19 @@ class PopupBox extends Component {
         this.setState({ visible: false });
     };
 
-    handleClose = () => {
-        if (this.props.close != null) {
-            this.props.close();
+    handleChange = data => {
+        this.setState({data});
+    }
+
+    handleExit = () => {
+        if (this.props.onExit != null) {
+            this.props.onExit();
+        }
+    };
+
+    handleConfirm = () => {
+        if (this.props.onConfirm != null) {
+            this.props.onConfirm(this.state.data);
         }
     };
 
@@ -41,17 +52,18 @@ class PopupBox extends Component {
 
         return (
             <div className="modal-popupbox">
-                <Modal show={this.state.visible} onHide={this.handleClose}>
+                <Modal show={this.state.visible} onHide={this.handleExit}>
                     <Modal.Header>
                         <Modal.Title>{this.props.title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div className="popupbox-body">
-                            {this.props.content}
+                            {this.props.content == null ? "" :this.props.content(this.handleChange)}
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.handleClose}>Close</Button>
+                        <Button onClick={this.handleConfirm}>Confirm</Button>
+                        <Button onClick={this.handleExit}>Exit</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -62,7 +74,9 @@ class PopupBox extends Component {
 PopupBox.propTypes = {
     visible: PropTypes.bool,
     title: PropTypes.string.isRequired,
-    content: PropTypes.object.isRequired
+    content: PropTypes.func,
+    onExit: PropTypes.func,
+    onConfirm: PropTypes.func
 };
 
 

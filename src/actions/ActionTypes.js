@@ -33,6 +33,9 @@ export const UPDATE_DATAPOINT_SUCCESS = actionCount++;
 export const DELETE_DATAPOINT_PENDING = actionCount++;
 export const DELETE_DATAPOINT_FAILURE = actionCount++;
 export const DELETE_DATAPOINT_SUCCESS = actionCount++;
+export const UPLOAD_DATAPOINT_ETS5_PENDING = actionCount++;
+export const UPLOAD_DATAPOINT_ETS5_FAILURE = actionCount++;
+export const UPLOAD_DATAPOINT_ETS5_SUCCESS = actionCount++;
 
 export const ADD_DATAPOINTCTL_PENDING = actionCount++;
 export const ADD_DATAPOINTCTL_FAILURE = actionCount++;

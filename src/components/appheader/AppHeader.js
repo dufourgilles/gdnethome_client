@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import connect from "react-redux/es/connect/connect";
 import FontAwesome from 'react-fontawesome';
 import DropDownMenu from "./DropDownMenu";
-import logo from "../../media/gdnet_home_logo.png"
+import logo from "../../media/gdnet_home_logo_white.png"
 import './AppHeader.css';
 
 class AppHeader extends Component {
