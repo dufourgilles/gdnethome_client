@@ -14,7 +14,7 @@ class DatapointParameter extends Component {
 
     valueChanged = (e) => {
         if (this.props.onChange != null) {
-            this.props.onChange(this.props.name, e.target.value);
+            this.props.onChange(this.props.name, e.target.value, this.props.index);
         }
     };
 
@@ -46,7 +46,7 @@ class DatapointParameter extends Component {
         }
         return (
             <div className="datapoint-editor-value">
-                <input name={this.props.name} onChange={this.valueChanged} value={value} size="40" />
+                <input name={this.props.name} onChange={this.valueChanged} value={value} size="40" onBlur={this.props.onFocusOut}/>
                 {invalid}
             </div>
         );
@@ -80,6 +80,7 @@ class DatapointParameter extends Component {
                     name="disableFilter" 
                     style={{marginTop: "7px", marginLeft: "7px"}}
                     onChange={this.handleFilterSelect}
+                    onBlur={this.props.onFocusOut}
                     checked
                 />
             );
@@ -87,7 +88,7 @@ class DatapointParameter extends Component {
         const value = this.getValue() != null ? this.getValue() : "";        
         return (
             <div className={className}>
-                <select name={this.props.name} value={value} onChange={this.valueChanged} >
+                <select name={this.props.name} value={value} onChange={this.valueChanged} onBlur={this.props.onFocusOut}>
                     {
                         this.props.list.map(option)
                     }
@@ -105,6 +106,7 @@ class DatapointParameter extends Component {
                     name={this.props.name}
                     list={this.props.list}
                     onChange={this.valueChanged}
+                    onFocusOut={this.props.onFocusOut}
                     display={this.props.display}
                     match={this.props.match}
                     index={this.props.index}
@@ -167,7 +169,8 @@ DatapointParameter.propTypes = {
     ]),
     list: PropTypes.array,
     validator: PropTypes.func,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onFocusOut: PropTypes.func
 };
 
 export default connect(undefined, undefined)(DatapointParameter);

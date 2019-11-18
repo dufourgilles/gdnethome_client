@@ -204,6 +204,10 @@ class GraphData extends Component {
     }
 
     renderLines = (width, height, interval, values) => {
+        if (values == null || values.length === 0) {
+            return "Empty File";
+        }
+
         const boxStyle = {
             height: height + 15,
             width: width
@@ -313,7 +317,6 @@ class GraphData extends Component {
             if (this.state == null || this.state.valuePos.x < 0 || this.state.valuePos.y < 0) {
                 return "";
             }
-            console.log(this.state.valuePos);
             return (
                 <circle cx={this.state.valuePos.x} cy={this.state.valuePos.y} r="2" style={{fill: "none", stroke: "white", strokeWidth: 1}} />
             )

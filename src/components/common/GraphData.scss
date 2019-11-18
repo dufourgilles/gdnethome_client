@@ -93,3 +93,8 @@ $backgroud-color: black;
   margin-top: 5px;
   margin-bottom: 0px;
 }
+
+.graphdata-bottom {
+  max-height: 200px;
+  overflow: scroll;
+}

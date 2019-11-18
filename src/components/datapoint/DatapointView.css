@@ -7,21 +7,17 @@
   top: 10px;
   overflow: hidden; }
 
-.datapoint-view-buttons {
-  display: flex;
-  flex-direction: row;
-  margin-left: 10%;
-}
-
-.datapoint-view-btn {
+.datapoint-view-delete-btn {
   padding: 7px;
   border-radius: 7px;
   border: solid 1px white;
   background-color: mediumpurple;
   margin-right: 10px;
-}
+  text-align: center;
+  margin-left: 10%;
+  width: 200px; }
 
-.datapoint-view-btn:hover {
+.datapoint-view-delete-btn:hover {
   padding: 7px;
   border-radius: 7px;
   border: solid 1px white;

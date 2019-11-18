@@ -47,6 +47,9 @@ class TextSelect extends Component {
     };
 
     handleFocusOut = e => {
+        if (this.props.onFocusOut) {
+            this.props.onFocusOut(e);
+        }
         this.setState({hidden: true});
     }
 
@@ -108,6 +111,7 @@ TextSelect.prototypes = {
     display: PropTypes.string.isRequired,
     match: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    onFocusOut: PropTypes.func,
     maxOptions: PropTypes.number
 };
 

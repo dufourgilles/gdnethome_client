@@ -8,7 +8,8 @@ const pages = [
     {url: "/dashboard", title: "DashBoard"},
     {url: "/datapointlist", title: "Datapoint"},
     {url: "/datapointctl", title: "DataPointCtl"},
-    {url: "/replay", title: "Replay"}
+    {url: "/replay", title: "Replay"},
+    {url: "/settings", title: "Settings"}
 ];
 
 class DropDownMenu extends Component {

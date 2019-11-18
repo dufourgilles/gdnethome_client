@@ -7,6 +7,7 @@ import Dashboard from './dashboard/Dashboard';
 import ActionView from "./action/ActionView";
 import ConditionView from "./condition/ConditionView";
 import ReplayView from "./replay/ReplayView";
+import SettingsView from "./settings/SettingsView";
 import {pollSystem} from '../actions/systemActions';
 import '../themes/GDNetBoostrapThemes.css';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
@@ -16,6 +17,7 @@ import {subscribeToEvents, eventProcessor} from '../socket/clientSocket';
 import AppHeader from "./appheader/AppHeader";
 import DatapointView from './datapoint/DatapointView';
 import DataPointCtlView from './dataPointCtl/DataPointCtlView';
+import SettingsViews from './settings/SettingsView';
 
 class App extends Component {
     componentDidMount() {
@@ -38,6 +40,7 @@ class App extends Component {
                     <Route path="/datapointlist" component={DatapointView}/>
                     <Route path="/datapointctl" component={DataPointCtlView}/>
                     <Route path="/replay" component={ReplayView}/>
+                    <Route path="/settings" component={SettingsView}/>
                   <Redirect from="/" to="/dashboard"/>
                 </Switch>
             </div>
