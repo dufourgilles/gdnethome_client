@@ -64,26 +64,24 @@ class InterfaceViewer extends React.Component {
                 handleRouteChange(i, "via", value);
             }     
             renderedRoutes.push(
-                <DatapointParameter
-                    key={`route${i}to`}
-                    onChange={handleRouteToValueChange}
-                    label={`Route ${i} To`}
-                    name="to"
-                    onFocusOut={this.handleFocusOut}
-                    data={this.state.routes[i]}
-                    editable={true}               
-                />
-            );
-            renderedRoutes.push(
-                <DatapointParameter
-                    key={`route${i}via`}
-                    onChange={handleRouteViaValueChange}
-                    onFocusOut={this.handleFocusOut}
-                    label={`Route ${i} Via`}
-                    name="via"
-                    data={this.state.routes[i]}
-                    editable={true}                   
-                />
+                <div className="gdnet-interface-route" key={`route${i}`}>
+                    <DatapointParameter
+                        onChange={handleRouteToValueChange}
+                        label={`Route ${i} to`}
+                        name="to"
+                        onFocusOut={this.handleFocusOut}
+                        data={this.state.routes[i]}
+                        editable={true}               
+                    />
+                    <DatapointParameter
+                        onChange={handleRouteViaValueChange}
+                        onFocusOut={this.handleFocusOut}
+                        label="via"
+                        name="via"
+                        data={this.state.routes[i]}
+                        editable={true}                   
+                    />
+                </div>
             );
         }
         return renderedRoutes;

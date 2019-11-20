@@ -1,2 +1,18 @@
 .settings-view-container {
   margin-left: 10%; }
+
+.settings-advanced-params {
+  max-height: 300px;
+  overflow: scroll;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-top: solid white 1px;
+  border-bottom: solid white 1px; }
+
+.gdnet-interface-route {
+  display: flex;
+  flex-direction: row; }
+
+.settings-view-btns {
+  display: flex;
+  flex-direction: row; }

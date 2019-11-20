@@ -34,6 +34,10 @@ class SettingsView extends FreezeView {
         this.setState({config});
     }
 
+    cancel = () => {
+        this.componentDidMount();
+    }
+    
     submit = () => {
         this.setFreezeOn();
         updateConfig(this.state.config)
@@ -155,9 +159,12 @@ class SettingsView extends FreezeView {
                         match="id"
                         display="id"
                     />
-                    <div onMouseUp={toggleAdvancedParams}>hide advanced params</div>
-                    {this.state.advanced == true ? advancedParams : ""}                    
-                    <div className="btn" onClick={this.submit}>Submit</div>
+                    <div onMouseUp={toggleAdvancedParams}>Advanced Params</div>
+                    {this.state.advanced == true ? advancedParams : ""}
+                    <div className="settings-view-btns">               
+                        <div className="btn" onClick={this.submit}>Submit</div>
+                        <div className="btn" onClick={this.cancel}>Cancel</div>
+                    </div>
                 </div>
             </div>
         );
