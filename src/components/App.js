@@ -17,7 +17,7 @@ import {subscribeToEvents, eventProcessor} from '../socket/clientSocket';
 import AppHeader from "./appheader/AppHeader";
 import DatapointView from './datapoint/DatapointView';
 import DataPointCtlView from './dataPointCtl/DataPointCtlView';
-import SettingsViews from './settings/SettingsView';
+// import SettingsViews from './settings/SettingsView';
 
 class App extends Component {
     componentDidMount() {

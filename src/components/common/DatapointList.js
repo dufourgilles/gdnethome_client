@@ -35,9 +35,9 @@ class DatapointList extends Component {
         if (filter.length === 0) return true;
         try {
             const res = (dp.name.indexOf(filter) >= 0) || (dp.id.indexOf(filter) >= 0) ||
-            (dp.description != undefined && dp.description.indexOf(filter) >= 0) ||
-            (dp.statusReaderID != undefined && dp.statusReaderID.indexOf(filter) >= 0) || 
-            (dp.commandWriterID != undefined && dp.commandWriterID.indexOf(filter) >= 0);
+            (dp.description != null && dp.description.indexOf(filter) >= 0) ||
+            (dp.statusReaderID != null && dp.statusReaderID.indexOf(filter) >= 0) || 
+            (dp.commandWriterID != null && dp.commandWriterID.indexOf(filter) >= 0);
             return res;
         }
         catch(e) {

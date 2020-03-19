@@ -160,7 +160,7 @@ class SettingsView extends FreezeView {
                         display="id"
                     />
                     <div onMouseUp={toggleAdvancedParams}>Advanced Params</div>
-                    {this.state.advanced == true ? advancedParams : ""}
+                    {this.state.advanced === true ? advancedParams : ""}
                     <div className="settings-view-btns">               
                         <div className="btn" onClick={this.submit}>Submit</div>
                         <div className="btn" onClick={this.cancel}>Cancel</div>

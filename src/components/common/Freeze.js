@@ -14,7 +14,7 @@ class Freeze extends Component {
     }
 }
 
-Freeze.proptypes = {
+Freeze.propTypes = {
     enable: PropTypes.bool.isRequired
 };
 

@@ -126,7 +126,7 @@ class Dashboard extends Component {
     };
 
     formatStatus = status => {
-        if (status == 1) {
+        if (status === 1) {
             return (
             <FontAwesomeIcon 
             icon={faLightbulb}
