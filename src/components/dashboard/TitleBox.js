@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './TitleBox.css';
 import FontAwesome from 'react-fontawesome';
-import { Button } from 'react-bootstrap';
+import { Button } from 'antd';
 
 class TitleBox extends Component {
     render() {

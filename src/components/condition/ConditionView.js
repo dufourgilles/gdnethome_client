@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { deleteCondition } from "../../actions/conditionActions";
 import { toastr } from "react-redux-toastr";
 import FontAwesome from 'react-fontawesome';
-import { Button } from 'react-bootstrap';
+import { Button } from 'antd';
 import "./ConditionView.css";
 
 

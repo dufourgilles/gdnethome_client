@@ -4,7 +4,7 @@ import {deleteAction} from "../../actions/actionActions";
 import { toastr } from "react-redux-toastr";
 import PropTypes from "prop-types";
 import FontAwesome from 'react-fontawesome';
-import { Button } from 'react-bootstrap';
+import { Button } from 'antd';
 import ActionCreator from "./ActionCreator";
 
 class ActionEditor extends Component {

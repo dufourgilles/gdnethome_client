@@ -7,8 +7,9 @@ import {BrowserRouter} from 'react-router-dom';
 import App from './components/App';
 import store from './store/GDNetHomeClientStore.js';
 import '@fortawesome/fontawesome-free/css/all.css';
-import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+// import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import './utils/Config';
+import 'antd/dist/antd.css';
 
 console.log("Starting");
 render(
