@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Button } from 'antd';
 import DatapointParameter from './DatapointParameter';
 import {getDatapointByID, EMPTY_DATAPOINT} from "../../reducers/datapointReducer";
 import {createNewDatapoint, updateDatapoint, deleteDatapoint} from "../../actions/datapointActions";
-import './DatapointEditor.css';
+import './DatapointEditor.scss';
 import { toastr } from "react-redux-toastr";
 
 
@@ -115,10 +116,10 @@ class DatapointEditor extends Component {
 
         return (
             <div className="datapoint-editor">
-                <div className="datapoint-editor-actions">
-                    <div className="datapoint-editor-button" onClick={this.newDatapoint}>New</div>
-                    <div className={savebtnClassname} onClick={saveFunc}>Save</div>
-                    <div className="datapoint-editor-button" onClick={this.deleteDatapoint}>Delete</div>
+                <div>
+                    <Button onClick={this.newDatapoint}>New</Button>
+                    <Button onClick={saveFunc}>Save</Button>
+                    <Button onClick={this.deleteDatapoint}>Delete</Button>
                 </div>
                 <DatapointParameter
                     key="id"

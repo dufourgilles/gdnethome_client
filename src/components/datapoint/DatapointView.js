@@ -4,7 +4,7 @@ import DatapointList from '../common/DatapointList';
 import DatapointEditor from './DatapointEditor';
 import { EMPTY_DATAPOINT} from "../../reducers/datapointReducer";
 import FreezeView from "../common/FreezeView";
-import './DatapointView.css'
+import './DatapointView.scss'
 import {deleteAllDatapoints, uploadFile} from "../../actions/datapointActions";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";

@@ -3,7 +3,7 @@ import connect from "react-redux/es/connect/connect";
 import FontAwesome from 'react-fontawesome';
 import DropDownMenu from "./DropDownMenu";
 import logo from "../../media/gdnet_home_logo_white.png"
-import './AppHeader.css';
+import './AppHeader.scss';
 
 class AppHeader extends Component {
     state = {

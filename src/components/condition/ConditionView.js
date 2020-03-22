@@ -7,7 +7,7 @@ import { deleteCondition } from "../../actions/conditionActions";
 import { toastr } from "react-redux-toastr";
 import FontAwesome from 'react-fontawesome';
 import { Button } from 'antd';
-import "./ConditionView.css";
+import "./ConditionView.scss";
 
 
 class ConditionView extends FreezeView {

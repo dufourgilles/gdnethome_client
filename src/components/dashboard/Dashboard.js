@@ -17,8 +17,8 @@ import { executeAction } from "../../actions/dataPointCtlAction";
 import PopupBox from "../common/PopupBox";
 import DataPointSelect from "../common/DataPointSelect";
 
-import './Dashboard.css';
-import '../common/LineChart.css';
+import './Dashboard.scss';
+import '../common/LineChart.scss';
 
 const STATUS_GROUPNAME = "dashboard_status";
 const VALUES_GROUPNAME = "dashboard_values";

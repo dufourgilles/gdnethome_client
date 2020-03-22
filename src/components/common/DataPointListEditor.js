@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Modal, Button } from "antd";
 import DatapointList from "../common/DatapointList";
 import FontAwesome from "react-fontawesome";
-import "./DataPointListEditor.css";
+import "./DataPointListEditor.scss";
 
 function _formatDataPoint(dp, action, arrowLeft = false) {
   const selectDP = () => {

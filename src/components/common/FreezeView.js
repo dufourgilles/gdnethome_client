@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Freeze from "./Freeze";
-import "./Freeze.css"
+import "./Freeze.scss"
 
 class FreezeView extends Component {
     state = {
