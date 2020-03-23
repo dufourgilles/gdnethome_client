@@ -1,74 +1,74 @@
-@import "../constants.scss";
+// @import "../constants.scss";
 
-.datapoint-editor {
-  padding-top: 10px;
-  width: 60%;
-  position: relative;
-  top: 0px;
-  left: 0px;
-}
+// .datapoint-editor {
+//   padding-top: 10px;
+//   width: 60%;
+//   position: relative;
+//   top: 0px;
+//   left: 0px;
+// }
 
-.datapoint-editor-entry {
-  display: flex;
-  flex-direction: row;
-  min-width: 500px;
-  padding-bottom: 5px;
-}
+// .datapoint-editor-entry {
+//   display: flex;
+//   flex-direction: row;
+//   min-width: 500px;
+//   padding-bottom: 5px;
+// }
 
-.datapoint-editor-key {
-  min-width: $gdnet-paramlength;
-  height: 30px;
-}
+// .datapoint-editor-key {
+//   min-width: $gdnet-paramlength;
+//   height: 30px;
+// }
 
-.datapoint-editor-value {
-  display: flex;
-  flex-direction: row;
-}
+// .datapoint-editor-value {
+//   display: flex;
+//   flex-direction: row;
+// }
 
-.datapoint-editor-value select {
-  width: 250px;
-}
+// .datapoint-editor-value select {
+//   width: 250px;
+// }
 
-.datapoint-editor-actions {
-  display: flex;
-  flex-direction: row;
-}
+// .datapoint-editor-actions {
+//   display: flex;
+//   flex-direction: row;
+// }
 
-.datapoint-editor-button {
-  margin: 5px;
-  padding: 5px;
-  border-radius: 7px;
-  border: solid 1px white;
-  background-color: $gdnet-purple;
-  width: 70px;
-  text-align: center;
-}
+// .datapoint-editor-button {
+//   margin: 5px;
+//   padding: 5px;
+//   border-radius: 7px;
+//   border: solid 1px white;
+//   background-color: $gdnet-purple;
+//   width: 70px;
+//   text-align: center;
+// }
 
-.datapoint-editor-button:hover {
-  margin: 5px;
-  padding: 5px;
-  border-radius: 7px;
-  border: solid 1px white;
-  background-color: $gdnet-purple;
-  cursor: pointer;
-}
+// .datapoint-editor-button:hover {
+//   margin: 5px;
+//   padding: 5px;
+//   border-radius: 7px;
+//   border: solid 1px white;
+//   background-color: $gdnet-purple;
+//   cursor: pointer;
+// }
 
 
-.datapoint-editor-button-disabled {
-  margin: 5px;
-  border-radius: 7px;
-  border: solid 1px white;
-  background-color: $gdnet-grey;
-  padding: 5px;
-}
+// .datapoint-editor-button-disabled {
+//   margin: 5px;
+//   border-radius: 7px;
+//   border: solid 1px white;
+//   background-color: $gdnet-grey;
+//   padding: 5px;
+// }
 
-.datapoint-parameter-invalid {
-  height: 3px;
-  width: 131px;
-  background-color: red;
-}
+// .datapoint-parameter-invalid {
+//   height: 3px;
+//   width: 131px;
+//   background-color: red;
+// }
 
-.datapoint-parameter-valid {
-  height: 3px;
-  width: 131px;
-}
+// .datapoint-parameter-valid {
+//   height: 3px;
+//   width: 131px;
+// }

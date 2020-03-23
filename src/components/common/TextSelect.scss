@@ -1,32 +1,32 @@
-@import "../constants.scss";
+// @import "../constants.scss";
 
-.text-select {
-  overflow: visible;
-}
+// .text-select {
+//   overflow: visible;
+// }
 
-.text-select-options {
-  position: absolute;
-  z-index: 200;
-  background-color: $gdnet-grey;
-  color: $gdnet-purple;
-  max-height: 200px;
-  width: 293px;
-  margin-left: 40px;
-  overflow: hidden;
-}
+// .text-select-options {
+//   position: absolute;
+//   z-index: 200;
+//   background-color: $gdnet-grey;
+//   color: $gdnet-purple;
+//   max-height: 200px;
+//   width: 293px;
+//   margin-left: 40px;
+//   overflow: hidden;
+// }
 
-.text-select-selection {
-  z-index: 100;
-}
+// .text-select-selection {
+//   z-index: 100;
+// }
 
-input {
-  width: 250px;
-}
+// input {
+//   width: 250px;
+// }
 
-.text-select-option {
-  padding: 3px;
-}
+// .text-select-option {
+//   padding: 3px;
+// }
 
-.text-select-option:hover {
-  cursor: pointer;
-}
+// .text-select-option:hover {
+//   cursor: pointer;
+// }

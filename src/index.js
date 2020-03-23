@@ -7,6 +7,8 @@ import './utils/Config';
 import App from './components/App';
 import store from './store/GDNetHomeClientStore.js';
 import '@fortawesome/fontawesome-free/css/all.css';
+import './media/fonts/play-v11-latin-regular.woff';
+import './index.scss';
 
 console.log("Starting");
 render(
