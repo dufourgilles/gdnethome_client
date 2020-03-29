@@ -1,12 +1,15 @@
 @import '../constants.scss';
 
 $left-margin: 15px;
-$text-color: white;
-$backgroud-color: black;
+$text-color: $text;
+$backgroud-color: $background;
 
 .linechart {
   position: relative;
-  background-color: $backgroud-color;
+  background-color: transparent;
+  line {
+    stroke: lighten($color: $text-color, $amount: 50%);
+  }
 }
 
 .linechart-ymin {
@@ -57,7 +60,7 @@ $backgroud-color: black;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 0;
   overflow: hidden;
   padding-top: 5px;
 }

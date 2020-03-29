@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { toastr } from "react-redux-toastr";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import * as RegularFA from "@fortawesome/free-regular-svg-icons";
 import StatusLine from "./StatusLine";
 import TitleBox from './TitleBox';
 import EventBox from '../common/EventBox';
 import LineChart from '../common/LineChart';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
-import * as RegularFA from "@fortawesome/free-regular-svg-icons";
-
 import DataPointListEditor from '../common/DataPointListEditor';
 import {getGroupByName} from '../../reducers/groupReducer';
 import {getDatapointByID} from '../../reducers/datapointReducer';
-import { toastr } from "react-redux-toastr";
 import { executeAction } from "../../actions/dataPointCtlAction";
 import PopupBox from "../common/PopupBox";
 import DataPointSelect from "../common/DataPointSelect";
@@ -34,8 +33,8 @@ class Dashboard extends Component {
         editedChart: null,
         groupEdited: this.props.groups(STATUS_GROUPNAME),
         dpctl: true,
-        leftValues: [],
-        rightValues: [],
+        leftValues: (new Array(MAX_WIND_ENTRIES)).fill(0),
+        rightValues: (new Array(MAX_WIND_ENTRIES)).fill(0),
         leftDPID:"9.1.2",
         rightDPID:"9.1.0",
         leftTitle: "Wind Speed",

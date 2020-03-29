@@ -43,11 +43,11 @@ class App extends Component {
           <div className="logo">GDNET Home</div>
         </Header>
         <Layout>
-          <Sider collapsible defaultCollapsed>
+          <Sider theme="light" collapsible>
             <Menu
               mode="inline"
               selectedKeys={this.props.location.pathname.split("/")}
-              theme="dark"
+              theme="light"
             >
               <Menu.Item key="dashboard">
                 <Link to="/dashboard">
