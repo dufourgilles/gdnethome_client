@@ -84,9 +84,9 @@ export const deleteAllDataPointCtls = dispatch => () => {
 
 /* EXECUTE */
 
-export const executeAction = dispatch => (dataPointCtl, action, parameter) => {
+export const executeAction = dispatch => (dataPointCtlId, action, parameter) => {
     dispatch({type: types.EXECUTEACTION_DATAPOINTCTL_PENDING});
-    return Api.post(`${DATAPOINT_BASE_URI}/controller/${dataPointCtl.id}/action/${action}`, parameter)
+    return Api.post(`${DATAPOINT_BASE_URI}/controller/${dataPointCtlId}/action/${action}`, parameter)
         .then(
             () => _fetchDataPointCtls(dispatch),
             error => {

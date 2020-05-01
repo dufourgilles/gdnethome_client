@@ -7,6 +7,7 @@ $backgroud-color: $background;
 .linechart {
   position: relative;
   background-color: transparent;
+  overflow: hidden;
   line {
     stroke: lighten($color: $text-color, $amount: 50%);
   }
@@ -63,6 +64,7 @@ $backgroud-color: $background;
   z-index: 0;
   overflow: hidden;
   padding-top: 5px;
+  margin-left: $left-margin;
 }
 
 

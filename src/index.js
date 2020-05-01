@@ -1,21 +1,21 @@
-import React from 'react';
-import {render} from 'react-dom';
-import {Provider} from 'react-redux';
-import {Route} from 'react-router';
-import {BrowserRouter} from 'react-router-dom';
-import './utils/Config';
-import App from './components/App';
-import store from './store/GDNetHomeClientStore.js';
-import '@fortawesome/fontawesome-free/css/all.css';
-import './media/fonts/play-v11-latin-regular.woff';
-import './index.scss';
+import * as React from "react";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import { Route } from "react-router";
+import { BrowserRouter } from "react-router-dom";
+import "./utils/Config";
+import App from "./components/App";
+import store from "./store/GDNetHomeClientStore";
+import GlobalStyle from "./GlobalStyle";
 
 console.log("Starting");
 render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <Route path="/" component={App}/>
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('root')
+  <GlobalStyle>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Route path="/" component={App} />
+      </BrowserRouter>
+    </Provider>
+  </GlobalStyle>,
+  document.getElementById("root")
 );

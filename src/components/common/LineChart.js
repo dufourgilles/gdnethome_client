@@ -112,7 +112,7 @@ class LineChart extends Component {
                   className="line1_start"
                   offset="0%"
                   stopColor="rgb(93,253,203)"
-                  stopOpacity="1"
+                  stopOpacity="0.3"
                 />
                 <stop
                   className="line1_stop"

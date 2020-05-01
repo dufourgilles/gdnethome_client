@@ -1,48 +1,33 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import './TitleBox.scss';
-import FontAwesome from 'react-fontawesome';
-import { Button } from 'antd';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button, Card, Tooltip } from "antd";
+import { EditOutlined } from "@ant-design/icons";
+import "./TitleBox.scss";
 
-class TitleBox extends Component {
-    render() {
-        const handleContentEditor = () => {
-            if (this.props.edit != null) {
-                return this.props.edit();
-            }
-        };
-
-        return (
-            <div className="titlebox">
-                <div>
-                    <div className="titlebox-title">{this.props.title}</div>
-                    <Button id="btnEditDataPointList" className="titlebox-edit" onClick={handleContentEditor}>
-                        <FontAwesome name="plus"/> Edit List
-                    </Button>
-                </div>
-                <div className="titlebox-content">
-                    {this.props.content != null ? this.props.content : ""}
-                </div>
-            </div>
-        );
+const TitleBox = ({ edit, title, content }) => {
+  const handleContentEditor = () => {
+    if (edit != null) {
+      return edit();
     }
-}
+  };
+  return (
+    <Card title={title} extra={(<Tooltip title="Edit List"><Button
+      id="btnEditDataPointList"
+      type="link"
+      onClick={handleContentEditor}
+    >
+      <EditOutlined />
+    </Button></Tooltip>)}>
+      
+      <div className="titlebox-content">{content != null ? content : ""}</div>
+    </Card>
+  );
+};
 
 TitleBox.propTypes = {
-    title: PropTypes.string.isRequired,
-    edit: PropTypes.func,
-    content: PropTypes.array
+  title: PropTypes.string.isRequired,
+  edit: PropTypes.func,
+  content: PropTypes.array,
 };
 
-const mapStateToProps = state => ({
-});
-
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TitleBox);
-
-
+export default TitleBox;

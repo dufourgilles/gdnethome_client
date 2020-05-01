@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './StatusLine.scss';
 
@@ -25,14 +24,6 @@ StatusLine.propTypes = {
     formatStatus: PropTypes.func
 };
 
-const mapStateToProps = state => ({
-});
-
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusLine);
+export default StatusLine;
 
 
