@@ -103,7 +103,7 @@ class ActionMonitor extends FreezeView {
     }
 
     renderData() {
-        if (this.state.data == null) {
+        if (this.state.data == null || this.state.data.length === 0) {
             return "";
         }
         return (

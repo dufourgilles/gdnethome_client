@@ -8,6 +8,8 @@
 .gdnet-view {
     display: flex;
     flex-direction: column;
+    height: calc(100vh - 110px);
+    overflow: scroll;
 }
 
 .condition-creator {
@@ -15,15 +17,16 @@
     min-width: 50%;
     max-width: 50%;
     height: 100vh;
+    margin-left: 20px;
 }
 
-.condition-list {
+#condition-list {
     width: 360px;
     min-width: 360px;
     max-height: 600px;
     min-height: 600px;
     overflow: scroll;
-    padding-left: 10px;
+    padding-left: 24px;
     padding-right: 10px;
 }
 

@@ -1,7 +1,9 @@
 .datapoint-actions {
   margin-top: 10px;
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  height: calc(100vh - 110px);
+  overflow: scroll; }
 
 .datapoint-action-btn {
   padding: 7px;

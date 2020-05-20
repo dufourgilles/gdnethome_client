@@ -14,6 +14,15 @@ class ConditionCreator extends FreezeView {
         conditionLength: this.props.condition == null ? 1 : this.props.condition.conditionIDs.length
     };
 
+    cancelFunc = () => {
+        this.setState({condition: this.props.condition == null ? EMPTY_CONDITION : Object.assign({}, this.props.condition)});
+    };
+
+    componentWillReceiveProps(props) {
+        if (props.condition !== this.props.condition) {
+            this.setState({condition: props.condition == null ? EMPTY_CONDITION : props.condition});
+        }
+    }
     componentDidMount() {
         fetchConditionTypes()
             .then(conditionTypes => {
@@ -159,10 +168,6 @@ class ConditionCreator extends FreezeView {
                 .then(() => this.setFreezeOff());
         };
 
-        const cancelFunc = () => {
-            this.setState({condition: this.props.condition == null ? EMPTY_CONDITION : Object.assign({}, this.props.condition)});
-        };
-
         const newFunc = () => {
             if (this.props.reset) {
                 this.props.reset();
@@ -185,7 +190,7 @@ class ConditionCreator extends FreezeView {
                 <div className="action-actions">
                     <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
                     <div className="datapoint-editor-button" onClick={newFunc}>New</div>
-                    <div className="datapoint-editor-button" onClick={cancelFunc}>Cancel</div>
+                    <div className="datapoint-editor-button" onClick={this.cancelFunc}>Cancel</div>
                     {addConditionBtn}
                 </div>
                 <DatapointParameter

@@ -1,5 +1,7 @@
 .settings-view-container {
     margin-left: 10%;
+    height: calc(100vh - 110px);
+    overflow: scroll;
 }
 
 .settings-advanced-params {

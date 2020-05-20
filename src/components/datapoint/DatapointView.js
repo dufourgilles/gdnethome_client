@@ -19,7 +19,7 @@ class DatapointView extends FreezeView {
     };
 
     selectDatapoint = (datapoint) => {
-        if (this.state.freeOn === true) {
+        if (this.isFreezed()) {
             return;
         }
         this.setState({selectedDatapoint: datapoint});

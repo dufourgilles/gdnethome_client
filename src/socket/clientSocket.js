@@ -35,7 +35,7 @@ export const eventReducer = createReducer(initialState, {
 });
 
 export const eventProcessor = () => dispatch => {
-    pollSystem()(dispatch);
+    //pollSystem()(dispatch);
     dispatch({type: RECEIVED_EVENT, events: [...eventBuffer]});
 };
 

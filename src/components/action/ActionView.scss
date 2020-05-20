@@ -3,6 +3,8 @@
 .action-view-container {
   margin-left: 10%;
   width: 80%;
+  height: calc(100vh - 110px);
+  overflow: scroll;
 }
 
 .action-creator {

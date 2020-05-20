@@ -1,7 +1,9 @@
 .replay-view {
   display: block;
   margin-left: 10%;
-  width: 80%; }
+  width: 80%;
+  height: calc(100vh - 110px);
+  overflow: scroll; }
 
 .replay-view-actions {
   display: flex;

@@ -115,6 +115,14 @@ class ActionCreator extends FreezeView {
                         editable={true}
                     />
                     <DatapointParameter
+                        key="disabledInterval"
+                        onChange={this.handleValueChange}
+                        label="Disabled Interval"
+                        name="disabledInterval"
+                        data={action}
+                        editable={true}
+                    />
+                    <DatapointParameter
                         key="totalExecuted"
                         onChange={this.handleValueChange}
                         label="Total Executed"
