@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DatapointParameter from './DatapointParameter';
-import {getDatapointByID, EMPTY_DATAPOINT} from "../../reducers/datapointReducer";
+import {getDatapointByID, getEmptyDatapoint } from "../../reducers/datapointReducer";
 import {createNewDatapoint, updateDatapoint, deleteDatapoint} from "../../actions/datapointActions";
 import './DatapointEditor.css';
 import { toastr } from "react-redux-toastr";
@@ -10,7 +10,7 @@ import { toastr } from "react-redux-toastr";
 
 class DatapointEditor extends Component {
     state = {
-        datapoint: Object.assign({}, this.props.datapoint ),
+        datapoint: this.props.datapoint,
         editableID: true,
         modified: false,
         isNew: true,
@@ -18,14 +18,20 @@ class DatapointEditor extends Component {
         freezeOn: false
     };
 
-    newDatapoint = () => {
-        this.setState({
-            datapoint: Object.assign({}, EMPTY_DATAPOINT),
-            modified: false,
-            valid: false,
-            isNew: true,
-            editableID: true
-        });
+    componentWillReceiveProps(newProps) {
+        if(newProps.datapoint != this.state.datapoint) {
+            this.setState({
+                datapoint: newProps.datapoint,
+                modified: false,
+                valid: false,
+                isNew: false,
+                editableID: false
+            });
+        }
+    }
+
+    newDataPoint = () => {
+        this.props.newDataPoint();
     };
 
     setFreeze = (status) => {
@@ -50,7 +56,6 @@ class DatapointEditor extends Component {
     };
 
     deleteDatapoint = () => {
-        debugger;
         return this.props.deleteDatapoint(this.state.datapoint.id).catch(e => {
                 toastr.error('Error', e.message);
             })
@@ -116,9 +121,9 @@ class DatapointEditor extends Component {
         return (
             <div className="datapoint-editor">
                 <div className="datapoint-editor-actions">
-                    <div className="datapoint-editor-button" onClick={this.newDatapoint}>New</div>
+                    <div className="datapoint-editor-button" onClick={this.newDataPoint.bind(this)}>New</div>
                     <div className={savebtnClassname} onClick={saveFunc}>Save</div>
-                    <div className="datapoint-editor-button" onClick={this.deleteDatapoint}>Delete</div>
+                    <div className="datapoint-editor-button" onClick={this.deleteDatapoint.bind(this)}>Delete</div>
                 </div>
                 <DatapointParameter
                     key="id"
@@ -169,7 +174,8 @@ DatapointEditor.propTypes = {
     getDatapointByID: PropTypes.func.isRequired,
     createNewDatapoint: PropTypes.func.isRequired,
     updateDatapoint: PropTypes.func.isRequired,
-    deleteDatapoint: PropTypes.func.isRequired
+    deleteDatapoint: PropTypes.func.isRequired,
+    newDatapoint: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

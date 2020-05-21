@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import DatapointList from '../common/DatapointList';
 import DatapointEditor from './DatapointEditor';
-import { EMPTY_DATAPOINT} from "../../reducers/datapointReducer";
+import { getEmptyDatapoint } from "../../reducers/datapointReducer";
 import FreezeView from "../common/FreezeView";
 import './DatapointView.css'
 import {deleteAllDatapoints, uploadFile} from "../../actions/datapointActions";
@@ -12,7 +12,7 @@ import PopupBox from "../common/PopupBox";
 
 class DatapointView extends FreezeView {
     state = {
-        selectedDatapoint: EMPTY_DATAPOINT,
+        selectedDatapoint: getEmptyDatapoint(),
         openPopupBox: false,
         fileName: "",
         file: null
@@ -25,6 +25,12 @@ class DatapointView extends FreezeView {
         this.setState({selectedDatapoint: datapoint});
     };
 
+    newDataPoint = () => {
+        this.setState({
+            selectedDatapoint: getEmptyDatapoint()
+        });
+    }
+    
     openFileSelect = () => {
         this.setState({openPopupBox: true});
     }
@@ -97,6 +103,7 @@ class DatapointView extends FreezeView {
                             datapoint={this.state.selectedDatapoint}
                             setFreeze={this.setFreeze}
                             freeze={this.state.freeOn}
+                            newDataPoint={this.newDataPoint}
                         />
                     </div>
                 </div>

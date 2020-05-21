@@ -53,7 +53,7 @@ class ActionParameter extends Component {
                 const handleChange = evt => {
                     let _value = evt.target.value;
                     if (parameterInfo === "number") {
-                        _value = Number(value);
+                        _value = Number(_value);
                     }
                     else if (parameterInfo === "array") {
                         try {

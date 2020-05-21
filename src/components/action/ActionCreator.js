@@ -4,7 +4,7 @@ import FreezeView from "../common/FreezeView";
 import {fetchActionTypes, createNewAction, updateAction} from "../../actions/actionActions";
 import ActionParameters from "./ActionParameters";
 import DatapointParameter from "../datapoint/DatapointParameter";
-import {EMPTY_ACTION} from "../../reducers/actionReducer";
+import { getEmptyAction } from "../../reducers/actionReducer";
 import {getActionTypeIndex, getActionTypeDefaultParameters} from "./common";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
@@ -13,7 +13,7 @@ class ActionCreator extends FreezeView {
     state = {
         actionTypes: [],
         advanced: false,
-        action: this.props.action == null ? EMPTY_ACTION : this.props.action
+        action: this.props.action == null ? getEmptyAction() : this.props.action
     };
 
     componentDidMount() {
@@ -164,7 +164,7 @@ class ActionCreator extends FreezeView {
         };
 
         const cancelFunc = () => {
-            this.setState({action: this.props.action == null ? EMPTY_ACTION : Object.assign({}, this.props.action)});
+            this.setState({action: this.props.action == null ? getEmptyAction() : Object.assign({}, this.props.action)});
         };
 
         const action = this.state.action;

@@ -59,7 +59,7 @@ export const getDataPointCtlByID = state => {
     };
 };
 
-export const EMPTY_DATAPOINTCTL = {
+const EMPTY_DATAPOINTCTL = {
     name: "",
     id: "",
     type: "SwitchCtl",
@@ -67,3 +67,7 @@ export const EMPTY_DATAPOINTCTL = {
     statusReaderID: null,
     commandWriterID: null
 };
+
+export const getEmptyDatapointCtl = () => {
+    return Object.assign({}, EMPTY_DATAPOINTCTL);
+}

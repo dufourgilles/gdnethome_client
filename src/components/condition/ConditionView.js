@@ -2,17 +2,33 @@ import React from 'react';
 import FreezeView from "../common/FreezeView";
 import ConditionCreator from "./ConditionCreator";
 import ConditionList from "./ConditionList";
-
+import { getEmptyCondition, getConditionByID } from "../../reducers/conditionReducer";
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 import "./ConditionView.css";
 
 
 class ConditionView extends FreezeView {
     state = {
-        condition: null,
+        condition: getEmptyCondition(),
     };
+
+    componentWillReceiveProps(newProps) {
+        
+        if (this.state.condition.id != "") {
+            const condition = this.props.getConditionByID(this.state.condition.id);
+            if (condition) {
+                this.setState({condition});
+            }
+        }
+    }
 
     componentDidMount() {
         this.setFreezeOff();
+    }
+
+    handleDelete = () => {
+        this.setState({condition: getEmptyCondition()});
     }
 
     handleSelect = condition => {
@@ -24,11 +40,11 @@ class ConditionView extends FreezeView {
             <div className="gdnet-view">
                 <div className="gdnet-title">Conditions</div>
                 <div key={"condition-view"} className="condition-view-container">
-                    <ConditionList onSelect={this.handleSelect} />
+                    <ConditionList onSelect={this.handleSelect} onDelete={this.handleDelete} />
                     <ConditionCreator 
-                        id={this.state.condition == null ? null : this.state.condition.id} 
+                        id={this.state.condition.id} 
                         condition={this.state.condition}
-                        reset={() => {this.setState({condition: null})}}
+                        reset={() => {this.setState({condition: getEmptyCondition()})}}
                     />
                 </div>
             </div>
@@ -36,8 +52,17 @@ class ConditionView extends FreezeView {
     }
 }
 
+ConditionView.propTypes = {
+    conditions: PropTypes.array.isRequired,
+    getConditionByID: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    conditions: state.conditions.items,
+    getConditionByID: getConditionByID(state)
+});
 
 
-export default ConditionView;
+export default connect(mapStateToProps, undefined )(ConditionView);
 
 
