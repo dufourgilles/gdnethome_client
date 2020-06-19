@@ -14,7 +14,7 @@ class ConditionCreator extends FreezeView {
     };
 
     componentWillReceiveProps(newProps) {
-        if (newProps.condition != this.state.condition) {
+        if (newProps.condition != this.props.condition) {
             this.setState({condition: newProps.condition, conditionLength: newProps.condition.conditionIDs.length > 0 ? newProps.condition.conditionIDs.length : 1});
         }
     }
