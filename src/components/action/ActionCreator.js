@@ -50,6 +50,9 @@ class ActionCreator extends FreezeView {
         else if (key === "triggerEventID" && value === "none") {
             value = "";
         }
+        else if (key === "enable") {
+            value = value == "true" || value == true;
+        }
         action[key] = value.id == null ? value : value.id;
         this.setState({action});
     };
