@@ -33,9 +33,9 @@ class ConditionCreator extends FreezeView {
             condition[key] = value.id == null ? value : value.id;
         }
         else if (key === "operator") {
-            if (value === "AND" || value === "OR" || value === "NOT")  {
+            if (value === "AND" || value === "OR" || value === "NOT" || value.indexOf("COUNT") > 0)  {
                 condition.triggerEventID = "";
-                if (value === "NOT") {
+                if (value === "NOT" || value.indexOf("COUNT") > 0) {
                     conditionLength = 1;
                     if (condition.conditionIDs.length > 1) {
                         condition.conditionIDs = condition.conditionIDs.slice(0,1);
@@ -94,7 +94,7 @@ class ConditionCreator extends FreezeView {
                 </React.Fragment>
             );
         }
-        else if (condition.operator === "NOT") {
+        else if (condition.operator === "NOT" || condition.operator.indexOf("COUNT") > 0) {
             return (
                 <DatapointParameter
                     key="cond1"
