@@ -40,6 +40,6 @@ export const fetchSystem = () => {
 export const pollSystem = () => {
     const delay = Config.polling.system ? Config.polling.system : Config.polling.default;
     return dispatch => dispatch(fetchSystem())
-        //  .then(() => setTimeout(() => dispatch(pollSystem()), delay * 120))
-        //  .catch(() => setTimeout(() => dispatch(pollSystem()), delay * 120));
+         .then(() => setTimeout(() => dispatch(pollSystem()), delay))
+         .catch(() => setTimeout(() => dispatch(pollSystem()), delay));
 };
