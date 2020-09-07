@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import FreezeView from "../common/FreezeView";
 import PropTypes from 'prop-types';
 import DatapointParameter from '../datapoint/DatapointParameter';
-import {getDataPointCtlByID, getEmptyDatapointCtl } from "../../reducers/dataPointCtlReducer";
+import {getDataPointCtlByID } from "../../reducers/dataPointCtlReducer";
 import {fetchDPCTLTypes, createNewDataPointCtl, updateDataPointCtl, deleteDataPointCtl} from "../../actions/dataPointCtlAction";
 import { toastr } from "react-redux-toastr";
 import DataPointCtlActions from "./DataPointCtlActions";
@@ -22,7 +22,7 @@ class DataPointCtlEditor extends FreezeView {
     };
 
     componentWillReceiveProps(newProps) {
-        if (newProps.dataPointCtl.id != this.state.dataPointCtl.id) {
+        if (newProps.dataPointCtl.id !== this.state.dataPointCtl.id) {
             this.setState({dataPointCtl: this.props.dataPointCtl});
         }
     }

@@ -145,7 +145,7 @@ class GraphData extends Component {
     maxData = this.state.width - 30;
 
     findPrevIndex = (interval, values) => {
-        const xInterval = interval / this.state.xZoomFactors[this.state.xZoomPos];
+        //const xInterval = interval / this.state.xZoomFactors[this.state.xZoomPos];
         const startIndex = values[0].index;
         const lastIndex = values[values.length - 1].index;
         let diff = lastIndex > startIndex ? lastIndex - startIndex : 1;

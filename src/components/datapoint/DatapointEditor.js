@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DatapointParameter from './DatapointParameter';
-import {getDatapointByID, getEmptyDatapoint } from "../../reducers/datapointReducer";
+import {getDatapointByID } from "../../reducers/datapointReducer";
 import {createNewDatapoint, updateDatapoint, deleteDatapoint} from "../../actions/datapointActions";
 import './DatapointEditor.css';
 import { toastr } from "react-redux-toastr";
@@ -19,7 +19,7 @@ class DatapointEditor extends Component {
     };
 
     componentWillReceiveProps(newProps) {
-        if(newProps.datapoint != this.state.datapoint) {
+        if(newProps.datapoint.id !== this.state.datapoint.id) {
             this.setState({
                 datapoint: newProps.datapoint,
                 modified: false,

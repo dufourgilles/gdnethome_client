@@ -14,7 +14,7 @@ class ConditionCreator extends FreezeView {
     };
 
     componentWillReceiveProps(newProps) {
-        if (newProps.condition != this.props.condition) {
+        if (newProps.condition.id !== this.props.condition.id) {
             this.setState({condition: newProps.condition, conditionLength: newProps.condition.conditionIDs.length > 0 ? newProps.condition.conditionIDs.length : 1});
         }
     }
@@ -94,20 +94,37 @@ class ConditionCreator extends FreezeView {
                 </React.Fragment>
             );
         }
-        else if (condition.operator === "NOT" || condition.operator.indexOf("COUNT") > 0) {
+        else if ((condition.operator === "NOT")||(condition.operator.indexOf("COUNT") > 0)) {
+            let paramValue = "";
+            if (condition.operator.indexOf("COUNT") > 0) {
+                paramValue = (
+                    <DatapointParameter
+                        key="triggerValue"
+                        validator={this.validateID}
+                        onChange={this.handleValueChange}
+                        editable={true}
+                        label="Trigger Value"
+                        name="triggerValue"
+                        data={condition}
+                    />
+                );
+            }
             return (
-                <DatapointParameter
-                    key="cond1"
-                    onChange={this.handleValueChange}
-                    label="Condition"
-                    name="conditionIDs"
-                    data={condition}
-                    list={conditions}
-                    filterKeys={["id"]}
-                    display={"id"}
-                    match={"id"}
-                    index={0}
-                />
+                <React.Fragment>
+                    <DatapointParameter
+                        key="cond1"
+                        onChange={this.handleValueChange}
+                        label="Condition"
+                        name="conditionIDs"
+                        data={condition}
+                        list={conditions}
+                        filterKeys={["id"]}
+                        display={"id"}
+                        match={"id"}
+                        index={0}
+                    />
+                    {paramValue}
+                </React.Fragment>
             );
         }
         else {
@@ -147,7 +164,7 @@ class ConditionCreator extends FreezeView {
         const saveFunc = () => {
             this.setFreezeOn();
             let createOrUpdate;
-            if (this.props.condition.id == "") {
+            if (this.props.condition.id === "") {
                 createOrUpdate = this.props.createNewCondition(condition);
             }
             else {
@@ -191,7 +208,7 @@ class ConditionCreator extends FreezeView {
                     key="id"
                     validator={this.validateID}
                     onChange={this.handleValueChange}
-                    editable={this.props.condition.id == ""}
+                    editable={this.props.condition.id === ""}
                     label="id"
                     name="id"
                     data={condition}

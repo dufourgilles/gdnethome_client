@@ -15,7 +15,7 @@ class ConditionView extends FreezeView {
 
     componentWillReceiveProps(newProps) {
         
-        if (this.state.condition.id != "") {
+        if (this.state.condition.id !== "") {
             const condition = this.props.getConditionByID(this.state.condition.id);
             if (condition) {
                 this.setState({condition});
