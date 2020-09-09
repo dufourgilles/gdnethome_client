@@ -145,15 +145,6 @@ class Dashboard extends Component {
       });
   };
 
-  // formatStatus = (status) => {
-  //   if (status === 1) {
-  //     return <FontAwesomeIcon icon={faLightbulb} style={{ color: "yellow" }} />;
-  //   } else {
-  //     //RegularFA.faLightbulb
-  //     return <FontAwesomeIcon icon={RegularFA.faLightbulb} />;
-  //   }
-  // };
-
   render() {
     const { executeAction, statusGroup, valuesGroup } = this.props;
     const {
@@ -172,20 +163,6 @@ class Dashboard extends Component {
       // TODO NO CONTENT
       return;
     }
-    // const statusLines = this.props.statusGroup.elements.map((dpctl) => {
-    //   const toggleSwitch = () => {
-    //     this.props.executeAction(dpctl, "toggle");
-    //   };
-    //   return (
-    //     <StatusLine
-    //       key={dpctl.id}
-    //       name={dpctl.name}
-    //       status={dpctl.value == null ? "unknown" : dpctl.value}
-    //       onClick={toggleSwitch}
-    //       formatStatus={this.formatStatus}
-    //     />
-    //   );
-    // });
 
     const valuesLines = valuesGroup.elements.map((dp) => {
       return (

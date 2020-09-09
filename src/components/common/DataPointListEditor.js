@@ -1,61 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Modal, Button } from "antd";
-import DatapointList from "../common/DatapointList";
-import FontAwesome from "react-fontawesome";
-import "./DataPointListEditor.scss";
-
-function _formatDataPoint(dp, action, arrowLeft = false) {
-  const selectDP = () => {
-    action(dp);
-  };
-  const tooltipID = `tooltip-${dp.id}`;
-  const displayTooltip = event => {
-    const tt = document.getElementById(tooltipID);
-    tt.style.display = "block";
-    tt.style.top = `${event.pageY + 18}px`;
-  };
-  const hideTooltip = () => {
-    const tt = document.getElementById(tooltipID);
-    tt.style.display = "none";
-  };
-  const lineAndArrow = arrowLeft ? (
-    <div className="datapointlisteditor-datapoint-line-unselect">
-      <FontAwesome name="caret-left" onClick={selectDP} />
-      <div
-        className="datapointlisteditor-datapoint-line-text"
-        onMouseOver={displayTooltip}
-        onMouseOut={hideTooltip}
-      >
-        {dp.name}
-      </div>
-    </div>
-  ) : (
-    <div className="datapointlisteditor-datapoint-line-select">
-      <div
-        className="datapointlisteditor-datapoint-line-text"
-        onMouseOver={displayTooltip}
-        onMouseOut={hideTooltip}
-      >
-        {dp.name}
-      </div>
-      <FontAwesome name="caret-right" onClick={selectDP} />
-    </div>
-  );
-
-  return (
-    <div key={dp.id}>
-      {lineAndArrow}
-      <div id={tooltipID} className="datapointlisteditor-tooltip">
-        <p>{dp.name}</p>
-        {`${dp.id} ${
-          dp.description == null ? dp.statusReaderID : dp.description
-        }`}
-      </div>
-    </div>
-  );
-}
+import { Modal, Transfer } from "antd";
 
 class DataPointListEditor extends Component {
   state = {
@@ -90,11 +36,7 @@ class DataPointListEditor extends Component {
     }
 
     if (this.state.visible !== this.props.visible) {
-      if (this.props.visible) {
-        this.show();
-      } else {
-        this.hide();
-      }
+      this.props.visible ? this.show() : this.hide();
     }
   }
 
@@ -103,44 +45,29 @@ class DataPointListEditor extends Component {
       ? this.props.datapointctls
       : this.props.datapoints;
     const groupElements = this.state.group.elements || [];
-    const selectableElements = elements.filter(dp => {
-      for (let element of groupElements) {
-        if (element.id === dp.id) {
-          return false;
-        }
-      }
-      return true;
-    });
-    const formatDatapoint = datapoint => {
-      return _formatDataPoint(datapoint, this.props.select);
-    };
-    const selectedDatapoints = groupElements.map(dp =>
-      _formatDataPoint(dp, this.props.unselect, true)
-    );
 
     return (
       <div className="modal-datapointlist-editor">
         <Modal
-          title="DataPoints"
+          title="Show / Hide Elements"
           visible={this.state.visible}
-          onHide={this.handleClose}
-          footer={[<Button onClick={this.handleClose}>Close</Button>]}
+          onCancel={this.handleClose}
+          footer={null}
+          width={700}
         >
-          <div className="datapointlisteditor-body">
-            <DatapointList
-              datapoints={selectableElements}
-              format={formatDatapoint}
-            />
-            <div className="datapointlisteditor-middle-arrow">
-              <div>
-                <FontAwesome name="arrow-right" />
-              </div>
-              <div>
-                <FontAwesome name="arrow-left" />
-              </div>
-            </div>
-            <div className="selected-datapoint-list">{selectedDatapoints}</div>
-          </div>
+          <Transfer 
+            dataSource={elements.map(({id, name, description, statusReaderID}) => ({key: id, title: name, description: description ? description : statusReaderID}))}
+            targetKeys={groupElements.map(({id}) => id).sort()}
+            render={item => `${item.key} - ${item.title} - ${item.description}`}
+            showSearch={true}
+            showSelectAll={false}
+            listStyle={{ width: 300, height: 700}}
+            onChange={(targetKeys, direction, moveKeys) => {
+              console.log({targetKeys, direction, moveKeys});
+              const action = direction === "right" ? this.props.select : this.props.unselect;
+              moveKeys.forEach(k => action({id: k}));
+            }}
+          />
         </Modal>
       </div>
     );
