@@ -76,7 +76,7 @@ export const getDatapointIndexedByName = createSelector(
 export const getDatapointByID = state => id =>
   getDatapointIndexedByName(state)[id];
 
-export const EMPTY_DATAPOINT = {
+const EMPTY_DATAPOINT = {
   name: "",
   id: "",
   description: "",
@@ -86,3 +86,7 @@ export const EMPTY_DATAPOINT = {
   actions: [],
   statusReaderID: null
 };
+
+export const getEmptyDatapoint = () => {
+  return Object.assign({}, EMPTY_DATAPOINT);
+}

@@ -13,12 +13,24 @@ const pages = [
 ];
 
 class DropDownMenu extends Component {
+    state = {
+        moseMovement: false
+    }
+    componentWillReceiveProps() {
+        this.setState({moseMovement: false});
+    }
     render() {
+        setTimeout(() => {
+            if (this.state.moseMovement === false) {                
+                this.props.close();
+            }
+        }, 2000);
         const handleOnMouseOut = (event) => {
             const e = event.toElement || event.relatedTarget;
             if ((e === null) ||
                 (e.parentNode.className ===  "app-header-dropdown") ||
                 (e.className === "app-header-dropdown")) {
+                this.setState({moseMovement: true});
                 return;
             }
             this.props.close();
@@ -48,7 +60,8 @@ class DropDownMenu extends Component {
 }
 
 DropDownMenu.prototypes = {
-    visisble: PropTypes.boolean
+    visisble: PropTypes.boolean,
+    close: PropTypes.function
 };
 
 export default connect(undefined, undefined)(DropDownMenu);

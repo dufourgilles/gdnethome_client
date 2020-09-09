@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import FreezeView from "../common/FreezeView";
 import PropTypes from 'prop-types';
 import DatapointParameter from '../datapoint/DatapointParameter';
-import {getDataPointCtlByID, EMPTY_DATAPOINTCTL} from "../../reducers/dataPointCtlReducer";
+import {getDataPointCtlByID } from "../../reducers/dataPointCtlReducer";
 import {fetchDPCTLTypes, createNewDataPointCtl, updateDataPointCtl, deleteDataPointCtl} from "../../actions/dataPointCtlAction";
 import { toastr } from "react-redux-toastr";
 import DataPointCtlActions from "./DataPointCtlActions";
@@ -13,7 +13,7 @@ const DATAPOINTCTL_NONE = {id: null, name: "none"};
 
 class DataPointCtlEditor extends FreezeView {
     state = {
-        dataPointCtl: Object.assign({}, this.props.dataPointCtl ),
+        dataPointCtl: this.props.dataPointCtl,
         editableID: true,
         modified: false,
         isNew: true,
@@ -21,14 +21,14 @@ class DataPointCtlEditor extends FreezeView {
         ctltypes: []
     };
 
+    componentWillReceiveProps(newProps) {
+        if (newProps.dataPointCtl.id !== this.state.dataPointCtl.id) {
+            this.setState({dataPointCtl: this.props.dataPointCtl});
+        }
+    }
+    
     newDataPointCtl = () => {
-        this.setState({
-            dataPointCtl: Object.assign({}, EMPTY_DATAPOINTCTL),
-            modified: false,
-            valid: false,
-            isNew: true,
-            editableID: true
-        });
+        this.props.newDataPointCtl();
     };
 
     saveDataPointCtl = () => {
@@ -217,7 +217,8 @@ DataPointCtlEditor.propTypes = {
     types: PropTypes.array.isRequired,
     getDataPointCtlByID: PropTypes.func.isRequired,
     createNewDataPointCtl: PropTypes.func.isRequired,
-    updateDataPointCtl: PropTypes.func.isRequired
+    updateDataPointCtl: PropTypes.func.isRequired,
+    newDataPointCtl: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

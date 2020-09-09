@@ -52,10 +52,14 @@ export const getConditionIndexedByName = createSelector(
  */
 export const getConditionByID = state => id => getConditionIndexedByName(state)[id];
 
-export const EMPTY_CONDITION = {
+const EMPTY_CONDITION = {
     id: "",
     operator: "EQUAL",
     conditionIDs: [],
     triggerValue: 0,
     triggerEventID: ""
 };
+
+export const getEmptyCondition = () => {
+    return Object.assign({}, EMPTY_CONDITION);
+}

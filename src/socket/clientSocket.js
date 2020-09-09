@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import {RECEIVED_EVENT} from './../actions/ActionTypes';
 import CircularBuffer from '../components/common/CircularBuffer';
 import {createReducer} from "../utils/reduxHelper";
-import {pollSystem} from "../actions/systemActions";
+//import {pollSystem} from "../actions/systemActions";
 
 // Get config
 const Config = window.Config;
@@ -35,7 +35,7 @@ export const eventReducer = createReducer(initialState, {
 });
 
 export const eventProcessor = () => dispatch => {
-    pollSystem()(dispatch);
+    //pollSystem()(dispatch);
     dispatch({type: RECEIVED_EVENT, events: [...eventBuffer]});
 };
 

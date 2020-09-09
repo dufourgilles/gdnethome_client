@@ -145,26 +145,19 @@ class GraphData extends Component {
     maxData = this.state.width - 30;
 
     findPrevIndex = (interval, values) => {
-        let curIndex = values[0].index;
-        let startX = Math.floor(this.props.getX(this.props.data[curIndex]) / interval) * interval;
-        let count = 0;
-        while(curIndex > 0) {
-            curIndex--;
-            const x = this.props.getX(this.props.data[curIndex]);
-            if (x > startX - interval) {
-                count++;
-            }
-            else {
-                while(x < startX - interval) {
-                    count++;
-                    startX -= interval;
-                }
-            }
-            if (count >= this.maxData) {
-                break;
-            }            
+        //const xInterval = interval / this.state.xZoomFactors[this.state.xZoomPos];
+        const startIndex = values[0].index;
+        const lastIndex = values[values.length - 1].index;
+        let diff = lastIndex > startIndex ? lastIndex - startIndex : 1;
+        if (startIndex < diff) {
+            return 0;
         }
-        return curIndex;
+        if (values.length === this.maxData) {
+            return startIndex - diff;
+        }        
+        const m = Math.floor(this.maxData / values.length) + 1;
+        diff *= m;
+        return startIndex >= diff ? startIndex - diff : 0;
     }
 
     getPoints = (values, index, height, interval, minY, maxY) => {
@@ -273,7 +266,7 @@ class GraphData extends Component {
         const getValueAtPos = (x, index) => {
             //const x = Math.round((values[i].x - values[0].x) / interval);
             const timestamp = x * interval + values[0].x;
-            console.log(values);
+            //console.log(values);
             for(let i = 0; i < values.length; i++) {
                 if (values[i].x >= timestamp) {
                     return values[i].y[index];
@@ -371,7 +364,7 @@ class GraphData extends Component {
                                 Prev
                         </div>
                         <div 
-                            className={`graphdata-btn${values[values.length - 1].index === this.props.data.length - 1 ? "-grey" : ""}`}
+                            className={`graphdata-btn${values.length < this.maxData ? "-grey" : ""}`}
                             onMouseUp={goNext}>
                                 Next
                         </div>

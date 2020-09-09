@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import FreezeView from "../common/FreezeView";
 import DatapointList from '../common/DatapointList';
 import DataPointCtlEditor from './DataPointCtlEditor';
-import { EMPTY_DATAPOINTCTL} from "../../reducers/dataPointCtlReducer";
+import { getEmptyDatapointCtl } from "../../reducers/dataPointCtlReducer";
 import {deleteAllDataPointCtls} from "../../actions/dataPointCtlAction";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
 
 class DataPointCtlView extends FreezeView {
     state = {
-        selectedDataPointCtl: EMPTY_DATAPOINTCTL,
+        selectedDataPointCtl: getEmptyDatapointCtl()
     };
 
     selectDataPointCtl = dataPointCtl => {
@@ -19,6 +19,10 @@ class DataPointCtlView extends FreezeView {
         }
         this.setState({selectedDataPointCtl: dataPointCtl});
     };
+
+    newDataPointCtl = () => {
+        this.setState({selectedDataPointCtl: getEmptyDatapointCtl()})
+    }
 
     handleDeleteAll = () =>  {
         this.setFreezeOn();
@@ -44,6 +48,7 @@ class DataPointCtlView extends FreezeView {
                         <DatapointList datapoints={this.props.dataPointCtls} select={this.selectDataPointCtl}/>
                         <DataPointCtlEditor
                             dataPointCtl={this.state.selectedDataPointCtl}
+                            newDataPointCtl={this.newDataPointCtl}
                         />
                     </div>
                 </div>

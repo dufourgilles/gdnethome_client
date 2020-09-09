@@ -4,7 +4,7 @@ import FreezeView from "../common/FreezeView";
 import {fetchActionTypes, createNewAction, updateAction} from "../../actions/actionActions";
 import ActionParameters from "./ActionParameters";
 import DatapointParameter from "../datapoint/DatapointParameter";
-import {EMPTY_ACTION} from "../../reducers/actionReducer";
+import { getEmptyAction } from "../../reducers/actionReducer";
 import {getActionTypeIndex, getActionTypeDefaultParameters} from "./common";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
@@ -13,7 +13,7 @@ class ActionCreator extends FreezeView {
     state = {
         actionTypes: [],
         advanced: false,
-        action: this.props.action == null ? EMPTY_ACTION : this.props.action
+        action: this.props.action == null ? getEmptyAction() : this.props.action
     };
 
     componentDidMount() {
@@ -49,6 +49,9 @@ class ActionCreator extends FreezeView {
         }
         else if (key === "triggerEventID" && value === "none") {
             value = "";
+        }
+        else if (key === "enable") {
+            value = value === "true" || value === true;
         }
         action[key] = value.id == null ? value : value.id;
         this.setState({action});
@@ -115,6 +118,14 @@ class ActionCreator extends FreezeView {
                         editable={true}
                     />
                     <DatapointParameter
+                        key="disabledInterval"
+                        onChange={this.handleValueChange}
+                        label="Disabled Interval"
+                        name="disabledInterval"
+                        data={action}
+                        editable={true}
+                    />
+                    <DatapointParameter
                         key="totalExecuted"
                         onChange={this.handleValueChange}
                         label="Total Executed"
@@ -156,7 +167,7 @@ class ActionCreator extends FreezeView {
         };
 
         const cancelFunc = () => {
-            this.setState({action: this.props.action == null ? EMPTY_ACTION : Object.assign({}, this.props.action)});
+            this.setState({action: this.props.action == null ? getEmptyAction() : Object.assign({}, this.props.action)});
         };
 
         const action = this.state.action;

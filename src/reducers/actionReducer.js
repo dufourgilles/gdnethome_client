@@ -49,7 +49,7 @@ export const getActionIndexedByName = createSelector(
  */
 export const getActionByID = state => id => getActionIndexedByName(state)[id];
 
-export const EMPTY_ACTION = {
+const EMPTY_ACTION = {
     id: "",
     type: "SaveEventAction",
     parameters: {},
@@ -61,3 +61,7 @@ export const EMPTY_ACTION = {
     executeIntervalSeconds: 0,
     delaySeconds: 0
 };
+
+export const getEmptyAction = () => {
+    return Object.assign({}, EMPTY_ACTION);
+}

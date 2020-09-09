@@ -22,6 +22,7 @@ class AppHeader extends Component {
         return (
             <div className="app-header">
                 <div className="app-header-title"><img alt="logo" src={logo} style={{width: "100px"}}/></div>
+                <div className="app-header-title"><img src={logo} style={{width: "100px"}} alt=""/></div>
                 <FontAwesome name="bars fa-4x header-menu-bars" onMouseEnter={this.openDropDownMenu}/>
                 <DropDownMenu visible={this.state.visible} close={this.closeDropDownMenu}/>
             </div>

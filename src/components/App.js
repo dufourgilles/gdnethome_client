@@ -24,8 +24,9 @@ import {
   PullRequestOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import './appheader/AppHeader';
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
-
+import './App.scss';
 const { Header, Content, Sider, Footer } = Layout;
 
 class App extends Component {
