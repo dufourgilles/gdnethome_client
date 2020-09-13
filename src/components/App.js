@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import ReduxToastr from "react-redux-toastr";
 import { Redirect, Route, Switch } from "react-router";
 import { Link, withRouter } from "react-router-dom";
+import SimpleBar from "simplebar-react";
+import { ReactQueryDevtools } from 'react-query-devtools'
+import { Layout, Menu, Row, Space, Spin } from "antd";
 import { pollSystem } from "../actions/systemActions";
 import { subscribeToEvents, eventProcessor } from "../socket/clientSocket";
 import ActionView from "./action/ActionView";
@@ -13,7 +16,6 @@ import DatapointView from "./datapoint/DatapointView";
 import DataPointCtlView from "./dataPointCtl/DataPointCtlView";
 import ReplayView from "./replay/ReplayView";
 import SettingsView from "./settings/SettingsView";
-import { Layout, Menu, Row, Space, Spin } from "antd";
 import {
   AppstoreAddOutlined,
   AppstoreOutlined,
@@ -22,11 +24,12 @@ import {
   ThunderboltOutlined,
   PlaySquareOutlined,
   PullRequestOutlined,
-  SettingOutlined,
+  SettingOutlined
 } from "@ant-design/icons";
-import './appheader/AppHeader';
+import "./appheader/AppHeader";
+import "simplebar/dist/simplebar.min.css";
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
-import './App.scss';
+import "./App.scss";
 const { Header, Content, Sider, Footer } = Layout;
 
 class App extends Component {
@@ -37,7 +40,8 @@ class App extends Component {
 
   render() {
     return (
-      <Layout style={{height: "100%"}}>
+      <>
+      <Layout style={{ height: "100%" }}>
         <Header>
           <div className="logo">GDNET Home</div>
         </Header>
@@ -93,63 +97,68 @@ class App extends Component {
                 </Menu.Item>
               </Menu>
             </Sider>
-            <Layout>
-              <Content style={{ padding: 10, overflow: "overlay" }}>
-                <Switch>
-                  <Route path="/action" component={ActionView} />
-                  <Route path="/condition" component={ConditionView} />
-                  <Route path="/dashboard" component={Dashboard} />
-                  <Route path="/datapointlist" component={DatapointView} />
-                  <Route path="/datapointctl" component={DataPointCtlView} />
-                  <Route path="/replay" component={ReplayView} />
-                  <Route path="/settings" component={SettingsView} />
-                  <Redirect from="/" to="/dashboard" />
-                </Switch>
-                <ReduxToastr
-                  timeOut={2000}
-                  newestOnTop={true}
-                  preventDuplicates
-                  position="top-right"
-                  transitionIn="fadeIn"
-                  transitionOut="fadeOut"
-                  progressBar={true}
-                />
-              </Content>
-              <Footer>
-                <Space>
-                  <CopyrightCircleOutlined />
-                  <span>
-                    2019-{new Date().getFullYear()} Gdnet SPRL All rights
-                    reserved.
-                  </span>
-                </Space>
-              </Footer>
-            </Layout>
+              <SimpleBar className="ant-layout simplebar-scrollable-y" autoHide={false}>
+                <Content style={{ padding: 10 }}>
+                  <Switch>
+                    <Route path="/action" component={ActionView} />
+                    <Route path="/condition" component={ConditionView} />
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/datapointlist" component={DatapointView} />
+                    <Route path="/datapointctl" component={DataPointCtlView} />
+                    <Route path="/replay" component={ReplayView} />
+                    <Route path="/settings" component={SettingsView} />
+                    <Redirect from="/" to="/dashboard" />
+                  </Switch>
+                  <ReduxToastr
+                    timeOut={2000}
+                    newestOnTop={true}
+                    preventDuplicates
+                    position="top-right"
+                    transitionIn="fadeIn"
+                    transitionOut="fadeOut"
+                    progressBar={true}
+                  />
+                </Content>
+                <Footer>
+                  <Space>
+                    <CopyrightCircleOutlined />
+                    <span>
+                      2019-{new Date().getFullYear()} Gdnet SPRL All rights
+                      reserved.
+                    </span>
+                  </Space>
+                </Footer>
+              </SimpleBar>
           </Layout>
         ) : (
           <Layout>
-            <Row align="middle" style={{ height: "90vh", justifyContent: "center"}}>
+            <Row
+              align="middle"
+              style={{ height: "90vh", justifyContent: "center" }}
+            >
               <Spin size="large" delay={500} tip="Connecting the server..." />
             </Row>
           </Layout>
         )}
       </Layout>
+      <ReactQueryDevtools initialIsOpen={false} />
+      </>
     );
   }
 }
 
 App.propTypes = {
   pollSystem: PropTypes.func.isRequired,
-  eventProcessor: PropTypes.func.isRequired,
+  eventProcessor: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  app: state.app,
+const mapStateToProps = ({ app }) => ({
+  app
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  eventProcessor: () => eventProcessor()(dispatch),
-  pollSystem: () => pollSystem()(dispatch),
-});
+const mapDispatchToProps = {
+  eventProcessor,
+  pollSystem
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

@@ -1,36 +1,29 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Typography } from "antd";
-import FreezeView from "../common/FreezeView";
-import { fetchActionTypes } from "../../actions/actionActions";
-import ActionTabs from "./ActionTabs";
-import "./ActionView.scss";
-const {Title} = Typography;
+import { Tabs, Typography } from "antd";
+import ActionCreator from "./ActionCreator";
+import ActionMonitor from "./ActionMonitor";
+import ActionEditor from "./ActionEditor";
 
-class ActionView extends FreezeView {
-  state = {
-    types: [],
-  };
+const { Title } = Typography;
+const { TabPane } = Tabs;
 
-  componentDidMount() {
-    this.setFreezeOn();
-    fetchActionTypes().then((types) => {
-      this.setState({ types });
-      this.setFreezeOff();
-    });
-  }
-
-  renderContent() {
-    return (
-      <>
-        <Typography>
-            <Title level={3}>Actions</Title>
-        </Typography>
-        <div className="gdnet-title">Actions</div>
-        <ActionTabs />
-      </>
-    );
-  }
+export default function ActionView() {
+  return (
+    <>
+      <Typography>
+        <Title level={3}>Actions</Title>
+      </Typography>
+      <Tabs id="action-tabs" defaultActiveKey="Create">
+        <TabPane key="Create" tab="Create">
+          <ActionCreator />
+        </TabPane>
+        <TabPane key="Edit" tab="Edit">
+          <ActionEditor />
+        </TabPane>
+        <TabPane key="Monitor" tab="Monitor">
+          <ActionMonitor />
+        </TabPane>
+      </Tabs>
+    </>
+  );
 }
-
-export default connect(undefined, undefined)(ActionView);

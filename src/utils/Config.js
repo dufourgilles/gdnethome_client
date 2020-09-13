@@ -1,7 +1,7 @@
 const protocol = window.location.protocol;
 const hostname = window.location.hostname;
 const baseUrl = `${protocol}//${hostname}`;
-window.Config = Object.assign({}, {
+const DEFAULT_CONFIG = {
     "serverURL": `${baseUrl}:8080`,
     "serverSocket": `${baseUrl}:8081`,
     "maxNotif": 1024,
@@ -11,4 +11,6 @@ window.Config = Object.assign({}, {
         "default": 1000
     },
     "bandwidthsMaxRetention": 60 // seconds
-} , window.Config);
+};
+
+window.Config = { ...DEFAULT_CONFIG , ...window.Config};

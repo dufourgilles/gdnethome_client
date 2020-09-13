@@ -5,6 +5,7 @@ import { fetchReplayInfo, updateReplayInfo } from "../../actions/replayActions";
 import { toastr } from "react-redux-toastr";
 import {connect} from 'react-redux';
 import "./ReplayView.scss";
+import { Button } from 'antd';
 
 class ReplayView extends FreezeView {
     state = {
@@ -53,8 +54,8 @@ class ReplayView extends FreezeView {
                 <div className="gdnet-title">Replay</div>
                 <div className="replay-view">
                     <div className="replay-view-actions">
-                        <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
-                        <div className="datapoint-editor-button" onClick={cancelFunc}>Cancel</div>
+                        <Button onClick={saveFunc}>Save</Button>
+                        <Button onClick={cancelFunc}>Cancel</Button>
                     </div>
                     <DatapointParameter 
                         key="enable"

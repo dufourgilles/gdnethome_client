@@ -7,6 +7,7 @@ import "./utils/Config";
 import App from "./components/App";
 import store from "./store/GDNetHomeClientStore";
 import GlobalStyle from "./GlobalStyle";
+import "overlayscrollbars/css/OverlayScrollbars.css";
 
 console.log("Starting");
 render(

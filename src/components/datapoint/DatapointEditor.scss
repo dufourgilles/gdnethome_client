@@ -34,41 +34,13 @@
 //   flex-direction: row;
 // }
 
-// .datapoint-editor-button {
-//   margin: 5px;
-//   padding: 5px;
-//   border-radius: 7px;
-//   border: solid 1px white;
-//   background-color: $gdnet-purple;
-//   width: 70px;
-//   text-align: center;
-// }
+.datapoint-parameter-invalid {
+  height: 3px;
+  width: 131px;
+  background-color: red;
+}
 
-// .datapoint-editor-button:hover {
-//   margin: 5px;
-//   padding: 5px;
-//   border-radius: 7px;
-//   border: solid 1px white;
-//   background-color: $gdnet-purple;
-//   cursor: pointer;
-// }
-
-
-// .datapoint-editor-button-disabled {
-//   margin: 5px;
-//   border-radius: 7px;
-//   border: solid 1px white;
-//   background-color: $gdnet-grey;
-//   padding: 5px;
-// }
-
-// .datapoint-parameter-invalid {
-//   height: 3px;
-//   width: 131px;
-//   background-color: red;
-// }
-
-// .datapoint-parameter-valid {
-//   height: 3px;
-//   width: 131px;
-// }
+.datapoint-parameter-valid {
+  height: 3px;
+  width: 131px;
+}

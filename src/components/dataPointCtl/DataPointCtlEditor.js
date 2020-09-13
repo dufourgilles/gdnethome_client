@@ -7,6 +7,7 @@ import {getDataPointCtlByID } from "../../reducers/dataPointCtlReducer";
 import {fetchDPCTLTypes, createNewDataPointCtl, updateDataPointCtl, deleteDataPointCtl} from "../../actions/dataPointCtlAction";
 import { toastr } from "react-redux-toastr";
 import DataPointCtlActions from "./DataPointCtlActions";
+import { Button } from 'antd';
 
 const DATAPOINTCTL_NONE = {id: null, name: "none"};
 
@@ -134,14 +135,6 @@ class DataPointCtlEditor extends FreezeView {
 
     renderContent() {
         const dataPointCtl = this.state.dataPointCtl;
-        let savebtnClassname, saveFunc;
-        if (this.state.valid && this.state.modified) {
-            savebtnClassname = "datapoint-editor-button";
-            saveFunc = this.saveDataPointCtl;
-        }
-        else {
-            savebtnClassname = "datapoint-editor-button-disabled";
-        }
         const statusReaders = this.props.dataPoints.concat(DATAPOINTCTL_NONE);
         const commandWriters = this.props.dataPoints.concat(DATAPOINTCTL_NONE);
         const actions = this.state.isNew ? "" : (<DataPointCtlActions dataPointCtl={dataPointCtl} />);
@@ -151,9 +144,9 @@ class DataPointCtlEditor extends FreezeView {
         return (
             <div className="datapoint-editor">
                 <div className="datapoint-editor-actions">
-                    <div className="datapoint-editor-button" onClick={this.newDataPointCtl}>New</div>
-                    <div className={savebtnClassname} onClick={saveFunc}>Save</div>
-                    <div className="datapoint-editor-button" onClick={this.deleteDataPointCtl}>Delete</div>
+                    <Button onClick={this.newDataPointCtl}>New</Button>
+                    <Button disabled={!(this.state.valid && this.state.modified)} onClick={this.saveDataPointCtl}>Save</Button>
+                    <Button onClick={this.deleteDataPointCtl}>Delete</Button>
                 </div>
                 <DatapointParameter
                     key="id"

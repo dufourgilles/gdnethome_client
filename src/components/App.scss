@@ -8,3 +8,7 @@
   text-decoration-line: overline;
   margin-left: -30px;
 }
+
+.simplebar-scrollbar::before {
+  background-color: $primary;
+}

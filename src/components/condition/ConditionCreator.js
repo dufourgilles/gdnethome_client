@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchConditionTypes, createNewCondition, updateCondition } from "../../actions/conditionActions";
-import DatapointParameter from "../datapoint/DatapointParameter";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
+import { Button } from "antd";
+import DatapointParameter from "../datapoint/DatapointParameter";
+import { fetchConditionTypes, createNewCondition, updateCondition } from "../../actions/conditionActions";
 import FreezeView from "../common/FreezeView";
 
 class ConditionCreator extends FreezeView {
@@ -193,15 +194,15 @@ class ConditionCreator extends FreezeView {
 
         const op = condition.operator;
         const addConditionBtn = op === "AND" || op === "OR" || (op === "NOT" && this.state.conditionLength < 1) ? 
-        (<div className="datapoint-editor-button" onClick={addConditionFunc}>more</div>) :
+        (<Button onClick={addConditionFunc}>more</Button>) :
         "";
 
         return (
             <div className="condition-creator">
                 <div className="action-actions">
-                    <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
-                    <div className="datapoint-editor-button" onClick={newFunc}>New</div>
-                    <div className="datapoint-editor-button" onClick={cancelFunc}>Cancel</div>
+                    <Button onClick={saveFunc}>Save</Button>
+                    <Button onClick={newFunc}>New</Button>
+                    <Button onClick={cancelFunc}>Cancel</Button>
                     {addConditionBtn}
                 </div>
                 <DatapointParameter
