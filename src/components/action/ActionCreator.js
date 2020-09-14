@@ -12,7 +12,7 @@ import { getEmptyAction } from "../../reducers/actionReducer";
 import { getActionTypeIndex, getActionTypeDefaultParameters } from "./common";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
-import { Button, Form } from "antd";
+import { Button, Form, Switch } from "antd";
 
 const ActionCreator = props => {
   const [actionTypes, setActionTypes] = useState([]);
@@ -80,8 +80,7 @@ const ActionCreator = props => {
   const renderAdvancedParams = () => {
     if (advanced) {
       return (
-        <div className="action-advanced-params">
-          <Button onMouseUp={toggleAdvancedParams}>hide advanced params</Button>
+        <>
           <DatapointParameter
             onChange={handleValueChange}
             label="Max Execution"
@@ -143,20 +142,24 @@ const ActionCreator = props => {
             data={action}
             editable={false}
           />
-        </div>
+        </>
       );
-    } else {
-      return <Button onMouseUp={toggleAdvancedParams}>advanced params</Button>;
     }
   };
 
   const actionTypeIndex = getActionTypeIndex(actionTypes, action.type);
+  const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 8 }
+  };
   return (
-    <Form labelCol={{ span: 8 }} wapperCol={{ span: 16 }} name="CreateAction">
-      <div className="action-actions">
-        <Button onClick={saveFunc}>Save</Button>
+    <Form {...layout} name="CreateAction">
+      <Form.Item wrapperCol={{ offset: 8 }}>
+        <Button type="primary" onClick={saveFunc}>
+          Save
+        </Button>
         <Button onClick={cancelFunc}>Cancel</Button>
-      </div>
+      </Form.Item>
       <DatapointParameter
         validator={validateID}
         onChange={handleValueChange}
@@ -195,6 +198,9 @@ const ActionCreator = props => {
         match="id"
         filterKeys={["id", "name"]}
       />
+      <Form.Item label="advanced params">
+          <Switch onMouseUp={toggleAdvancedParams} />
+        </Form.Item>
       {renderAdvancedParams()}
       {actionTypeIndex >= 0 && (
         <ActionParameters

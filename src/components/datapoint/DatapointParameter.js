@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TextSelect from "../common/TextSelect";
-import { Form, Input } from "antd";
+import { Form, Input, Select } from "antd";
 
 export default class DatapointParameter extends Component {
   state = {
@@ -12,9 +12,9 @@ export default class DatapointParameter extends Component {
     this.setState({ disableFilter: !this.state.disableFilter });
   };
 
-  valueChanged = e => {
+  valueChanged = (value) => {
     if (this.props.onChange != null) {
-      this.props.onChange(this.props.name, e.target.value, this.props.index);
+      this.props.onChange(this.props.name, value, this.props.index);
     }
   };
 
@@ -64,19 +64,9 @@ export default class DatapointParameter extends Component {
       } else {
         displayName = item[this.props.display];
       }
-      return (
-        <option
-          key={item[this.props.match]}
-          value={item[this.props.match]}
-          size="40"
-        >
-          {displayName}
-        </option>
-      );
+      return {label: displayName, value: item[this.props.match]}
     };
     let checkBox;
-    const className =
-      this.props.className == null ? "datapoint-editor-value" : "";
     if (this.props.filterKeys) {
       checkBox = (
         <input
@@ -91,23 +81,22 @@ export default class DatapointParameter extends Component {
     }
     const value = this.getValue() != null ? this.getValue() : "";
     return (
-      <div className={className}>
-        <select
+      <>
+        <Select
           name={this.props.name}
           value={value}
           onChange={this.valueChanged}
           onBlur={this.props.onFocusOut}
-        >
-          {this.props.list.map(option)}
-        </select>
+          options={this.props.list.map(option)}
+        />
         {checkBox}
-      </div>
+      </>
     );
   };
 
   renderTextList = () => {
     return (
-      <React.Fragment>
+      <>
         <TextSelect
           data={this.props.data}
           name={this.props.name}
@@ -125,7 +114,7 @@ export default class DatapointParameter extends Component {
           style={{ marginTop: "7px", marginLeft: "7px" }}
           onChange={this.handleFilterSelect}
         />
-      </React.Fragment>
+      </>
     );
   };
 
