@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getDataPointCtlByID } from "../../reducers/dataPointCtlReducer";
 import DatapointParameter from "../datapoint/DatapointParameter";
-import { Form, Select } from "antd";
+import { Form, Input, Select } from "antd";
 
 class ActionParameter extends Component {
   getValue(paramName, data) {
@@ -35,7 +35,6 @@ class ActionParameter extends Component {
           this.props.onChange(key, value.id);
         };
         return (
-          <div className="action-parameter-info">
             <DatapointParameter
               key="triggerID"
               onChange={handleChange}
@@ -47,34 +46,29 @@ class ActionParameter extends Component {
               display="name"
               filterKeys={["id", "name"]}
             />
-          </div>
         );
       } else {
-        const handleChange = evt => {
-          let _value = evt.target.value;
+        const handleChange = value => {
           if (parameterInfo === "number") {
-            _value = Number(_value);
+            value = Number(value);
           } else if (parameterInfo === "array") {
             try {
-              _value = _value.split(",");
+              value = value.split(",");
             } catch (e) {
               console.log(e);
               return;
             }
           }
-          this.props.onChange(name, _value);
+          this.props.onChange(name, value);
         };
         let value = this.getValue(name, data);
         if (parameterInfo === "array") {
           value = value.join(",");
         }
         return (
-          <div className="action-parameter-info">
-            <div className="action-parameter-info-name">{name}</div>
-            <div className="action-parameter-info-value">
-              <input name={name} value={value} onChange={handleChange} />
-            </div>
-          </div>
+          <Form.Item label={name}>
+            <Input name={name} value={value} onChange={handleChange} />
+          </Form.Item>
         );
       }
     } else if (parameterInfo.value === "enum") {

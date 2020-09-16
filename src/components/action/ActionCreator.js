@@ -182,11 +182,11 @@ const ActionCreator = props => {
         onChange={handleValueChange}
         label="trigger"
         name="triggerEventID"
-        data={action}
-        list={props.triggers}
+        data={action} // current data
+        list={props.triggers} // input
         match="id"
         display={displayTriggerName}
-        filterKeys={["id", "name"]}
+        filterKeys={["id", "name"]} // keys in data to use for filter
       />
       <DatapointParameter
         onChange={handleValueChange}
@@ -199,8 +199,8 @@ const ActionCreator = props => {
         filterKeys={["id", "name"]}
       />
       <Form.Item label="advanced params">
-          <Switch onMouseUp={toggleAdvancedParams} />
-        </Form.Item>
+        <Switch onMouseUp={toggleAdvancedParams} />
+      </Form.Item>
       {renderAdvancedParams()}
       {actionTypeIndex >= 0 && (
         <ActionParameters

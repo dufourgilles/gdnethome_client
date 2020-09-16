@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TextSelect from "../common/TextSelect";
-import { Form, Input, Select } from "antd";
+import { Checkbox, Form, Input, Select } from "antd";
 
 export default class DatapointParameter extends Component {
   state = {
     disableFilter: false
   };
 
-  handleFilterSelect = e => {
+  handleFilterSelect = () => {
     this.setState({ disableFilter: !this.state.disableFilter });
   };
 
@@ -58,19 +58,15 @@ export default class DatapointParameter extends Component {
         console.log(new Error("Error null item"), "\n", this.props, this.state);
         return "";
       }
-      let displayName;
-      if (typeof this.props.display === "function") {
-        displayName = this.props.display(item);
-      } else {
-        displayName = item[this.props.display];
-      }
-      return {label: displayName, value: item[this.props.match]}
+      let label = typeof this.props.display === "function" ?
+        this.props.display(item) :
+        item[this.props.display];
+      return {label, value: item[this.props.match]}
     };
     let checkBox;
     if (this.props.filterKeys) {
       checkBox = (
-        <input
-          type="checkbox"
+        <Checkbox
           name="disableFilter"
           style={{ marginTop: "7px", marginLeft: "7px" }}
           onChange={this.handleFilterSelect}
@@ -108,8 +104,7 @@ export default class DatapointParameter extends Component {
           index={this.props.index}
           filterKeys={this.props.filterKeys}
         />
-        <input
-          type="checkbox"
+        <Checkbox
           name="disableFilter"
           style={{ marginTop: "7px", marginLeft: "7px" }}
           onChange={this.handleFilterSelect}

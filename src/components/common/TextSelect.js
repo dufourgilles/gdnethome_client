@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import "./TextSelect.scss";
+import { Input } from 'antd';
 
 class TextSelect extends Component {
     state = {
@@ -85,7 +86,7 @@ class TextSelect extends Component {
         return (
             <div className="text-select">
                 <div className="text-select-selection">
-                    <input 
+                    <Input 
                         name = {this.props.name} 
                         value={this.state.value} 
                         onChange={this.handleValueChange}
