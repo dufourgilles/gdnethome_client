@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useQuery } from "react-query";
 import {
@@ -12,26 +12,32 @@ import { getEmptyAction } from "../../reducers/actionReducer";
 import { getActionTypeIndex, getActionTypeDefaultParameters } from "./common";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
-import { Button, Form, Switch } from "antd";
+import { Button, Form, Result, Space, Spin, Switch } from "antd";
 
 const ActionCreator = props => {
-  const [actionTypes, setActionTypes] = useState([]);
   const [advanced, setAdvanced] = useState(false);
   const [action, setAction] = useState(
-    props.action == null ? getEmptyAction() : props.action
+    props.action.fresh == null ? getEmptyAction() : props.action
   );
-  const { isLoading, error, data } = useQuery("actionTypes", () => {
-    return fetchActionTypes().then(actionTypes => {
-      if (props.action == null) {
-        action.parameters = getActionTypeDefaultParameters(
-          actionTypes,
-          action.type
-        );
-      }
-      setAction(action);
-      setActionTypes(actionTypes);
-    });
-  });
+  // const { isLoading, isError, error, data } = useQuery("actionTypes", () => {
+  const {isLoading, isError, error, data: actionTypes } = useQuery("actionTypes", fetchActionTypes);
+      // if (props.action == null) {
+      //   action.parameters = getActionTypeDefaultParameters(
+      //     actionTypes,
+      //     action.type
+      //   );
+      // }
+      // // setActionTypes(actionTypes);
+      // return data;
+  // });
+
+
+  if(isLoading) {
+    return <Space><Spin size="large" /></Space>;
+  }
+  if(isError) {
+    return <Result status="warning" title={error.message} />;
+  }
 
   const handleValueChange = (key, value) => {
     if (key === "type" && action.type !== value) {
@@ -213,6 +219,10 @@ const ActionCreator = props => {
     </Form>
   );
 };
+
+ActionCreator.defaultProps = {
+ action: getEmptyAction()
+}
 
 ActionCreator.propTypes = {
   triggers: PropTypes.array.isRequired,

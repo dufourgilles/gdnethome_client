@@ -41,7 +41,7 @@ class App extends Component {
   render() {
     return (
       <>
-      <Layout style={{ height: "100%" }}>
+      <Layout style={{ height: "100vh" }}>
         <Header>
           <div className="logo">GDNET Home</div>
         </Header>

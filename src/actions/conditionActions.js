@@ -61,9 +61,9 @@ export const updateCondition =  dispatch => condition => {
 
 /* DELETE */
 
-export const deleteCondition = dispatch => condition => {
+export const deleteCondition = dispatch => id => {
     dispatch({type: types.DELETE_CONDITION_PENDING});
-    return Api.delete(`${CONDITION_BASE_URI}/{id}`, {id: condition.id})
+    return Api.delete(`${CONDITION_BASE_URI}/{id}`, {id})
         .then(
             () => _fetchConditions(dispatch),
             error => {

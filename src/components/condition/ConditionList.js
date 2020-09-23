@@ -1,73 +1,77 @@
-import React from 'react';
+import React from "react";
 import { toastr } from "react-redux-toastr";
-import FontAwesome from 'react-fontawesome';
-import { Button } from 'antd';
-import { connect } from 'react-redux';
+import FontAwesome from "react-fontawesome";
+import { Button, List } from "antd";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { deleteCondition } from "../../actions/conditionActions";
 
 class ConditionList extends React.Component {
-    renderCondition = () => {
-        let conditions = this.props.conditions || [];
-        if (conditions.length > 0) {
-            // remove "none"
-            conditions = conditions.slice(1);            
-        }
-        return conditions.map(condition => {
-            if (condition == null) {
-                console.log(new Error("null condition"), "\n",conditions,"\n",this.props);
-                debugger;
-                return null;
-            }
-            const handleDelete = () => {
-                this.props.deleteCondition(condition)
-                    .then(() => {
-                        this.props.deleteCondition();
-                        toastr.success('Success', "Save OK");
-                    })
-                    .catch(e => toastr.error('Error', e.message));
-            };
-            const handleSelect = event => {
-                event.preventDefault();
-                this.props.onSelect(condition);
-            };            
-            return (
-                <div className="action-list-item" key={condition.id}>
-                    <div className="action-item-name">{condition.id}</div>
-                    <Button id="btnDeleteCondition" className="condition-item-delete" onClick={handleDelete}>
-                        <FontAwesome name="trash"/>
-                    </Button>
-                    <Button id="btnEditCondition" className="condition-item-edit" onClick={handleSelect}>
-                        <FontAwesome name="edit"/>
-                    </Button>
-                </div>         
-                );
-        });
-    }
+    renderCondition = condition => {
+      if (condition == null) {
+        console.log(
+          new Error("null condition"),
+          "\n",
+          this.props.conditions,
+          "\n",
+        );
+        debugger;
+        return null;
+      }
+      const handleDelete = () => {
+        this.props
+          .deleteCondition(condition.id)
+          .then(() => {
+            this.props.deleteCondition();
+            toastr.success("Success", "Save OK");
+          })
+          .catch(e => toastr.error("Error", e.message));
+      };
+      const handleSelect = event => {
+        event.preventDefault();
+        this.props.onSelect(condition);
+      };
+      return (
+        <List.Item
+        actions={[
+          <Button
+            onClick={handleDelete}
+          >
+            <FontAwesome name="trash" />
+          </Button>,
+          <Button
+            onClick={handleSelect}
+          >
+            <FontAwesome name="edit" />
+          </Button>
+        ]}
+        >
+          <List.Item.Meta title={condition.id} />
+        </List.Item>
+      );
+    // });
+  };
 
-    render() {
-        return (
-            <div id="condition-list">
-                {this.renderCondition()}
-            </div>
-        )
-    }
+  render() {
+    return <List 
+      itemLayout="horizontal"
+      dataSource={this.props.conditions.slice(1)}
+      renderItem={this.renderCondition}
+    />;
+  }
 }
 
 ConditionList.propTypes = {
-    conditions: PropTypes.array.isRequired,
-    deleteCondition: PropTypes.func.isRequired
+  conditions: PropTypes.array.isRequired,
+  deleteCondition: PropTypes.func.isRequired
 };
 
-
 const mapStateToProps = state => ({
-    conditions: state.conditions.items
+  conditions: state.conditions.items
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        deleteCondition: deleteCondition(dispatch)
-    }
-  };
+const mapDispatchToProps = {
+  deleteCondition
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConditionList);

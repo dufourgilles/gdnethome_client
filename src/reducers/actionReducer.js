@@ -63,5 +63,5 @@ const EMPTY_ACTION = {
 };
 
 export const getEmptyAction = () => {
-    return Object.assign({}, EMPTY_ACTION);
+    return {...EMPTY_ACTION, fresh:true};
 }
