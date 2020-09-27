@@ -48,7 +48,7 @@ class DataPointCtlView extends React.Component {
               select={this.selectDataPointCtl}
             />
           </Col>
-          <Col span={8}>
+          <Col span={16}>
             <DataPointCtlEditor
               dataPointCtl={this.state.selectedDataPointCtl}
               newDataPointCtl={this.newDataPointCtl}
