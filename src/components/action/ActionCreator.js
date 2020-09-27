@@ -21,16 +21,6 @@ const ActionCreator = props => {
   );
   // const { isLoading, isError, error, data } = useQuery("actionTypes", () => {
   const {isLoading, isError, error, data: actionTypes } = useQuery("actionTypes", fetchActionTypes);
-      // if (props.action == null) {
-      //   action.parameters = getActionTypeDefaultParameters(
-      //     actionTypes,
-      //     action.type
-      //   );
-      // }
-      // // setActionTypes(actionTypes);
-      // return data;
-  // });
-
 
   if(isLoading) {
     return <Space><Spin size="large" /></Space>;

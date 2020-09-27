@@ -28,9 +28,6 @@ export default class ActionParameters extends Component {
       if (name == null || name.length === 0 || name[0] === "_") {
         return null;
       }
-      // const _handleChange = (fullParamName, value) => {
-      //   handleChange(fullParamName, value);
-      // };
       renderedParameters.push(
         <ActionParameter
           key={name}

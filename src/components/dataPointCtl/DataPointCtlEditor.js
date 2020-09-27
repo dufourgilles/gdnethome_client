@@ -1,18 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FreezeView from "../common/FreezeView";
 import PropTypes from 'prop-types';
 import DatapointParameter from '../datapoint/DatapointParameter';
 import {getDataPointCtlByID } from "../../reducers/dataPointCtlReducer";
 import {fetchDPCTLTypes, createNewDataPointCtl, updateDataPointCtl, deleteDataPointCtl} from "../../actions/dataPointCtlAction";
 import { toastr } from "react-redux-toastr";
 import DataPointCtlActions from "./DataPointCtlActions";
-import { Button } from 'antd';
+import { Button, Form } from 'antd';
 
 const DATAPOINTCTL_NONE = {id: null, name: "none"};
 
-
-class DataPointCtlEditor extends FreezeView {
+class DataPointCtlEditor extends React.Component {
     state = {
         dataPointCtl: this.props.dataPointCtl,
         editableID: true,
@@ -33,7 +31,6 @@ class DataPointCtlEditor extends FreezeView {
     };
 
     saveDataPointCtl = () => {
-        this.setFreezeOn();
         let action;
         if (this.state.isNew) {
             action = this.props.createNewDataPointCtl(this.state.dataPointCtl)
@@ -48,9 +45,6 @@ class DataPointCtlEditor extends FreezeView {
         .catch(e => {
             toastr.error('Error', e.message);
         })
-        .then(() => {
-            this.setFreezeOff();
-        });
     };
 
     deleteDataPointCtl = () => {
@@ -63,9 +57,6 @@ class DataPointCtlEditor extends FreezeView {
         .catch(e => {
             toastr.error('Error', e.message);
         })
-        .then(() => {
-            this.setFreezeOff();
-        });
     };
 
     validateID = id => {
@@ -82,9 +73,6 @@ class DataPointCtlEditor extends FreezeView {
     };
 
     handleValueChange = (key, value) => {
-        if (this.isFreezed() === true) {
-            return;
-        }
         const dataPointCtl = Object.assign({}, this.state.dataPointCtl);
         if (key === "statusReaderID") {
             if (value.id === "none") {
@@ -133,21 +121,25 @@ class DataPointCtlEditor extends FreezeView {
         });
     }
 
-    renderContent() {
+    render() {
         const dataPointCtl = this.state.dataPointCtl;
         const statusReaders = this.props.dataPoints.concat(DATAPOINTCTL_NONE);
         const commandWriters = this.props.dataPoints.concat(DATAPOINTCTL_NONE);
         const actions = this.state.isNew ? "" : (<DataPointCtlActions dataPointCtl={dataPointCtl} />);
+        const layout = {
+          labelCol: { span: 8 },
+          wrapperCol: { span: 8 }
+        };
         const displayDataPointItem = item => {
             return `${item.name}(${item.id})`;
         }
         return (
-            <div className="datapoint-editor">
-                <div className="datapoint-editor-actions">
+            <Form {...layout} name="EditDatapointCtl">
+                <Form.Item wrapperCol={{offset: 8}}>
                     <Button onClick={this.newDataPointCtl}>New</Button>
                     <Button disabled={!(this.state.valid && this.state.modified)} onClick={this.saveDataPointCtl}>Save</Button>
                     <Button onClick={this.deleteDataPointCtl}>Delete</Button>
-                </div>
+                </Form.Item>
                 <DatapointParameter
                     key="id"
                     validator={this.validateID}
@@ -159,7 +151,7 @@ class DataPointCtlEditor extends FreezeView {
                 />
                 <DatapointParameter
                     key="name"
-                    editable={!this.isFreezed()}
+                    editable={true} // was !this.isFreezed()
                     label="name"
                     name="name"
                     onChange={this.handleValueChange}
@@ -198,7 +190,7 @@ class DataPointCtlEditor extends FreezeView {
                     display={displayDataPointItem}
                 />
                 {actions}
-            </div>
+            </Form>
         );
     }
 }

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Modal, Button } from "antd";
 
-class PopupBox extends Component {
+export default class PopupBox extends Component {
   state = {
     visible: this.props.visible,
     data: null
@@ -77,5 +76,3 @@ PopupBox.propTypes = {
   onExit: PropTypes.func,
   onConfirm: PropTypes.func
 };
-
-export default connect(undefined, undefined)(PopupBox);

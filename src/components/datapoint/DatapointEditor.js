@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Button } from "antd";
+import { Button, Form } from "antd";
 import DatapointParameter from "./DatapointParameter";
 import { getDatapointByID } from "../../reducers/datapointReducer";
 import {
@@ -9,7 +9,6 @@ import {
   updateDatapoint,
   deleteDatapoint,
 } from "../../actions/datapointActions";
-import "./DatapointEditor.scss";
 import { toastr } from "react-redux-toastr";
 
 class DatapointEditor extends Component {
@@ -45,7 +44,7 @@ class DatapointEditor extends Component {
   };
 
   saveDatapoint = () => {
-    this.setFreeze(true);
+    this.props.setFreeze(true);
     let action;
     if (this.state.isNew) {
       action = this.props.createNewDatapoint(this.state.datapoint);
@@ -55,7 +54,7 @@ class DatapointEditor extends Component {
     return action
       .then(() => toastr.success("Success", "Save OK"))
       .catch((e) => toastr.error("Error", e.message))
-      .then(() => this.setFreeze(false));
+      .then(() => this.props.setFreeze(false));
   };
 
   deleteDatapoint = () => {
@@ -118,16 +117,20 @@ class DatapointEditor extends Component {
   render() {
     const datapoint = this.state.datapoint;
     let savebtnDisabled = !(this.state.valid && this.state.modified);
+    const layout = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 8 }
+    };
 
     return (
-      <div className="datapoint-editor">
-        <div>
+      <Form {...layout} name="EditDatapoint">
+        <Form.Item wrapperCol={{offset: 8}}>
           <Button onClick={this.newDatapoint}>New</Button>
           <Button onClick={this.saveDatapoint} disabled={savebtnDisabled}>
             Save
           </Button>
           <Button onClick={this.deleteDatapoint}>Delete</Button>
-        </div>
+        </Form.Item>
         <DatapointParameter
           key="id"
           validator={this.validateID}
@@ -174,7 +177,7 @@ class DatapointEditor extends Component {
           display="name"
           match="name"
         />
-      </div>
+      </Form>
     );
   }
 }

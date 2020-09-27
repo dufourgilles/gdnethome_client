@@ -1,21 +1,12 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import ReduxToastr from "react-redux-toastr";
 import { Redirect, Route, Switch } from "react-router";
 import { Link, withRouter } from "react-router-dom";
 import SimpleBar from "simplebar-react";
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { Layout, Menu, Row, Space, Spin } from "antd";
-import { pollSystem } from "../actions/systemActions";
-import { subscribeToEvents, eventProcessor } from "../socket/clientSocket";
-import ActionView from "./action/ActionView";
-import ConditionView from "./condition/ConditionView";
-import Dashboard from "./dashboard/Dashboard";
-import DatapointView from "./datapoint/DatapointView";
-import DataPointCtlView from "./dataPointCtl/DataPointCtlView";
-import ReplayView from "./replay/ReplayView";
-import SettingsView from "./settings/SettingsView";
 import {
   AppstoreAddOutlined,
   AppstoreOutlined,
@@ -26,10 +17,19 @@ import {
   PullRequestOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import "./appheader/AppHeader";
+import { pollSystem } from "../actions/systemActions";
+import { subscribeToEvents, eventProcessor } from "../socket/clientSocket";
+import ActionView from "./action/ActionView";
+import ConditionView from "./condition/ConditionView";
+import Dashboard from "./dashboard/Dashboard";
+import DatapointView from "./datapoint/DatapointView";
+import DataPointCtlView from "./dataPointCtl/DataPointCtlView";
+import ReplayView from "./replay/ReplayView";
+import SettingsView from "./settings/SettingsView";
 import "simplebar/dist/simplebar.min.css";
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
 import "./App.scss";
+
 const { Header, Content, Sider, Footer } = Layout;
 
 class App extends Component {

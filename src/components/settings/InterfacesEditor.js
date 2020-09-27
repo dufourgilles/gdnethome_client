@@ -1,9 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import InterfaceViewer from "./InterfaceViewer";
 import PropTypes from "prop-types";
 
-class InterfacesEditor extends React.Component {
+export default class InterfacesEditor extends React.Component {
     render() {
         const ifaces = [];
         for(let name in this.props.networkConfig){
@@ -21,11 +20,7 @@ class InterfacesEditor extends React.Component {
                 />
             );
         }
-        return (
-            <div>
-               {ifaces} 
-            </div>
-        );
+        return ifaces;
     }
 }
 
@@ -33,8 +28,3 @@ InterfacesEditor.propTypes = {
     networkConfig: PropTypes.object.isRequired,
     onChange: PropTypes.func
 };
-
-
-export default connect(undefined, undefined)(InterfacesEditor);
-
-

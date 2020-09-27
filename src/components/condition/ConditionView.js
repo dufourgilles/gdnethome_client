@@ -7,7 +7,6 @@ import {
 } from "../../reducers/conditionReducer";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import "./ConditionView.scss";
 import { Col, Row, Typography } from "antd";
 
 class ConditionView extends React.Component {

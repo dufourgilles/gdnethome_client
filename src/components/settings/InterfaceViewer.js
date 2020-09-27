@@ -1,10 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import DatapointParameter from "../datapoint/DatapointParameter";
 import PropTypes from "prop-types";
 
 
-class InterfaceViewer extends React.Component {
+export default class InterfaceViewer extends React.Component {
     state = {
         addresses: this.props.interfaceConfig.addresses,
         routes: this.props.interfaceConfig.routes,
@@ -140,7 +139,5 @@ InterfaceViewer.propTypes = {
     interfaceConfig: PropTypes.object.isRequired,
     onChange: PropTypes.func
 };
-
-export default connect(undefined, undefined)(InterfaceViewer);
 
 
