@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 class LineChart extends Component {
   render() {
+    const reservedHeight = 40;
     const boxStyle = {
       height: this.props.height + 15,
       width: this.props.width
@@ -42,66 +43,69 @@ class LineChart extends Component {
     }
 
     const yInterval = max - min;
-
+    const firstX = lastX;
     for (let i = startIndex; i < this.props.values.length; i++) {
       const value = this.props.values[i];
       const y =
-        this.props.height - ((value - min) * this.props.height) / yInterval;
+        this.props.height - reservedHeight - ((value - min) * this.props.height) / yInterval;
       const x = lastX + this.props.interval;
       lastX = x;
       points = `${points}${x},${y} `;
     }
-
+    
     const verticalLines = [];
     const xValues = [];
     let lineCount = 0;
     let t = new Date();
-    for (let x = 0; x < this.props.width; x += 10 * this.props.interval) {
-      verticalLines.push(
-        <line
-          key={`vert${lineCount}`}
-          x1={x}
-          y1={this.props.height}
-          x2={x}
-          y2="0"
-          
-        />
-      );
-      xValues.push(
-        <div key={`xval${lineCount}`} className="linechart-ymin-val">{`${(
-          "0" + t.getHours()
-        ).slice(-2)}:${("0" + t.getMinutes()).slice(-2)}:${(
-          "0" + t.getSeconds()
-        ).slice(-2)}`}</div>
-      );
+    const markerInterval = 60;
+
+    const lastXMarker = this.props.width - (this.props.width % markerInterval);
+    for (let x = 0; x < this.props.width; x += this.props.interval) {
+      if ( x % markerInterval == 0) {
+        verticalLines.push(
+          <line
+            key={`vert${lineCount}`}
+            x1={x}
+            y1={this.props.height - reservedHeight}
+            x2={x}
+            y2="0"            
+          />
+        );
+        const textTime = `${(
+            "0" + t.getHours()
+          ).slice(-2)}:${("0" + t.getMinutes()).slice(-2)}:${(
+            "0" + t.getSeconds()
+          ).slice(-2)}`;
+        
+        xValues.push(
+          <text x={markerInterval} y={this.props.height - reservedHeight} fill="red" font-size="8" transform={`translate(${lastXMarker - x}, 0) rotate(30) `}>{textTime}</text>
+        );
+      }
       t = new Date(t.getTime() - this.props.interval * 1000);
       lineCount++;
     }
 
     return (
       <div className="linechart" id={this.props.id} style={boxStyle}>
-        <div className="linechart-ymin">
-          <div>{min}</div>
-          <div className="linechart-ymin-values">{xValues.reverse()}</div>
-        </div>
         <div className="linechart-ymax">{max}</div>
         <div className="linechar-title">{this.props.title}</div>
         <div className="linechart-axis">
           <svg height={this.props.height} width={this.props.width}>
             <line
               x1="0"
-              y1={this.props.height}
+              y1={this.props.height - reservedHeight}
               x2={this.props.width}
-              y2={this.props.height}
+              y2={this.props.height - reservedHeight}
               
             />
             <line
               x1="0"
-              y1={this.props.height}
+              y1={this.props.height - reservedHeight}
               x2="0"
               y2="0"
             />
             {verticalLines}
+            {xValues}
           </svg>
         </div>
         <div className="linechart-plots">
@@ -123,7 +127,7 @@ class LineChart extends Component {
               </linearGradient>
             </defs>
             <polyline
-              points={`0,${this.props.height} ${points} ${this.props.width},${this.props.height}`}
+              points={`0,${this.props.height - reservedHeight} ${points} ${this.props.width},${this.props.height - reservedHeight}`}
               style={{
                 fill: "url(#line1)",
                 stroke: "rgba(93, 253, 203, 1)",

@@ -126,6 +126,8 @@ export default class DatapointParameter extends Component {
       } else if (this.props.list) {
         return this.renderList();
       } else {
+        console.log(this.props.name);
+        console.log(this.props.data[this.props.name]);
         return (
           <Input disabled={false} value={this.props.data[this.props.name]} />
         );

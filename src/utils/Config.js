@@ -1,6 +1,7 @@
 const protocol = window.location.protocol;
 const hostname = window.location.hostname;
-const baseUrl = `${protocol}//${hostname}`;
+//const baseUrl = `${protocol}//${hostname}`;
+const baseUrl = "http://192.168.1.43"
 const DEFAULT_CONFIG = {
     "serverURL": `${baseUrl}:8080`,
     "serverSocket": `${baseUrl}:8081`,

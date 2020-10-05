@@ -21,7 +21,7 @@ const STATUS_GROUPNAME = "dashboard_status";
 const VALUES_GROUPNAME = "dashboard_values";
 
 const { addEndpoint, removendpoint } = require("../../actions/groupActions");
-const MAX_WIND_ENTRIES = 100;
+const MAX_WIND_ENTRIES = 3600;
 
 class Dashboard extends Component {
   state = {
@@ -203,9 +203,9 @@ class Dashboard extends Component {
               {({ width }) => (
                 <LineChart
                   title={leftTitle}
-                  height={100}
-                  width={width}
-                  interval={10}
+                  height={140}
+                  width={   width}
+                  interval={1}
                   maxVal={15}
                   minVal={0}
                   values={leftValues}
@@ -218,9 +218,9 @@ class Dashboard extends Component {
               {({ width }) => (
                 <LineChart
                   title={rightTitle}
-                  height={100}
+                  height={140}
                   width={width}
-                  interval={10}
+                  interval={1}
                   maxVal={150000}
                   minVal={0}
                   values={rightValues}

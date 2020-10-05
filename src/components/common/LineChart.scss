@@ -37,13 +37,14 @@ $backgroud-color: $background;
   display: flex;
   flex-direction: row;
   position: absolute;
-  left:94px;
+  //left:15px;
 }
 
 .linechart-ymin-val {
-  margin-right: 64px;
-  min-width: 36px;
-  max-width: 36px;
+  //margin-right: 64px;
+  min-width: 12px;
+  max-width: 30px;
+  transform: rotate(90deg);
 }
 
 .linechar-rightend {
