@@ -56,7 +56,9 @@ const EMPTY_CONDITION = {
     id: "",
     operator: "EQUAL",
     conditionIDs: [],
+    emitChangesOnly: true,
     triggerValue: 0,
+    emitChangesOnly: true,
     triggerEventID: ""
 };
 

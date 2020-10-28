@@ -187,9 +187,9 @@ class Dashboard extends Component {
                     <div style={{width: width, overflow: "hidden"}} onClick={editLeftChart}>
                         <LineChart 
                         title={this.state.leftTitle} 
-                        height={100} 
-                        width={width - 15} 
-                        interval={10} 
+                        height={140} 
+                        width={width} 
+                        interval={1} 
                         maxVal={15} 
                         minVal={0} 
                         values={this.state.leftValues}                        
@@ -198,9 +198,9 @@ class Dashboard extends Component {
                     <div style={{width: width}} onClick={editRightChart}>
                         <LineChart 
                         title={this.state.rightTitle} 
-                        height={100} 
-                        width={width - 15} 
-                        interval={10} 
+                        height={140} 
+                        width={width} 
+                        interval={1} 
                         maxVal={150000} 
                         minVal={0} 
                         values={this.state.rightValues}/>
