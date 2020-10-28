@@ -142,6 +142,9 @@ class DatapointParameter extends Component {
             }
         };
 
+        if (this.props.label == "condition") {
+            console.log(this.props);
+        }
         const entryClass = this.props.className == null ? "datapoint-editor-entry" : this.props.className;
         const keyClass = this.props.className == null ? "datapoint-editor-key" : "";
         return (

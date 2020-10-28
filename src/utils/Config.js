@@ -8,7 +8,7 @@ window.Config = Object.assign({}, {
     "defaultTimespanFormat":"DD/MM/YYYY HH:mm:ss",
     "toastrActivated": true,
     "polling": {
-        "default": 1000
+        "default": 100000
     },
     "bandwidthsMaxRetention": 60 // seconds
 } , window.Config);

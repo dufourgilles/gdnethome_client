@@ -30,7 +30,7 @@ class ActionEditor extends Component {
             };
             return (
                 <div className="action-list-item" key={action.id}>
-                    <div className="action-item-name">{action.id}</div>
+                    <div className="action-item-name">{action.name}</div>
                     <Button id="btnDeleteAction" className="action-item-delete" onClick={handleDelete}>
                         <FontAwesome name="trash"/>
                     </Button>

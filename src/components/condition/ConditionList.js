@@ -33,7 +33,7 @@ class ConditionList extends React.Component {
             };            
             return (
                 <div className="action-list-item" key={condition.id}>
-                    <div className="action-item-name">{condition.id}</div>
+                    <div className="action-item-name">{condition.name}</div>
                     <Button id="btnDeleteCondition" className="condition-item-delete" onClick={handleDelete}>
                         <FontAwesome name="trash"/>
                     </Button>

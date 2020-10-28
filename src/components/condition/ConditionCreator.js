@@ -78,7 +78,7 @@ class ConditionCreator extends FreezeView {
                         data={condition}
                         list={conditions}
                         filterKeys={["id"]}
-                        display={"id"}
+                        display={"name"}
                         match={"id"}
                         index={index}
                     />
@@ -119,7 +119,7 @@ class ConditionCreator extends FreezeView {
                         data={condition}
                         list={conditions}
                         filterKeys={["id"]}
-                        display={"id"}
+                        display={"name"}
                         match={"id"}
                         index={0}
                     />
@@ -208,9 +208,18 @@ class ConditionCreator extends FreezeView {
                     key="id"
                     validator={this.validateID}
                     onChange={this.handleValueChange}
-                    editable={this.props.condition.id === ""}
+                    editable={false}
                     label="id"
                     name="id"
+                    data={condition}
+                />
+                <DatapointParameter
+                    key="name"
+                    validator={this.validateID}
+                    onChange={this.handleValueChange}
+                    editable={true}
+                    label="name"
+                    name="name"
                     data={condition}
                 />
                 <DatapointParameter 
@@ -232,6 +241,20 @@ class ConditionCreator extends FreezeView {
                     list={[{id: "true", value: true}, {id: "false", value:false}]}
                     display="id"
                     match="value"
+                />
+                <DatapointParameter
+                    key="text"
+                    editable={false}
+                    label="text"
+                    name="text"
+                    data={condition}
+                />
+                <DatapointParameter
+                    key="fullText"
+                    editable={false}
+                    label="Full Text"
+                    name="fullText"
+                    data={condition}
                 />
                 {conditionParameters}
             </div>

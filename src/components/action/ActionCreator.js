@@ -5,6 +5,7 @@ import {fetchActionTypes, createNewAction, updateAction} from "../../actions/act
 import ActionParameters from "./ActionParameters";
 import DatapointParameter from "../datapoint/DatapointParameter";
 import { getEmptyAction } from "../../reducers/actionReducer";
+import { getConditionByID } from "../../reducers/conditionReducer";
 import {getActionTypeIndex, getActionTypeDefaultParameters} from "./common";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
@@ -169,7 +170,7 @@ class ActionCreator extends FreezeView {
         const cancelFunc = () => {
             this.setState({action: this.props.action == null ? getEmptyAction() : Object.assign({}, this.props.action)});
         };
-
+        
         const action = this.state.action;
         const actionTypeIndex = this.getActionTypeIndex(action.type);
         let actionParameters;
@@ -183,6 +184,34 @@ class ActionCreator extends FreezeView {
                     />
             );
         }
+
+        const getTextConditon = () => {
+            if (this.props.action == null) {
+                return "";
+            }
+            else {
+                const condition = this.props.getConditionByID(action.conditionID);
+                return (
+                    <React.Fragment>
+                        <DatapointParameter
+                        key="conditionText"
+                        label="Condition Text"
+                        name="text"
+                        editable={false}
+                        data={condition}
+                        />
+                        <DatapointParameter
+                            key="conditionText"
+                            label="Condition Full Text"
+                            name="fullText"
+                            editable={false}
+                            data={condition}
+                        />
+                    </React.Fragment>
+                );
+            }
+        }
+
         const displayTriggerName = item => {
             return `${item.name}(${item.id})`;
         };
@@ -198,9 +227,18 @@ class ActionCreator extends FreezeView {
                     key="id"
                     validator={this.validateID}
                     onChange={this.handleValueChange}
-                    editable={this.props.action == null}
+                    editable={false}
                     label="id"
                     name="id"
+                    data={action}
+                />
+                <DatapointParameter
+                    key="name"
+                    validator={this.validateID}
+                    onChange={this.handleValueChange}
+                    editable={true}
+                    label="name"
+                    name="name"
                     data={action}
                 />
                 <DatapointParameter
@@ -231,10 +269,11 @@ class ActionCreator extends FreezeView {
                     name="conditionID"
                     data={action}
                     list={this.props.conditions}
-                    display="id"
+                    display="name"
                     match="id"
                     filterKeys={["id", "name"]}
                 />
+                {getTextConditon()}
                 {advancedParams}
                 {actionParameters}
             </div>
@@ -247,19 +286,21 @@ ActionCreator.propTypes = {
     triggers: PropTypes.array.isRequired,
     conditions: PropTypes.array.isRequired,
     createNewAction: PropTypes.func.isRequired,
+    getConditionByID: PropTypes.func.isRequired,
     action: PropTypes.object
 };
 
 
 const mapStateToProps = state => ({
     triggers: state.triggers.items,
-    conditions: state.conditions.items
+    conditions: state.conditions.items,
+    getConditionByID: getConditionByID(state)
 });
 
 const mapDispatchToProps = dispatch => {
     return {
         createNewAction: createNewAction(dispatch),
-        updateAction: updateAction(dispatch)
+        updateAction: updateAction(dispatch)   
     }
   };
 

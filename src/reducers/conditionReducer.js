@@ -41,7 +41,7 @@ export const conditionReducer = createReducer(initialState, {
 /* SELECTORS */
 
 export const getConditionIndexedByName = createSelector(
-    state => state.conditions.items,
+    state => state.conditions ? state.conditions.items : [],
     conditions => keyBy(conditions, "id")
 );
 
