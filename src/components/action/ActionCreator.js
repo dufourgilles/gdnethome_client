@@ -186,7 +186,7 @@ class ActionCreator extends FreezeView {
         }
 
         const getTextConditon = () => {
-            if (this.props.action == null) {
+            if (this.props.action == null || this.props.action.conditionID == null) {
                 return "";
             }
             else {
