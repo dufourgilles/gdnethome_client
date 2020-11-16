@@ -6,7 +6,7 @@
   position: absolute;
   display: flex;
   flex-direction: row;
-  top: 90%;
+  top: 100px;
   left: 2px;
   color: white;
   z-index: 130;

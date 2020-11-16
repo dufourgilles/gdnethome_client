@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 class LineChart extends Component {
   render() {
     const reservedHeight = 40;
+    const height = this.props.height - reservedHeight;
     const boxStyle = {
       height: this.props.height + 15,
       width: this.props.width
     };
 
     let points = "";
-
+    
     const maxXValues = Math.round(this.props.width / this.props.interval) + 2;
     let startIndex = 0;
     let lastX = 0;
@@ -46,8 +47,7 @@ class LineChart extends Component {
     const firstX = lastX;
     for (let i = startIndex; i < this.props.values.length; i++) {
       const value = this.props.values[i];
-      const y =
-        this.props.height - reservedHeight - ((value - min) * this.props.height) / yInterval;
+      const y = height - ((value - min) * height) / yInterval;
       const x = lastX + this.props.interval;
       lastX = x;
       points = `${points}${x},${y} `;
@@ -66,8 +66,9 @@ class LineChart extends Component {
           <line
             key={`vert${lineCount}`}
             x1={x}
-            y1={this.props.height - reservedHeight}
+            y1={height}
             x2={x}
+            stroke='white'
             y2="0"            
           />
         );
@@ -78,7 +79,7 @@ class LineChart extends Component {
           ).slice(-2)}`;
         
         xValues.push(
-          <text x={markerInterval} y={this.props.height - reservedHeight} fill="red" font-size="8" transform={`translate(${lastXMarker - x}, 0) rotate(30) `}>{textTime}</text>
+          <text x={markerInterval} y={height} fill="red" font-size="8" transform={`translate(${lastXMarker - x}, 0) rotate(30) `}>{textTime}</text>
         );
       }
       t = new Date(t.getTime() - this.props.interval * 1000);
@@ -88,21 +89,23 @@ class LineChart extends Component {
     return (
       <div className="linechart" id={this.props.id} style={boxStyle}>
         <div className="linechart-ymax">{max}</div>
+        <div className="linechart-ymin">{min}</div>
         <div className="linechar-title">{this.props.title}</div>
         <div className="linechart-axis">
           <svg height={this.props.height} width={this.props.width}>
             <line
               x1="0"
-              y1={this.props.height - reservedHeight}
+              y1={height}
               x2={this.props.width}
-              y2={this.props.height - reservedHeight}
-              
+              y2={height}
+              stroke='white'
             />
             <line
               x1="0"
-              y1={this.props.height - reservedHeight}
+              y1={height}
               x2="0"
               y2="0"
+              stroke='white'
             />
             {verticalLines}
             {xValues}
@@ -127,7 +130,7 @@ class LineChart extends Component {
               </linearGradient>
             </defs>
             <polyline
-              points={`0,${this.props.height - reservedHeight} ${points} ${this.props.width},${this.props.height - reservedHeight}`}
+              points={`${firstX},${height} ${points} ${this.props.width},${height}`}
               style={{
                 fill: "url(#line1)",
                 stroke: "rgba(93, 253, 203, 1)",

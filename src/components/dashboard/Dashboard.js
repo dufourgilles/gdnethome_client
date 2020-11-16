@@ -24,7 +24,7 @@ const STATUS_GROUPNAME = "dashboard_status";
 const VALUES_GROUPNAME = "dashboard_values";
 
 const {addEndpoint, removendpoint} = require("../../actions/groupActions");
-const MAX_WIND_ENTRIES = 100;
+const MAX_WIND_ENTRIES = 1024;
 
 class Dashboard extends Component {
     state = {
