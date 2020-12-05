@@ -19,13 +19,13 @@ class DatapointEditor extends Component {
     };
 
     componentWillReceiveProps(newProps) {
-        if(newProps.datapoint.id !== this.state.datapoint.id) {
+        if(newProps.datapoint.id !== this.props.datapoint.id) {
             this.setState({
                 datapoint: newProps.datapoint,
                 modified: false,
                 valid: false,
-                isNew: false,
-                editableID: false
+                isNew: newProps.datapoint.id === "",
+                editableID: newProps.datapoint.id === ""
             });
         }
     }
@@ -90,22 +90,22 @@ class DatapointEditor extends Component {
     };
 
 
-    componentDidUpdate(prevProps) {
-        if ((this.props.freeze === prevProps.freeze) &&
-            (((this.props.datapoint == null) && (prevProps.datapoint == null)) ||
-                ((this.props.datapoint != null) && (prevProps.datapoint != null) &&
-            (this.props.datapoint.id === prevProps.datapoint.id)))) {
-            return;
-        }
-        this.setState({
-            datapoint: Object.assign({}, this.props.datapoint),
-            modified: false,
-            valid: true,
-            isNew: false,
-            editableID: false,
-            freezeOn: this.props.freeze
-        });
-    }
+    // componentDidUpdate(prevProps) {
+    //     if ((this.props.freeze === prevProps.freeze) &&
+    //         (((this.props.datapoint == null) && (prevProps.datapoint == null)) ||
+    //             ((this.props.datapoint != null) && (prevProps.datapoint != null) &&
+    //         (this.props.datapoint.id === prevProps.datapoint.id)))) {
+    //         return;
+    //     }
+    //     this.setState({
+    //         datapoint: Object.assign({}, this.props.datapoint),
+    //         modified: false,
+    //         valid: true,
+    //         isNew: false,
+    //         editableID: false,
+    //         freezeOn: this.props.freeze
+    //     });
+    // }
 
     render() {
         const datapoint = this.state.datapoint;
