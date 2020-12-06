@@ -22,8 +22,8 @@ class DataPointCtlEditor extends FreezeView {
     };
 
     componentWillReceiveProps(newProps) {
-        if (newProps.dataPointCtl.id !== this.state.dataPointCtl.id) {
-            this.setState({dataPointCtl: this.props.dataPointCtl});
+        if (newProps.dataPointCtl.id !== this.props.dataPointCtl.id) {
+            this.setState({dataPointCtl: newProps.dataPointCtl});
         }
     }
     
