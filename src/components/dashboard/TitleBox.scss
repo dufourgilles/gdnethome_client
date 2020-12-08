@@ -4,8 +4,7 @@ $boxstyle: solid 1px;
 
 .titlebox {
   width: 50%;
-  min-height: 543px;
-  max-height: 543px;
+  height: calc(100vh - 470px);
 }
 
 .titlebox-title {
