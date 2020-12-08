@@ -9,8 +9,14 @@ html, body {
   left: 0px;
   width: 100%;
   height: calc(100vh - 110px);
-  overflow: scroll;
 }
+
+.gdnet-view {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 110px);
+}
+
 
 #root {
     width: 100%;

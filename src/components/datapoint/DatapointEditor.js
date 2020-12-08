@@ -18,14 +18,14 @@ class DatapointEditor extends Component {
         freezeOn: false
     };
 
-    componentWillReceiveProps(newProps) {
-        if(newProps.datapoint.id !== this.props.datapoint.id) {
+    componentDidUpdate(prevProps) {
+        if(prevProps.datapoint.id !== this.props.datapoint.id) {
             this.setState({
-                datapoint: newProps.datapoint,
+                datapoint: this.props.datapoint,
                 modified: false,
                 valid: false,
-                isNew: newProps.datapoint.id === "",
-                editableID: newProps.datapoint.id === ""
+                isNew: this.props.datapoint.id === "",
+                editableID: this.props.datapoint.id === ""
             });
         }
     }
@@ -56,7 +56,7 @@ class DatapointEditor extends Component {
     };
 
     deleteDatapoint = () => {
-        return this.props.deleteDatapoint(this.state.datapoint.id).catch(e => {
+        return this.props.deleteDatapoint(this.state.datapoint).catch(e => {
                 toastr.error('Error', e.message);
             })
             .then(() => {

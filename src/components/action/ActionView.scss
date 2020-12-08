@@ -19,8 +19,11 @@
 }
 
 .action-list {
-  width: 50%;
+  min-width: 385px;
   padding-right: 20px;
+  padding-bottom: 20px;
+  height: calc(100vh - 260px);
+  overflow: scroll;
 }
 
 .action-list-item {

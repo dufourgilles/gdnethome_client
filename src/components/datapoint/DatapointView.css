@@ -5,8 +5,7 @@
   height: 100vh;
   position: relative;
   top: 10px;
-  height: calc(100vh - 110px);
-  overflow: scroll; }
+  height: calc(100vh - 110px); }
 
 .datapoint-view-delete-btn {
   padding: 7px;

@@ -6,38 +6,41 @@ import PropTypes from "prop-types";
 
 class InterfaceViewer extends React.Component {
     state = {
-        addresses: this.props.interfaceConfig.addresses,
-        routes: this.props.interfaceConfig.routes,
         changed: false
     }
+
     handleFocusOut = () => {
-        if (this.state.changed === true && this.props.onChange) {
-            const config = this.props.interfaceConfig;
-            config.routes = this.state.routes;
-            config.addresses = this.state.addresses;
-            this.props.onChange(this.props.interfaceName, config);
-        }
-        this.setState({changed: false});
+        // if (this.state.changed === true && this.props.onChange) {
+        //     const config = this.props.interfaceConfig;
+        //     config.routes = this.state.routes;
+        //     config.addresses = this.state.addresses;
+        //     this.props.onChange(this.props.interfaceName, config);
+        // }
+        // this.setState({changed: false});
     }
+
     renderAddresses = () => {
-        const len = this.state.addresses == null ? 0 : this.state.addresses.length;
+        const len = this.props.interfaceConfig.addresses == null ? 0 : this.props.interfaceConfig.addresses.length;
         const renderedAddresses = [];
+        if (this.props.interfaceConfig.dhcp4 === true || this.props.interfaceConfig.dhcp4 === "yes") {
+            return renderedAddresses;
+        }
         const handleAddressValueChange = (name, value, index) => {
-            const addresses = this.state.addresses;
-            if (index < addresses.length) {
+            const addresses = this.props.interfaceConfig.addresses;
+            if (index < addresses.length && this.props.onChange) {
                 addresses[index] = value;
-                this.setState({addresses, changed: true});
+                this.props.onChange(this.props.interfaceName, this.props.interfaceConfig);
             }            
         }
         for(let i = 0; i < len; i++) {            
             renderedAddresses.push(
                 <DatapointParameter
                     key={`address${i}`}
-                    onChange={handleAddressValueChange}
-                    onFocusOut={this.handleFocusOut}
+                    onChange={handleAddressValueChange.bind(this)}
+                    onFocusOut={this.handleFocusOut.bind(this)}
                     label={`Address ${i}`}
                     name="addresses"
-                    data={this.state}
+                    data={this.props.interfaceConfig}
                     index={i} 
                     editable={true}                   
                 />
@@ -47,13 +50,16 @@ class InterfaceViewer extends React.Component {
     }
 
     renderRoutes = () => {
-        const len = this.state.routes == null ? 0 : this.state.routes.length;
+        const len = this.props.interfaceConfig.routes == null ? 0 : this.props.interfaceConfig.routes.length;
         const renderedRoutes = [];
+        if (this.props.interfaceConfig.dhcp4 === true || this.props.interfaceConfig.dhcp4 === "yes") {
+            return renderedRoutes;
+        }
         const handleRouteChange = (index, name, value) => {
-            const routes = this.state.routes;
-            if (index < routes.length) {
+            const routes = this.props.interfaceConfig.routes;
+            if (index < routes.length && this.props.onChange) {
                 routes[index][name] = value;
-                this.setState({routes, changed: true});
+                this.props.onChange(this.props.interfaceName, this.props.interfaceConfig);
             }
         }
         for(let i = 0; i < len; i++) {
@@ -69,16 +75,16 @@ class InterfaceViewer extends React.Component {
                         onChange={handleRouteToValueChange}
                         label={`Route ${i} to`}
                         name="to"
-                        onFocusOut={this.handleFocusOut}
-                        data={this.state.routes[i]}
+                        onFocusOut={this.handleFocusOut.bind(this)}
+                        data={this.props.interfaceConfig.routes[i]}
                         editable={true}               
                     />
                     <DatapointParameter
-                        onChange={handleRouteViaValueChange}
-                        onFocusOut={this.handleFocusOut}
+                        onChange={handleRouteViaValueChange.bind(this)}
+                        onFocusOut={this.handleFocusOut.bind(this)}
                         label="via"
                         name="via"
-                        data={this.state.routes[i]}
+                        data={this.props.interfaceConfig.routes[i]}
                         editable={true}                   
                     />
                 </div>
@@ -89,28 +95,23 @@ class InterfaceViewer extends React.Component {
 
     handleDHCPChange = (name, value) => {
         if (this.props.onChange) {
-            const config = this.props.interfaceConfig;
-            config.dhcp4 = value;
-            if (config.dhcp4 === true || config.dhcp4 === "yes") {
-                delete config.routes;
-                delete config.addresses;
-            }
-            else {
-                if (config.addresses == null) {
-                    config.addresses = ["0.0.0.0/0"];
+            this.props.interfaceConfig.dhcp4 = value;
+            if (this.props.interfaceConfig.dhcp4 !== true && this.props.interfaceConfig.dhcp4 !== "yes") {
+                if (this.props.interfaceConfig.routes == null || this.props.interfaceConfig.routes.length === 0) {
+                    this.props.interfaceConfig.routes = [{to: "", via: ""}];
                 }
-                if (config.routes == null) {
-                    config.routes = [{to: "", via: ""}];
+                if (this.props.interfaceConfig.addresses == null || this.props.interfaceConfig.addresses.length === 0) {
+                    this.props.interfaceConfig.addresses = ["0.0.0.0/0"];
                 }
-            }
-            this.props.onChange(this.props.interfaceName, config);
+            } 
+            this.props.onChange(this.props.interfaceName, this.props.interfaceConfig);
         }
     }
     render() {
         const iface = this.props.interfaceConfig;
         const dhcp = <DatapointParameter 
             key="dhcp4"
-            onChange={this.handleDHCPChange}
+            onChange={this.handleDHCPChange.bind(this)}
             label="DHCP4"
             name="dhcp4"
             data={iface}
