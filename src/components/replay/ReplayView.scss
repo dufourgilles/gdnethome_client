@@ -2,11 +2,19 @@
     display: block;
     margin-left: 10%;
     width: 80%;
-    height: calc(100vh - 110px);
+    max-height: 230px;
+    padding-bottom: 10px;
     overflow: scroll;
 }
 
 .replay-view-actions {
     display: flex;
     flex-direction: row;
+}
+
+.replay-file {
+    overflow: scroll;
+    margin-left: 10%;
+    display: block;
+    max-height: calc(100vh - 420px);
 }

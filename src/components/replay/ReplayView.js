@@ -1,30 +1,49 @@
 import React from 'react';
 import FreezeView from "../common/FreezeView";
 import DatapointParameter from "../datapoint/DatapointParameter";
-import { fetchReplayInfo, updateReplayInfo } from "../../actions/replayActions";
+import { updateReplayInfo, getReplayFile } from "../../actions/replayActions";
 import { toastr } from "react-redux-toastr";
 import {connect} from 'react-redux';
 import "./ReplayView.css";
+import PropTypes from 'prop-types';
 
 class ReplayView extends FreezeView {
     state = {
-        replayInfo: null
+        replayInfo: this.props.replayInfo,
+        fileContent: "",
+        filteredContent: ""
     };
 
-    componentDidMount() {
-        return this.refreshReplayInfo();
-    }
-
-    refreshReplayInfo = () => {
-        return fetchReplayInfo()
-        .then(replayInfo => this.setState({replayInfo}))
-        .catch(e => toastr.error('Error', e.message))        
-        .then(() => this.setFreezeOff());
+    applyFilter(filters, content) {
+        if (filters == null) {
+            this.setState({filteredContent: content, fileContent: content});
+            return;
+        }
+        const re = new RegExp(filters)
+        const filteredContent = [];
+        content.split("\n").map(line => {
+            const m = line.match(re);
+            if (m) {
+                filteredContent.push(line);
+            }
+        });
+        this.setState({fileContent: content, filteredContent: filteredContent.join("\n")});
     }
 
     handleValueChange = (key,value) => {
         const replayInfo = Object.assign({}, this.state.replayInfo);
         replayInfo[key] = value;
+        if (key === "filename") {
+            getReplayFile(value).then((fileContent) => {
+                this.applyFilter(this.state.replayInfo.filters, fileContent);
+            });
+        }
+        else if (key === "filters") {
+            this.applyFilter(value, this.state.fileContent);
+        }
+        else if (key === "enable") {
+            replayInfo[key] = value === "true";
+        }
         this.setState({replayInfo});
     }
 
@@ -41,13 +60,13 @@ class ReplayView extends FreezeView {
             updateReplayInfo(this.state.replayInfo)
                 .then(() => toastr.success('Success', "Save OK"))
                 .catch(e => toastr.error('Error', e.message))
-                .then(() => this.refreshReplayInfo())
+                .then(() => this.setFreezeOff());
         };
 
         const cancelFunc = () => {
-            this.setFreezeOn();
-            this.refreshReplayInfo();
+            this.setState({replayInfo: this.props.replayInfo});
         };
+
         return (
             <div className="gdnet-view">
                 <div className="gdnet-title">Replay</div>
@@ -69,10 +88,12 @@ class ReplayView extends FreezeView {
                     <DatapointParameter 
                         key="filename"
                         onChange={this.handleValueChange}
-                        editable={true}
                         label="filename"
                         name="filename"
-                        data={this.state.replayInfo}                    
+                        data={this.state.replayInfo}
+                        list={this.props.replayFiles}
+                        match="id"
+                        display="id"
                     />
                     <DatapointParameter 
                         key="startTime"
@@ -99,11 +120,26 @@ class ReplayView extends FreezeView {
                         data={this.state.replayInfo}                    
                     />
                 </div>
+                <div className="replay-file">
+                    <pre>
+                    {this.state.filteredContent}
+                    </pre>
+                </div>
             </div>
         );
     }
 
 }
 
+ReplayView.propTypes = {
+    replayInfo: PropTypes.object.isRequired,
+    replayFiles: PropTypes.array.isRequired
+};
 
-export default connect(undefined, undefined)(ReplayView);
+const mapStateToProps = state => ({
+    replayFiles: state.replaydata.replayFiles,
+    replayInfo: state.replaydata.info,
+});
+
+
+export default connect(mapStateToProps, undefined)(ReplayView);

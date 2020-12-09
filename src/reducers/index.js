@@ -8,6 +8,7 @@ import {appReducer} from './appReducer';
 import {conditionReducer} from "./conditionReducer";
 import {triggerReducer} from "./triggerEventReducer";
 import {actionReducer} from "./actionReducer";
+import {replayDataReducer} from "./replayReducer";
 
 const rootReducer = combineReducers({
     app: appReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     datapoints: datapointReducer,
     datapointctls: dataPointCtlReducer,
     groups: groupReducer,
-    events: eventReducer
+    events: eventReducer,
+    replaydata: replayDataReducer
 });
 
 export default rootReducer;
