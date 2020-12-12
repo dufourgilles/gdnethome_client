@@ -112,7 +112,7 @@ class StatusView extends FreezeView {
 
         return (
             <div className="gdnet-view">
-                <div className="gdnet-title">Settings</div>
+                <div className="gdnet-title">Status</div>
                 <div className="status-view-container">
                     <div className="status-disks" >
                         {this.renderAllDiskInfo()}
