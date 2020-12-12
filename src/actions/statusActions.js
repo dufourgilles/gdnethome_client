@@ -10,3 +10,7 @@ export const fetchStatus = () => {
 export const getLogFilePath = () => {
     return `${window.Config.serverURL}/status/logs`;
 }
+
+export const getLogTail = (len) => {
+    return Api.get(`${CONFIG_BASE_URI}/tail/${len}`);
+}

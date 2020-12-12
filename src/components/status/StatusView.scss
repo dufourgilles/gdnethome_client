@@ -65,3 +65,9 @@
     width: 70px;
     overflow: hidden;
 }
+
+.status-logs {
+    height: calc(100vh - 500px);
+    max-height: 1000px;
+    overflow: scroll;
+}

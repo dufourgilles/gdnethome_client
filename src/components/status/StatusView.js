@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FreezeView from "../common/FreezeView";
-import {fetchStatus, getLogFilePath} from "../../actions/statusActions";
+import {fetchStatus, getLogFilePath, getLogTail} from "../../actions/statusActions";
 import PieGraph from "../common/PieGraph";
 
 import "./StatusView.css";
@@ -10,6 +10,7 @@ class StatusView extends FreezeView {
     state = {
         status: null,
         diskThresholds: [80, 90],
+        logs: [],
         advanced: false
     };
 
@@ -17,6 +18,8 @@ class StatusView extends FreezeView {
         this.setFreezeOn();
         fetchStatus()
         .then(status => this.setState({status}))
+        .then(() => getLogTail(100))
+        .then((logs) => this.setState({logs}))
         .catch(e => {
             console.log(e);
         })
@@ -99,6 +102,12 @@ class StatusView extends FreezeView {
         return res;
     }
 
+    renderLogs() {
+        return this.state.logs.map(log => {
+            return (<div>{log}</div>)
+        });
+    }
+
     renderContent() {
 
         return (
@@ -110,10 +119,13 @@ class StatusView extends FreezeView {
                     </div>
                     <div className="status-resources">
                         {this.renderRessources()}
+                    </div>                    
+                    <div className="status-logs">
+                        {this.renderLogs()}
                     </div>
                     <div>
                         <form method="get" action={getLogFilePath()}>
-                            <button type="submit">Get Logs</button>
+                            <button type="submit">Download Log Files</button>
                         </form>
                     </div>
                 </div>
