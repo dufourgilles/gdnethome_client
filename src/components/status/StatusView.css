@@ -1,0 +1,56 @@
+.status-view-container {
+  margin-left: 50px; }
+
+.status-disk {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 10px 10px 10px;
+  border: 1px solid black;
+  margin-left: 5px; }
+
+.status-disk-name {
+  padding-top: 40px;
+  width: 100px;
+  overflow: hidden; }
+
+.status-disk-value {
+  padding-top: 40px;
+  padding-left: 20px;
+  width: 70px;
+  overflow: hidden; }
+
+.status-disks {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 20px; }
+
+.status-resources {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 20px; }
+
+.status-resource-info {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 10px 10px 10px;
+  border: 1px solid black;
+  margin-left: 5px; }
+
+.status-resource-name {
+  padding-top: 40px;
+  width: 100px;
+  overflow: hidden; }
+
+.status-cpu-value {
+  padding-top: 40px;
+  padding-left: 20px;
+  width: 70px;
+  overflow: hidden; }
+
+.status-mem-value {
+  padding-top: 40px;
+  padding-left: 20px;
+  width: 70px;
+  overflow: hidden; }

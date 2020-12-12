@@ -8,6 +8,7 @@ import ActionView from "./action/ActionView";
 import ConditionView from "./condition/ConditionView";
 import ReplayView from "./replay/ReplayView";
 import SettingsView from "./settings/SettingsView";
+import StatusView from "./status/StatusView";
 import {pollSystem} from '../actions/systemActions';
 import '../themes/GDNetBoostrapThemes.css';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
@@ -41,6 +42,7 @@ class App extends Component {
                     <Route path="/datapointctl" component={DataPointCtlView}/>
                     <Route path="/replay" component={ReplayView}/>
                     <Route path="/settings" component={SettingsView}/>
+                    <Route path="/status" component={StatusView}/>
                   <Redirect from="/" to="/dashboard"/>
                 </Switch>
             </div>
