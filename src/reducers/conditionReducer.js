@@ -54,6 +54,7 @@ export const getConditionByID = state => id => getConditionIndexedByName(state)[
 
 const EMPTY_CONDITION = {
     id: "",
+    name: "",
     operator: "EQUAL",
     conditionIDs: [],
     emitChangesOnly: true,
