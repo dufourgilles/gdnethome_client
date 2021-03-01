@@ -1,8 +1,8 @@
 import Axios from 'axios';
 import UriTemplate from 'uri-template';
 
-let Config = window.Config || { serverURL: "" };
-
+//let Config = window.Config || { serverURL: "" };
+const Config = { serverURL: "http://192.168.1.43:8080" };
 class Api {
     static getURL(url, templateValues = {}) {
         const parsedURL =  UriTemplate.parse(url);

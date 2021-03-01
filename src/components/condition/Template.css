@@ -1,0 +1,8 @@
+#template-loader {
+  display: none; }
+
+.template-name {
+  border: 1px solid white;
+  padding: 2px;
+  text-align: center;
+  margin: 5px; }

@@ -1,0 +1,70 @@
+{
+    "name": "Sortir Banne Solaire",
+    "TAG": "BSO_OUT",
+    "objects": [
+        { "id":"vent", "name": "Vitesse Vent", "type": "triggerEvent"},
+        { "id": "lum", "name": "Luminosite", "type": "triggerEvent"},
+        { "id": "azimut", "name": "Azimut", "type": "triggerEvent"},
+        { "id": "banne", "name": "Banne Reader", "type": "triggerEvent"},
+        { "id": "bctl", "name": "Banne Ctl", "type": "DatapointCtl", "required": true}        
+    ],
+    "parameters": [
+        { "id": "hours", "name": "Heure Actif", "type": "hours"},
+        { "id": "azimut", "name": "Azimut Actif", "type": "range"},
+        { "id": "lum", "name": "Luminosite min", "type": "number"},
+        { "id": "month", "name": "Mois", "type": "range"},
+        { "id": "banne", "name": "Banne min", "type": "number"},
+        { "id": "vent", "name": "Vent Max", "type": "number"},
+        { "id": "setvalue", "name": "action value", "type": "number"}
+    ],
+    "conditions": [
+        {
+            "id": "c1",
+            "name": "${TAG}_${objects[banne].name}_vent",
+            "value": "(${objects[vent].id}/'${objects[vent].name}' LOWER ${parameters[vent]})"
+        },
+        {
+            "id": "c2",
+            "name": "${TAG}_${objects[banne].name}_time_min",
+            "value": "(HourTriggerEvent/'HourTriggerEvent' GREATER ${parameters[hours].low})"
+        },
+        {
+            "id": "c3",
+            "name": "${TAG}_${objects[banne].name}_time_max",
+            "value": "(HourTriggerEvent/'HourTriggerEvent' LOWER ${parameters[hours].high})"
+        },
+        {
+            "id": "c4",
+            "name": "${TAG}_${objects[banne].name}_date_min",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' LOWER ${parameters[month].high})"
+        },
+        {
+            "id": "c5",
+            "name": "${TAG}_${objects[banne].name}_date_max",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' GREATER ${parameters[month].low})"
+        },
+        {
+            "id": "c6",
+            "name": "${TAG}_${objects[banne].name}_lum",
+            "value": "(${objects[lum].id}/'${objects[lum].name}' GREATER ${parameters[lum]})"
+        },
+        {
+            "id": "c7",
+            "name": "${TAG}_${objects[banne].name}_banne",
+            "value": "(${objects[banne].id}/'${objects[banne].name}' GREATER ${parameters[banne]})"
+        },
+        {
+            "id": "all",
+            "name": "${TAG}_${objects[banne].name}_all",
+            "value": "(${conditions[c1].id} AND ${conditions[c2].id} AND ${conditions[c3].id} AND ${conditions[c4].id} AND ${conditions[c5].id} AND ${conditions[c6].id} AND ${conditions[c7].id})"
+        }
+    ],
+    "actions": [
+        {
+            "id": "A1",
+            "name": "${TAG}_Sorti_${objects[banne].name}",
+            "value": "${parameters[setValue]}",
+            "ctl": "${objects[bctl]}"
+        }
+    ]
+}

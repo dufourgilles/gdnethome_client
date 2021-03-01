@@ -82,3 +82,6 @@ export const UPDATE_REPLAYDATA_SUCCESS = actionCount++;
 export const FETCH_REPLAYFILES_FAILURE = actionCount++;
 export const FETCH_REPLAYFILES_PENDING = actionCount++;
 export const FETCH_REPLAYFILES_SUCCESS = actionCount++;
+export const FETCH_TEMPLATES_FAILURE = actionCount++;
+export const FETCH_TEMPLATES_PENDING = actionCount++;
+export const FETCH_TEMPLATES_SUCCESS = actionCount++;

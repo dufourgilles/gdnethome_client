@@ -44,6 +44,18 @@ export const createNewCondition = dispatch => condition => {
         );
 };
 
+export const createNewConditionFromString = dispatch => (name, stringCondition) => {
+    dispatch({type: types.ADD_CONDITION_PENDING});
+    return Api.post(`${CONDITION_BASE_URI}/string/${name}`, stringCondition)
+        .then(
+            () => _fetchConditions(dispatch),
+            error => {
+                dispatch({type: types.ADD_CONDITION_FAILURE, error: error.message});
+                return Promise.reject(error);
+            }
+        );
+};
+
 /* UPDATE */
 
 export const updateCondition =  dispatch => condition => {

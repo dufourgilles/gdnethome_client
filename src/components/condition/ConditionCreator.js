@@ -5,9 +5,11 @@ import DatapointParameter from "../datapoint/DatapointParameter";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
 import FreezeView from "../common/FreezeView";
+import ConditionTemplateViewer from './ConditionTemplateViewer';
 
 class ConditionCreator extends FreezeView {
     state = {
+        templateMode: false,
         conditionTypes: [],
         condition: this.props.condition,
         conditionLength: this.props.condition.conditionIDs ? this.props.condition.conditionIDs.length : 1
@@ -158,52 +160,16 @@ class ConditionCreator extends FreezeView {
         }
     }
 
-    renderContent() {
+    renderCreator = () => {
+        if (this.state.templateMode) {
+            return (
+                <ConditionTemplateViewer />
+            );
+        }
         const condition = this.state.condition;
-        const conditionParameters = this.renderConditionParameters();
-        const saveFunc = () => {
-            this.setFreezeOn();
-            let createOrUpdate;
-            if (this.props.condition.id === "") {
-                createOrUpdate = this.props.createNewCondition(condition);
-            }
-            else {
-                createOrUpdate = this.props.updateCondition(condition);
-            }
-            createOrUpdate
-                .then(() => toastr.success('Success', "Save OK"))
-                .catch(e => toastr.error('Error', e.message))
-                .then(() => this.setFreezeOff());
-        };
-
-        const cancelFunc = () => {
-            this.setState({condition: this.props.condition });
-        };
-
-        const newFunc = () => {
-            if (this.props.reset) {
-                this.props.reset();
-            }                        
-        };
-
-        const addConditionFunc = () => {
-            const conditionLength = this.state.conditionLength + 1;
-            this.setState({conditionLength});
-        };
-
-        const op = condition.operator;
-        const addConditionBtn = op === "AND" || op === "OR" || (op === "NOT" && this.state.conditionLength < 1) ? 
-        (<div className="datapoint-editor-button" onClick={addConditionFunc}>more</div>) :
-        "";
 
         return (
-            <div className="condition-creator">
-                <div className="action-actions">
-                    <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
-                    <div className="datapoint-editor-button" onClick={newFunc}>New</div>
-                    <div className="datapoint-editor-button" onClick={cancelFunc}>Cancel</div>
-                    {addConditionBtn}
-                </div>
+            <React.Fragment>
                 <DatapointParameter
                     key="id"
                     validator={this.validateID}
@@ -256,7 +222,61 @@ class ConditionCreator extends FreezeView {
                     name="fullText"
                     data={condition}
                 />
-                {conditionParameters}
+                {this.renderConditionParameters()}
+            </React.Fragment>
+        );
+    }
+
+    renderContent() {
+        const condition = this.state.condition;
+        const saveFunc = () => {
+            this.setFreezeOn();
+            let createOrUpdate;
+            if (this.props.condition.id === "") {
+                createOrUpdate = this.props.createNewCondition(condition);
+            }
+            else {
+                createOrUpdate = this.props.updateCondition(condition);
+            }
+            createOrUpdate
+                .then(() => toastr.success('Success', "Save OK"))
+                .catch(e => toastr.error('Error', e.message))
+                .then(() => this.setFreezeOff());
+        };
+
+        const cancelFunc = () => {
+            this.setState({condition: this.props.condition });
+        };
+
+        const newFunc = () => {
+            if (this.props.reset) {
+                this.props.reset();
+            }                        
+        };
+
+        const addConditionFunc = () => {
+            const conditionLength = this.state.conditionLength + 1;
+            this.setState({conditionLength});
+        };
+
+        const templateFunc = () => {
+            this.setState({templateMode: true});
+        }
+        const op = condition.operator;
+        const addConditionBtn = op === "AND" || op === "OR" || (op === "NOT" && this.state.conditionLength < 1) ? 
+        (<div className="datapoint-editor-button" onClick={addConditionFunc}>more</div>) :
+        "";
+
+        return (
+            <div className="condition-creator">
+                <div className="action-actions">
+                    <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
+                    <div className="datapoint-editor-button" onClick={newFunc}>New</div>
+                    <div className="datapoint-editor-button" onClick={cancelFunc}>Cancel</div>
+                    <div className="datapoint-editor-button" onClick={templateFunc}>Template</div>                    
+                    {addConditionBtn}
+                </div>
+                {this.renderCreator()}
             </div>
         );
     }
