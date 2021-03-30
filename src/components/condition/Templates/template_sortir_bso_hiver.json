@@ -1,0 +1,144 @@
+{
+    "name": "Sortir BSO - Hiver",
+    "TAG": "BSO_OUT",
+    "objects": [
+        { "id":"vent", "name": "Vitesse Vent", "type": "triggerEvent"},
+        { "id": "lum", "name": "Luminosite", "type": "triggerEvent"},
+        { "id": "azimut", "name": "Azimut", "type": "triggerEvent"},        
+        { "id": "tempOut", "name": "Temp. exter.", "type": "triggerEvent"},
+        { "id": "tempIn", "name": "Temp. salon.", "type": "triggerEvent"},
+        { "id": "bso", "name": "BSO Reader", "type": "triggerEvent"},
+        { "id": "bctl", "name": "BSO Ctl", "type": "DatapointCtl", "required": true}        
+    ],
+    "parameters": [
+        { "id": "key", "name": "key", "type": "string", "default": ""},
+        { "id": "bso", "name": "BSO lower", "type": "number", "default": 10},
+        { "id": "vent", "name": "Vent Max", "type": "number", "default": 6},
+        { "id": "hours", "name": "Heure Actif", "type": "hours", "default": "8-20"},
+        { "id": "azimut", "name": "Azimut Actif", "type": "range", "default": "90-190"},
+        { "id": "tempOut", "name": "Temperature Ext lower", "type": "number", "default": 19},
+        { "id": "tempIn", "name": "Temperature Int higher", "type": "number", "default": 23},
+        { "id": "lum", "name": "Luminosite higher", "type": "number", "default": 10000},
+        { "id": "setvalue", "name": "action value", "type": "number", "default": 100}
+    ],
+    "conditions": [
+        {
+            "id": "cvent",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_vent",
+            "value": "(${objects[vent].id}/'${objects[vent].name}' LOWER ${parameters[vent]})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_hour_low",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_hour_low",
+            "value": "(HourTriggerEvent/'HourTriggerEvent' GREATER ${parameters[hours].low})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_hour_high",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_hour_high",
+            "value": "(HourTriggerEvent/'HourTriggerEvent' LOWER ${parameters[hours].high})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_azimut_low",
+            "name": "${TAG}_${parameters[key]}_${objects[azimut].name}_azimut_low",
+            "value": "(${objects[azimut].id}/'${objects[azimut].name}' GREATER_EQ ${parameters[azimut].low})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_azimut_high",
+            "name": "${TAG}_${parameters[key]}_${objects[azimut].name}_azimut_high",
+            "value": "(${objects[azimut].id}/'${objects[azimut].name}' LOWER_EQ ${parameters[azimut].high})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month_min1",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_min1",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' GREATER_EQ 1)",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month_max1",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_max1",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' LOWER_EQ 6)",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month_min2",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_min2",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' GREATER_EQ 10)",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month_max2",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_max2",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' LOWER_EQ 12)",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month1",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month1",
+            "value": "(${conditions[c_month_min1].id} AND ${conditions[c_month_max1].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month2",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month2",
+            "value": "(${conditions[c_month_min2].id} AND ${conditions[c_month_max2].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_months",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_months",
+            "value": "(${conditions[c_month1].id} OR ${conditions[c_month2].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_lum",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_lum",
+            "value": "(${objects[lum].id}/'${objects[lum].name}' GREATER_EQ ${parameters[lum]})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_bso_pos",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_bso",
+            "value": "(${objects[bso].id}/'${objects[bso].name}' LOWER_EQ ${parameters[bso]})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_temp_ext",
+            "name": "${TAG}_${parameters[key]}_${objects[tempOut].name}_tempOut",
+            "value": "(${objects[tempOut].id}/'${objects[tempOut].name}' LOWER_EQ ${parameters[tempOut].value})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_temp_in",
+            "name": "${TAG}_${parameters[key]}_${objects[tempIn].name}_tempIn",
+            "value": "(${objects[tempIn].id}/'${objects[tempIn].name}' GREATER_EQ ${parameters[tempIn].value})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "all",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all",
+            "value": "(${conditions[cvent].id} AND ${conditions[c_hour_low].id} AND ${conditions[c_hour_high].id} AND ${conditions[c_months].id} AND ${conditions[c_lum].id} AND ${conditions[c_temp_ext].id} AND ${conditions[c_temp_in].id} AND ${conditions[c_azimut_low].id} AND ${conditions[c_azimut_high].id})",
+            "emitChangesOnly": true
+        }
+        ,
+        {
+            "id": "all_bso_in",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all_bso_in",
+            "value": "(${conditions[c_bso_pos].id} AND ${conditions[all].id})",
+            "emitChangesOnly": true
+        }
+    ],
+    "actions": [
+        {
+            "id": "A1",
+            "name": "${TAG}_${parameters[key]}_Sortir_${objects[bso].name}",
+            "type": "PercentAction",
+            "conditionID": "${conditions[all_bso_in].id}",
+            "parameters": "{'_type':'PercentParameters','value':${parameters[setvalue]},'dataPointCtlID':'${objects[bctl].id}'}"
+        }
+    ]
+}

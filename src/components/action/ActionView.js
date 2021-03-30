@@ -22,7 +22,7 @@ class ActionView extends FreezeView {
         return (
             <div className="gdnet-view">
                 <div className="gdnet-title">Actions</div>
-                <div className="action-view-container">
+                <div className="view-container">
                     <ActionTabs />
                 </div>
             </div>

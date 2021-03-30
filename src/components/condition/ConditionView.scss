@@ -3,6 +3,8 @@
 .condition-view-container {
     display: flex;
     flex-direction: row;
+    position: absolute;
+    top: 60px;
 }
 
 .condition-creator {
@@ -12,8 +14,8 @@
 }
 
 #condition-list {
-    width: 360px;
-    min-width: 360px;
+    width: 460px;
+    min-width: 460px;
     max-height: 600px;
     min-height: 600px;
     overflow: scroll;
@@ -29,4 +31,5 @@
     background-color: $gdnet-purple;
     color: white;
     margin-bottom:20px;
+    position: absolute;
   }

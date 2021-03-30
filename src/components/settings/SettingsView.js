@@ -111,6 +111,7 @@ class SettingsView extends FreezeView {
         return (
             <div className="gdnet-view">
                 <div className="gdnet-title">Settings</div>
+                <div className="view-container">
                 <div className="settings-view-container">
                     <DatapointParameter
                         key="dbName"
@@ -165,6 +166,7 @@ class SettingsView extends FreezeView {
                         <div className="btn" onClick={this.submit}>Submit</div>
                         <div className="btn" onClick={this.cancel}>Cancel</div>
                     </div>
+                </div>
                 </div>
             </div>
         );

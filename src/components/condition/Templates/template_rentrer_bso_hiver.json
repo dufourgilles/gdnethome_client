@@ -1,0 +1,173 @@
+{
+    "name": "Renter BSO - basse saison",
+    "TAG": "BSO_IN",
+    "objects": [
+        { "id":"vent", "name": "Vitesse Vent", "type": "triggerEvent"},
+        { "id": "lum", "name": "Luminosite", "type": "triggerEvent"},
+        { "id": "azimut", "name": "Azimut", "type": "triggerEvent"},
+        { "id": "bso", "name": "BSO Reader", "type": "triggerEvent"},
+        { "id": "tempOut", "name": "Temp. outside", "type": "triggerEvent"},
+        { "id": "tempIn", "name": "Temp. inside", "type": "triggerEvent"},
+        { "id": "bctl", "name": "BSO Ctl", "type": "DatapointCtl", "required": true}        
+    ],
+    "parameters": [
+        { "id": "key", "name": "key", "type": "string", "default": ""},
+        { "id": "hours", "name": "Heure Actif", "type": "hours", "default": "8-20"},
+        { "id": "azimut", "name": "Azimut InActif", "type": "range", "default": "90-190"},
+        { "id": "tempOut", "name": "Temperature Ext lower", "type": "number", "default": 19},
+        { "id": "tempIn", "name": "Temperature Int lower", "type": "number", "default": 21},
+        { "id": "lum", "name": "Luminosite Lower", "type": "number", "default": 5000},
+        { "id": "bso", "name": "BSO higher", "type": "number", "default": 90},
+        { "id": "vent", "name": "Vent Max", "type": "number", "default": 7},
+        { "id": "setvalue", "name": "action value", "type": "number", "default": 0}
+    ],
+    "conditions": [
+        {
+            "id": "cvent",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_vent",
+            "value": "(${objects[vent].id}/'${objects[vent].name}' GREATER_EQ ${parameters[vent]})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_hour_min",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_hour_min",
+            "value": "(HourTriggerEvent/'HourTriggerEvent' GREATER ${parameters[hours].low})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_hour_max",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_hour_max",
+            "value": "(HourTriggerEvent/'HourTriggerEvent' LOWER ${parameters[hours].high})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month_min1",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_min1",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' GREATER_EQ 1)",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month_max1",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_max1",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' LOWER_EQ 6)",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month_min2",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_min2",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' GREATER_EQ 10)",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month_max2",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_max2",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' LOWER_EQ 12)",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month1",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month1",
+            "value": "(${conditions[c_month_min1].id} AND ${conditions[c_month_max1].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_month2",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month2",
+            "value": "(${conditions[c_month_min2].id} AND ${conditions[c_month_max2].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_months",
+            "description": "Every day except during summer",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_months",
+            "value": "(${conditions[c_month1].id} OR ${conditions[c_month2].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_lum",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_lum",
+            "value": "(${objects[lum].id}/'${objects[lum].name}' LOWER_EQ ${parameters[lum]})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_bso_pos",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_bso",
+            "value": "(${objects[bso].id}/'${objects[bso].name}' GREATER_EQ ${parameters[bso]})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_temp_ext",
+            "name": "${TAG}_${parameters[key]}_${objects[tempOut].name}_tempOut",
+            "value": "(${objects[tempOut].id}/'${objects[tempOut].name}' LOWER_EQ ${parameters[tempOut].value})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_temp_in",
+            "name": "${TAG}_${parameters[key]}_${objects[tempIn].name}_tempIn",
+            "value": "(${objects[tempIn].id}/'${objects[tempIn].name}' LOWER_EQ ${parameters[tempIn].value})",
+            "emitChangesOnly": true
+        },        
+        {
+            "id": "c_lum_or_temp",
+            "name": "${TAG}_${parameters[key]}_${objects[tempIn].name}_lum_or_temp",
+            "description": "Lum lower than min or Temp Int lower than min",
+            "value": "(${conditions[c_lum].id} OR ${conditions[c_temp_in].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_date_lum_temp",
+            "name": "${TAG}_${parameters[key]}_${objects[tempIn].name}_date_lum_temp",
+            "value": "(${conditions[c_hour_min].id} AND ${conditions[c_hour_max].id} AND ${conditions[c_months].id} AND ${conditions[c_temp_ext].id} AND ${conditions[c_lum_or_temp].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_hour_evening",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_hour_evening",
+            "description": "During winter bring BSO in at this time whatever else.",
+            "value": "(HourTriggerEvent/'HourTriggerEvent' EQUAL ${parameters[hours].high})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_evening_and_months",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_evening_and_months",
+            "description": "Everyday at 20h00  except during summer timer ",
+            "value": "(${conditions[c_hour_evening].id} AND ${conditions[c_months].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_azimut_low",
+            "name": "${TAG}_${parameters[key]}_${objects[azimut].name}_azimut_low",
+            "value": "(${objects[azimut].id}/'${objects[azimut].name}' LOWER_EQ ${parameters[azimut].low})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_azimut_high",
+            "name": "${TAG}_${parameters[key]}_${objects[azimut].name}_azimut_high",
+            "value": "(${objects[azimut].id}/'${objects[azimut].name}' GREATER_EQ ${parameters[azimut].high})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "all",
+            "description": "If Wind or during winter Lum low or temp low or it is time to go in",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all",
+            "value": "(${conditions[cvent].id} OR ${conditions[c_date_lum_temp].id} OR ${conditions[c_evening_and_months].id} OR ${conditions[c_azimut_low].id} OR ${conditions[c_azimut_high].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "all_and_out",
+            "description": "All conditions met and BSO is out",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all_and_out",
+            "value": "(${conditions[all].id} AND ${conditions[c_bso_pos].id})",
+            "emitChangesOnly": true 
+        }
+    ],
+    "actions": [
+        {
+            "id": "A1",
+            "name": "${TAG}_${parameters[key]}_Rentrer_${objects[bso].name}",
+            "type": "PercentAction",
+            "conditionID": "${conditions[all_and_out].id}",
+            "parameters": "{'_type':'PercentParameters','value':${parameters[setvalue]},'dataPointCtlID':'${objects[bctl].id}'}"
+        }
+    ]
+}

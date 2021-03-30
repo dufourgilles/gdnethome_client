@@ -40,9 +40,11 @@ class DataPointCtlView extends FreezeView {
         return (
             <div className="gdnet-view">
                 <div className="gdnet-title">DataPointCtl</div>
-                <div className={`datapoint-view ${this.isFreezed() === true ? "blurred" : ""}`}>
-                    <div className="datapoint-view-delete-btn" onClick={this.handleDeleteAll}>
-                        Delete DP Controllers
+                <div className={`view-container ${this.isFreezed() === true ? "blurred" : ""}`}>
+                    <div className="datapoint-view-buttons">
+                        <div className="datapoint-editor-button" onClick={this.handleDeleteAll}>
+                            Delete DP Controllers
+                        </div>
                     </div>
                     <div className="datapoint-view-info">
                         <DatapointList datapoints={this.props.dataPointCtls} select={this.selectDataPointCtl}/>

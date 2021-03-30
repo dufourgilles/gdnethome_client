@@ -19,7 +19,8 @@
 }
 
 .action-list {
-  min-width: 385px;
+  min-width: 520px;
+  width: 520px;
   padding-right: 20px;
   padding-bottom: 20px;
   height: calc(100vh - 260px);
@@ -29,16 +30,20 @@
 .action-list-item {
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 .action-item-name {
   height: 38px;
-  font-size: 18px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 16px;
   padding-top:5px;
   padding-right: 20px;
   padding-left:10px;
-  max-width: 250px;
-  min-width: 250px;
+  max-width: 350px;
+  min-width: 350px;
   vertical-align: middle;
 }
 

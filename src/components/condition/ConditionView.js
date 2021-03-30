@@ -39,8 +39,8 @@ class ConditionView extends FreezeView {
         return (
             <div className="gdnet-view">
                 <div className="gdnet-title">Conditions</div>
-                <div key={"condition-view"} className="condition-view-container">
-                    <ConditionList onSelect={this.handleSelect} onDelete={this.handleDelete} />
+                <div key={"condition-view"} className="view-container">
+                    <ConditionList onSelect={this.handleSelect} onDelete={this.handleDelete} selected={this.state.condition} />
                     <ConditionCreator 
                         id={this.state.condition.id} 
                         condition={this.state.condition}

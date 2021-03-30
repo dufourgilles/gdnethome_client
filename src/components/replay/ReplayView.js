@@ -70,6 +70,7 @@ class ReplayView extends FreezeView {
         return (
             <div className="gdnet-view">
                 <div className="gdnet-title">Replay</div>
+                <div className="view-container">
                 <div className="replay-view">
                     <div className="replay-view-actions">
                         <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
@@ -125,6 +126,7 @@ class ReplayView extends FreezeView {
                     {this.state.filteredContent}
                     </pre>
                 </div>
+            </div>
             </div>
         );
     }

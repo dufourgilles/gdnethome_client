@@ -17,7 +17,7 @@ class ConditionCreator extends FreezeView {
 
     componentWillReceiveProps(newProps) {
         if (newProps.condition.id !== this.props.condition.id) {
-            this.setState({condition: newProps.condition, conditionLength: newProps.condition.conditionIDs.length > 0 ? newProps.condition.conditionIDs.length : 1});
+            this.setState({templateMode: false, condition: newProps.condition, conditionLength: newProps.condition.conditionIDs.length > 0 ? newProps.condition.conditionIDs.length : 1});
         }
     }
 
@@ -65,8 +65,11 @@ class ConditionCreator extends FreezeView {
     renderConditionParameters() {
         const condition = this.state.condition;
         const conditions = this.props.conditions;
-
-        if (condition.operator === "AND" || condition.operator === "OR") {
+        if (condition.operator == null) {
+            debugger;
+            console.log("invalid condition", condition);
+        }
+        else if (condition.operator === "AND" || condition.operator === "OR") {
             const renderCondition = index => {
                 const condChanged = (key,value) => {
                     this.handleValueChange(key, value, index);

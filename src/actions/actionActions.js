@@ -79,3 +79,15 @@ export const deleteAction = dispatch => action => {
             }
         );
 };
+
+export const deleteFullAction = dispatch => action => {
+    dispatch({type: types.DELETE_ACTION_PENDING});
+    return Api.delete(`${ACTION_BASE_URI}/{id}/full`, {id: action.id})
+        .then(
+            () => _fetchActions(dispatch),
+            error => {
+                dispatch({type: types.DELETE_ACTION_FAILURE, error: error.message});
+                return Promise.reject(error);
+            }
+        );
+};

@@ -2,6 +2,7 @@ import React from 'react';
 import TemplateNumber from './TemplateNumber';
 import TemplateRange from './TemplateRange';
 import TemplateHours from './TemplateHours';
+import TemplateString from './TemplateString';
 
 class TemplateParameter extends React.Component{
     render() {
@@ -11,6 +12,11 @@ class TemplateParameter extends React.Component{
         if (type === "number") {
             return (
                 <TemplateNumber {...this.props} />
+            );
+        }
+        else if (type === "string") {
+            return (
+                <TemplateString {...this.props} />
             );
         }
         else if (type === "range") {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {deleteAction} from "../../actions/actionActions";
+import {deleteAction, deleteFullAction} from "../../actions/actionActions";
 import { toastr } from "react-redux-toastr";
 import PropTypes from "prop-types";
 import FontAwesome from 'react-fontawesome';
@@ -15,13 +15,23 @@ class ActionEditor extends Component {
     render() {
         const actions = this.props.actions;
         const renderedActions = actions.map(action => {
+            const handleFullDelete = () => {
+                this.props.deleteFullAction(action)
+                .then(() => {
+                    if (this.state.action === action) {
+                        this.setState({action: null});
+                    }
+                    toastr.success('Success', "Delete OK");
+                })
+                .catch(e => toastr.error('Error', e.message));
+            }
             const handleDelete = () => {
                 this.props.deleteAction(action)
                     .then(() => {
                         if (this.state.action === action) {
                             this.setState({action: null});
                         }
-                        toastr.success('Success', "Save OK");
+                        toastr.success('Success', "Delete OK");
                     })
                     .catch(e => toastr.error('Error', e.message));
             };
@@ -31,12 +41,17 @@ class ActionEditor extends Component {
             return (
                 <div className="action-list-item" key={action.id}>
                     <div className="action-item-name">{action.name}</div>
-                    <Button id="btnDeleteAction" className="action-item-delete" onClick={handleDelete}>
-                        <FontAwesome name="trash"/>
-                    </Button>
-                    <Button id="btnEditAction" className="action-item-edit" onClick={handleSelect}>
-                        <FontAwesome name="edit"/>
-                    </Button>
+                    <div>
+                        <Button id="btnDeleteAction" className="action-item-delete" onClick={handleDelete}>
+                            <FontAwesome name="trash"/>
+                        </Button>
+                        <Button id="btnEditAction" className="action-item-edit" onClick={handleFullDelete}>
+                            <FontAwesome name="trash-restore"/>
+                        </Button>
+                        <Button id="btnEditAction" className="action-item-edit" onClick={handleSelect}>
+                            <FontAwesome name="edit"/>
+                        </Button>
+                    </div>
                 </div>         
                 );
         });
@@ -58,7 +73,8 @@ class ActionEditor extends Component {
 ActionEditor.propTypes = {
     action: PropTypes.object,
     actions: PropTypes.array.isRequired,
-    deleteAction: PropTypes.func.isRequired
+    deleteAction: PropTypes.func.isRequired,
+    deleteFullAction: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -67,7 +83,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-      deleteAction: deleteAction(dispatch)
+      deleteAction: deleteAction(dispatch),
+      deleteFullAction: deleteFullAction(dispatch)
   }
 };
 

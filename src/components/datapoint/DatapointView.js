@@ -88,12 +88,12 @@ class DatapointView extends FreezeView {
         return (
             <div className="gdnet-view">
                 <div className="gdnet-title">DataPoints</div>
-                <div className={`datapoint-view ${this.state.freezeOn === true ? "blurred" : ""}`}>
+                <div className={`view-container ${this.state.freezeOn === true ? "blurred" : ""}`}>
                     <div className="datapoint-view-buttons">
-                        <div className="datapoint-view-btn" onClick={this.openFileSelect}>
+                        <div className="datapoint-editor-button" onClick={this.openFileSelect}>
                             Upload ETS5 File
                         </div>
-                        <div className="datapoint-view-btn" onClick={this.handleDeleteAll}>
+                        <div className="datapoint-editor-button" onClick={this.handleDeleteAll}>
                             Delete ALL Datapoints
                         </div>
                     </div>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createNewConditionFromString } from "../../actions/conditionActions";
+import { createNewConditionFromString, updateCondition } from "../../actions/conditionActions";
+import { createNewAction } from "../../actions/actionActions";
+import { getEmptyAction } from "../../reducers/actionReducer";
 import DatapointParameter from "../datapoint/DatapointParameter";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
@@ -9,8 +11,6 @@ import TemplateObject from './Templates/TemplateObject';
 import TemplateParameter from './Templates/TemplateParameter';
 import TemplateConverter from './Templates/TemplateConverter';
 import AsyncFileReader from '../../utils/AsyncFiledReader';
-import {getTriggerByID} from '../../reducers/triggerEventReducer';
-import {getConditionByID} from '../../reducers/conditionReducer';
 
 import "./Template.css";
 
@@ -19,6 +19,7 @@ class ConditionTemplateViewer extends FreezeView {
         templates: this.props.templates ? this.props.templates : [],
         template: {objects: [], parameters: []},
         parameters: {},
+        actionTypes: [],
         objects: {}
     };
 
@@ -28,14 +29,31 @@ class ConditionTemplateViewer extends FreezeView {
             return null;
         }
         this.setFreezeOn();
-        // create all conditions
+        // create all conditions and actions
         try {
             const converter = new TemplateConverter(this.state.objects, this.state.parameters, this.props.getConditionByID, template);
             for(const conditionTemplate of template.conditions) {
                 const name = converter.convert(conditionTemplate.name);
                 const conditionString = converter.convert(conditionTemplate.value);
                 const condition = await this.props.createNewConditionFromString(name, conditionString);
-                converter.addCondition(condition);
+                for(const key of ["emitChangesOnly"]) {
+                    if (conditionTemplate[key] != null) {
+                        condition[key] = typeof(conditionTemplate[key]) === 'string' ? converter.convert(conditionTemplate[key]) : conditionTemplate[key];
+                        await this.props.updateCondition(condition);
+                    }
+                }
+                converter.addCondition(conditionTemplate, condition);
+            }
+            for(const actionTemplate of template.actions) {
+                const action = getEmptyAction();                
+                action.type = actionTemplate.type;
+                for(const key of ["name", "enable", "conditionID", "maxExecute", "minIntervalSeconds", "executeIntervalSeconds", "delaySeconds"]) {
+                    if (actionTemplate[key] != null) {
+                        action[key] = converter.convert(actionTemplate[key]);
+                    }
+                }
+                action.parameters = converter.convertActionParameters(actionTemplate.parameters);
+                await this.props.createNewAction(action);
             }
             toastr.success('Success', "Generation OK");
         }
@@ -49,7 +67,23 @@ class ConditionTemplateViewer extends FreezeView {
     hashArray = (a) => {
         const hashList = {};
         a.map(item => {
-            hashList[item.id] = {id: item.id};
+            const info = {id: item.id, default: item.default};
+            if (item.default != null) {
+                if (item.type === "number") {
+                    info.value = Number(item.default);
+                }
+                else if (item.type === "range" || item.type === "hours") {
+                    const range = item.default.split("-");
+                    if (range.length > 1) {
+                        info.low = range[0];
+                        info.high = range[1];
+                    }
+                }
+                else if (item.type === "string") {
+                    info.value = item.default;
+                }
+            }
+            hashList[item.id] = info;
         });
         return hashList;
     }
@@ -62,7 +96,7 @@ class ConditionTemplateViewer extends FreezeView {
 
     handleParameterChange = (template, value) =>  {
         const parameters = {...this.state.parameters};
-        parameters[template.id] = value;
+        parameters[template.id] = {...parameters[template.id],...value};
         this.setState({parameters});
     };
 
@@ -135,9 +169,9 @@ class ConditionTemplateViewer extends FreezeView {
 
 ConditionTemplateViewer.propTypes = {
     triggers: PropTypes.array.isRequired,
-    getTriggerByID: PropTypes.func.isRequired,
-    getConditionByID: PropTypes.func.isRequired,
     createNewConditionFromString: PropTypes.func.isRequired,
+    updateCondition: PropTypes.func.isRequired,
+    createNewAction: PropTypes.func.isRequired,
     conditions: PropTypes.array.isRequired,
     datapointctls: PropTypes.array.isRequired,
     templates: PropTypes.array,
@@ -155,8 +189,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
     return {
         createNewConditionFromString: createNewConditionFromString(dispatch),
-        getTriggerByID: getTriggerByID(dispatch),
-        getConditionByID: getConditionByID(dispatch)
+        updateCondition: updateCondition(dispatch),
+        createNewAction: createNewAction(dispatch)
     }
   };
 

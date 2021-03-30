@@ -8,8 +8,8 @@ export default class TemplateConverter {
 
     }
 
-    addCondition(condition) {
-        this.conditions[condition.id] = condition;
+    addCondition(template, condition) {
+        this.conditions[template.id] = condition;
     }
 
     getCondition(id) {
@@ -38,6 +38,9 @@ export default class TemplateConverter {
             else {
                 const param = variables[1].match(/parameters\[(\w+)\]\.?(\w*)/);
                 if (param) {
+                    if (this.parameters[param[1]] == null) {
+                        throw new Error(`Unknown parameters ${param[1]}`);
+                    }
                     if (param[2] !== "") {
                         value = this.parameters[param[1]][param[2]];
                     }
@@ -63,5 +66,15 @@ export default class TemplateConverter {
             convertedText = convertedText.replace(/\$\{([^${}]+)\}/, value);
         }
         return convertedText;
-    }    
+    }
+
+
+    /*
+    "parameters":{"_type":"SwitchParameters","switchType":{"_type":"SwitchTypeParameters","value":"off"},"dataPointCtlID":"BanneSolaire"}
+    "parameters":{"_type":"PercentParameters","value":100,"dataPointCtlID":"BSOHall"}
+    */
+   convertActionParameters(textParameters) {
+       const convertedText = this.convert(textParameters).replace(/'/mg, "\"");
+       return JSON.parse(convertedText);
+   }
 }

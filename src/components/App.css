@@ -9,6 +9,8 @@ html, body {
   left: 0px;
   width: 100%;
   height: calc(100vh - 110px);
+  margin-right: unset;
+  margin-left: unset;
 }
 
 .gdnet-view {
@@ -17,8 +19,23 @@ html, body {
   height: calc(100vh - 110px);
 }
 
+.view-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  margin-left: 10px;
+  top: 60px;
+}
 
 #root {
     width: 100%;
     overflow: hidden;
+}
+
+.btn-selected {
+  border-color: red;
+}
+
+.status-false {
+  color: red;
 }

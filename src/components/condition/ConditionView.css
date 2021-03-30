@@ -1,6 +1,8 @@
 .condition-view-container {
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  position: absolute;
+  top: 60px; }
 
 .condition-creator {
   display: block;
@@ -8,8 +10,8 @@
   margin-left: 20px; }
 
 #condition-list {
-  width: 360px;
-  min-width: 360px;
+  width: 460px;
+  min-width: 460px;
   max-height: 600px;
   min-height: 600px;
   overflow: scroll;
@@ -23,4 +25,5 @@
   width: 100%;
   background-color: mediumpurple;
   color: white;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  position: absolute; }

@@ -113,6 +113,7 @@ class StatusView extends FreezeView {
         return (
             <div className="gdnet-view">
                 <div className="gdnet-title">Status</div>
+                <div className="view-container">
                 <div className="status-view-container">
                     <div className="status-disks" >
                         {this.renderAllDiskInfo()}
@@ -128,6 +129,7 @@ class StatusView extends FreezeView {
                             <button type="submit">Download Log Files</button>
                         </form>
                     </div>
+                </div>
                 </div>
             </div>
         );

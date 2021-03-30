@@ -22,24 +22,29 @@ class ConditionList extends React.Component {
             const handleDelete = () => {
                 this.props.deleteCondition(condition)
                     .then(() => {
-                        this.props.deleteCondition();
-                        toastr.success('Success', "Save OK");
+                        toastr.success('Success', "Delete OK");
                     })
                     .catch(e => toastr.error('Error', e.message));
             };
             const handleSelect = event => {
                 event.preventDefault();
                 this.props.onSelect(condition);
-            };            
+            };
+            let btnEditClass = this.props.selected.id === condition.id ? "btn-selected" : "condition-item-edit";
+            if (condition.status === false) {
+                btnEditClass += " status-false";
+            }
             return (
                 <div className="action-list-item" key={condition.id}>
                     <div className="action-item-name">{condition.name}</div>
-                    <Button id="btnDeleteCondition" className="condition-item-delete" onClick={handleDelete}>
-                        <FontAwesome name="trash"/>
-                    </Button>
-                    <Button id="btnEditCondition" className="condition-item-edit" onClick={handleSelect}>
-                        <FontAwesome name="edit"/>
-                    </Button>
+                    <div>
+                        <Button id="btnDeleteCondition" className="condition-item-delete" onClick={handleDelete}>
+                            <FontAwesome name="trash"/>
+                        </Button>
+                        <Button id="btnEditCondition" className={btnEditClass} onClick={handleSelect}>
+                            <FontAwesome name="edit"/>
+                        </Button>
+                    </div>
                 </div>         
                 );
         });
@@ -47,7 +52,7 @@ class ConditionList extends React.Component {
 
     render() {
         return (
-            <div id="condition-list">
+            <div className="action-list">
                 {this.renderCondition()}
             </div>
         )
@@ -56,7 +61,8 @@ class ConditionList extends React.Component {
 
 ConditionList.propTypes = {
     conditions: PropTypes.array.isRequired,
-    deleteCondition: PropTypes.func.isRequired
+    deleteCondition: PropTypes.func.isRequired,
+    selected: PropTypes.object.isRequired
 };
 
 

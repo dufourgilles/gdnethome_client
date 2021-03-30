@@ -46,9 +46,9 @@ export const createNewCondition = dispatch => condition => {
 
 export const createNewConditionFromString = dispatch => (name, stringCondition) => {
     dispatch({type: types.ADD_CONDITION_PENDING});
-    return Api.post(`${CONDITION_BASE_URI}/string/${name}`, stringCondition)
+    return Api.post(`${CONDITION_BASE_URI}/string/${name}`, stringCondition, {headers: {'Content-Type': 'text/plain'}})
         .then(
-            () => _fetchConditions(dispatch),
+            response => _fetchConditions(dispatch).then(() => response),
             error => {
                 dispatch({type: types.ADD_CONDITION_FAILURE, error: error.message});
                 return Promise.reject(error);

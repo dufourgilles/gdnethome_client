@@ -194,14 +194,14 @@ class ActionCreator extends FreezeView {
                 return (
                     <React.Fragment>
                         <DatapointParameter
-                        key="conditionText"
-                        label="Condition Text"
-                        name="text"
-                        editable={false}
-                        data={condition}
+                            key="conditionText"
+                            label="Condition Text"
+                            name="text"
+                            editable={false}
+                            data={condition}
                         />
                         <DatapointParameter
-                            key="conditionText"
+                            key="conditionFullText"
                             label="Condition Full Text"
                             name="fullText"
                             editable={false}
