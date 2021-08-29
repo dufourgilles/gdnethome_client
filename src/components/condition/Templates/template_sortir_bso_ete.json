@@ -6,6 +6,7 @@
         { "id": "lum", "name": "Luminosite", "type": "triggerEvent"},
         { "id": "azimut", "name": "Azimut", "type": "triggerEvent"},
         { "id": "bso", "name": "BSO Reader", "type": "triggerEvent"},
+        { "id": "securite", "name": "Securite BSO.", "type": "triggerEvent"},
         { "id": "bctl", "name": "BSO Ctl", "type": "DatapointCtl", "required": true}        
     ],
     "parameters": [
@@ -51,7 +52,7 @@
         {
             "id": "c_month_low",
             "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_low",
-            "value": "(MonthTriggerEvent/'MonthTriggerEvent' GREATER_EQ 7)",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' GREATER_EQ 6)",
             "emitChangesOnly": true
         },
         {
@@ -73,9 +74,21 @@
             "emitChangesOnly": true
         },
         {
+            "id": "c_securite",
+            "name": "${TAG}_securite_${objects[bso].name}",
+            "value": "(${objects[securite].id}/'${objects[securite].name}' LOWER 1)",
+            "emitChangesOnly": true
+        },
+        {
             "id": "all",
             "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all",
-            "value": "(${conditions[cvent].id} AND ${conditions[c_time_low].id} AND ${conditions[c_time_high].id} AND ${conditions[c_month_low].id} AND ${conditions[c_month_high].id} AND ${conditions[c_lum].id} AND ${conditions[c_bso_pos].id} AND ${conditions[c_azimut_low].id} AND ${conditions[c_azimut_high].id})",
+            "value": "(${conditions[c_securite].id} AND ${conditions[cvent].id} AND ${conditions[c_time_low].id} AND ${conditions[c_time_high].id} AND ${conditions[c_month_low].id} AND ${conditions[c_month_high].id} AND ${conditions[c_lum].id} AND ${conditions[c_azimut_low].id} AND ${conditions[c_azimut_high].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "all_bso_in",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all_bso_in",
+            "value": "(${conditions[c_bso_pos].id} AND ${conditions[all].id})",
             "emitChangesOnly": true
         }
     ],

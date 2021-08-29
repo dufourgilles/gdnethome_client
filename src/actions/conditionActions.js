@@ -28,6 +28,9 @@ export const fetchConditionTypes = () => {
     return Api.get(`${CONDITION_BASE_URI}/types`);
 };
 
+export const getConditionEvents = (conditionID) => {
+    return Api.get(`${CONDITION_BASE_URI}/${conditionID}/stats`);
+}
 
 /* CREATE */
 

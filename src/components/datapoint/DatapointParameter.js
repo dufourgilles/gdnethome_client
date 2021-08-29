@@ -137,9 +137,10 @@ class DatapointParameter extends Component {
             else if (this.props.list) {
                 return this.renderList();
             }
-            else {
+            else if (this.props.data) {
                 return (<div className="datapoint-editor-value">{this.props.data[this.props.name]}</div>);
             }
+            return ""
         };
 
         const entryClass = this.props.className == null ? "datapoint-editor-entry" : this.props.className;

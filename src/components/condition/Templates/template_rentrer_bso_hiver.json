@@ -8,13 +8,14 @@
         { "id": "bso", "name": "BSO Reader", "type": "triggerEvent"},
         { "id": "tempOut", "name": "Temp. outside", "type": "triggerEvent"},
         { "id": "tempIn", "name": "Temp. inside", "type": "triggerEvent"},
+        { "id": "securite", "name": "Securite BSO.", "type": "triggerEvent"},
         { "id": "bctl", "name": "BSO Ctl", "type": "DatapointCtl", "required": true}        
     ],
     "parameters": [
         { "id": "key", "name": "key", "type": "string", "default": ""},
         { "id": "hours", "name": "Heure Actif", "type": "hours", "default": "8-20"},
         { "id": "azimut", "name": "Azimut InActif", "type": "range", "default": "90-190"},
-        { "id": "tempOut", "name": "Temperature Ext lower", "type": "number", "default": 19},
+        { "id": "tempOut", "name": "Temperature Ext lower", "type": "number", "default": 13},
         { "id": "tempIn", "name": "Temperature Int lower", "type": "number", "default": 21},
         { "id": "lum", "name": "Luminosite Lower", "type": "number", "default": 5000},
         { "id": "bso", "name": "BSO higher", "type": "number", "default": 90},
@@ -49,7 +50,7 @@
         {
             "id": "c_month_max1",
             "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_max1",
-            "value": "(MonthTriggerEvent/'MonthTriggerEvent' LOWER_EQ 6)",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' LOWER_EQ 5)",
             "emitChangesOnly": true
         },
         {
@@ -128,13 +129,6 @@
             "emitChangesOnly": true
         },
         {
-            "id": "c_evening_and_months",
-            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_evening_and_months",
-            "description": "Everyday at 20h00  except during summer timer ",
-            "value": "(${conditions[c_hour_evening].id} AND ${conditions[c_months].id})",
-            "emitChangesOnly": true
-        },
-        {
             "id": "c_azimut_low",
             "name": "${TAG}_${parameters[key]}_${objects[azimut].name}_azimut_low",
             "value": "(${objects[azimut].id}/'${objects[azimut].name}' LOWER_EQ ${parameters[azimut].low})",
@@ -147,10 +141,30 @@
             "emitChangesOnly": true
         },
         {
+            "id": "c_securite",
+            "name": "${TAG}_securite_${objects[bso].name}",
+            "value": "(${objects[securite].id}/'${objects[securite].name}' GREATER_EQ 1)",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_all_conditions",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all_and_months",
+            "description": "Everyday except during summer timer ",
+            "value": "(${conditions[c_hour_evening].id} OR ${conditions[c_azimut_low].id} OR ${conditions[c_azimut_high].id} OR ${conditions[c_date_lum_temp].id})",
+            "emitChangesOnly": true
+        },
+        {
+            "id": "c_all_and_months",
+            "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all_and_months",
+            "description": "Everyday except during summer timer ",
+            "value": "(${conditions[c_all_conditions].id} AND ${conditions[c_months].id})",
+            "emitChangesOnly": true
+        },
+        {
             "id": "all",
             "description": "If Wind or during winter Lum low or temp low or it is time to go in",
             "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all",
-            "value": "(${conditions[cvent].id} OR ${conditions[c_date_lum_temp].id} OR ${conditions[c_evening_and_months].id} OR ${conditions[c_azimut_low].id} OR ${conditions[c_azimut_high].id})",
+            "value": "(${conditions[c_securite].id} OR ${conditions[cvent].id} OR ${conditions[c_all_and_months].id} )",
             "emitChangesOnly": true
         },
         {

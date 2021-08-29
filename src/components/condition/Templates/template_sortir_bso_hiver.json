@@ -7,6 +7,7 @@
         { "id": "azimut", "name": "Azimut", "type": "triggerEvent"},        
         { "id": "tempOut", "name": "Temp. exter.", "type": "triggerEvent"},
         { "id": "tempIn", "name": "Temp. salon.", "type": "triggerEvent"},
+        { "id": "securite", "name": "Securite BSO.", "type": "triggerEvent"},
         { "id": "bso", "name": "BSO Reader", "type": "triggerEvent"},
         { "id": "bctl", "name": "BSO Ctl", "type": "DatapointCtl", "required": true}        
     ],
@@ -16,9 +17,10 @@
         { "id": "vent", "name": "Vent Max", "type": "number", "default": 6},
         { "id": "hours", "name": "Heure Actif", "type": "hours", "default": "8-20"},
         { "id": "azimut", "name": "Azimut Actif", "type": "range", "default": "90-190"},
-        { "id": "tempOut", "name": "Temperature Ext lower", "type": "number", "default": 19},
-        { "id": "tempIn", "name": "Temperature Int higher", "type": "number", "default": 23},
+        { "id": "tempOut", "name": "Temperature Ext higher", "type": "number", "default": 15},
+        { "id": "tempIn", "name": "Temperature Int higher", "type": "number", "default": 20},
         { "id": "lum", "name": "Luminosite higher", "type": "number", "default": 10000},
+        { "id": "pluie", "name": "Pluie", "type": "number", "default": 1},
         { "id": "setvalue", "name": "action value", "type": "number", "default": 100}
     ],
     "conditions": [
@@ -61,7 +63,7 @@
         {
             "id": "c_month_max1",
             "name": "${TAG}_${parameters[key]}_${objects[bso].name}_month_max1",
-            "value": "(MonthTriggerEvent/'MonthTriggerEvent' LOWER_EQ 6)",
+            "value": "(MonthTriggerEvent/'MonthTriggerEvent' LOWER_EQ 5)",
             "emitChangesOnly": true
         },
         {
@@ -107,9 +109,15 @@
             "emitChangesOnly": true
         },
         {
+            "id": "c_pluie",
+            "name": "${TAG}_${parameters[key]}_${objects[pluie].name}_bso",
+            "value": "(${objects[pluie].id}/'${objects[pluie].name}' EQ ${parameters[pluie]})",
+            "emitChangesOnly": true
+        },
+        {
             "id": "c_temp_ext",
             "name": "${TAG}_${parameters[key]}_${objects[tempOut].name}_tempOut",
-            "value": "(${objects[tempOut].id}/'${objects[tempOut].name}' LOWER_EQ ${parameters[tempOut].value})",
+            "value": "(${objects[tempOut].id}/'${objects[tempOut].name}' GREATER_EQ ${parameters[tempOut].value})",
             "emitChangesOnly": true
         },
         {
@@ -119,12 +127,17 @@
             "emitChangesOnly": true
         },
         {
+            "id": "c_securite",
+            "name": "${TAG}_securite_${objects[bso].name}",
+            "value": "(${objects[securite].id}/'${objects[securite].name}' LOWER 1)",
+            "emitChangesOnly": true
+        },
+        {
             "id": "all",
             "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all",
-            "value": "(${conditions[cvent].id} AND ${conditions[c_hour_low].id} AND ${conditions[c_hour_high].id} AND ${conditions[c_months].id} AND ${conditions[c_lum].id} AND ${conditions[c_temp_ext].id} AND ${conditions[c_temp_in].id} AND ${conditions[c_azimut_low].id} AND ${conditions[c_azimut_high].id})",
+            "value": "(${conditions[c_securite].id} AND ${conditions[cvent].id} AND ${conditions[c_hour_low].id} AND ${conditions[c_hour_high].id} AND ${conditions[c_months].id} AND ${conditions[c_lum].id} AND ${conditions[c_temp_ext].id} AND ${conditions[c_temp_in].id} AND ${conditions[c_azimut_low].id} AND ${conditions[c_azimut_high].id})",
             "emitChangesOnly": true
-        }
-        ,
+        },
         {
             "id": "all_bso_in",
             "name": "${TAG}_${parameters[key]}_${objects[bso].name}_all_bso_in",

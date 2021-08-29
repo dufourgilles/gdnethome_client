@@ -122,9 +122,17 @@ class ActionCreator extends FreezeView {
                         key="disabledInterval"
                         onChange={this.handleValueChange}
                         label="Disabled Interval"
-                        name="disabledInterval"
+                        name="disabledIntervalSeconds"
                         data={action}
                         editable={true}
+                    />
+                    <DatapointParameter
+                        key="disabledInterval"
+                        label="Disabled Time"
+                        name="disabledTimestamp"
+                        display = {(val) => {const d = new Date(val); return d;}}
+                        data={action}
+                        editable={false}
                     />
                     <DatapointParameter
                         key="totalExecuted"
@@ -191,6 +199,7 @@ class ActionCreator extends FreezeView {
             }
             else {
                 const condition = this.props.getConditionByID(action.conditionID);
+                if (condition == null) { return; }
                 return (
                     <React.Fragment>
                         <DatapointParameter

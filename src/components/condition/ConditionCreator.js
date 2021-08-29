@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchConditionTypes, createNewCondition, updateCondition } from "../../actions/conditionActions";
+import { fetchConditionTypes, createNewCondition, updateCondition, getConditionEvents } from "../../actions/conditionActions";
 import DatapointParameter from "../datapoint/DatapointParameter";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
@@ -12,6 +12,7 @@ class ConditionCreator extends FreezeView {
         templateMode: false,
         conditionTypes: [],
         condition: this.props.condition,
+        conditionEvents: [],
         conditionLength: this.props.condition.conditionIDs ? this.props.condition.conditionIDs.length : 1
     };
 
@@ -26,6 +27,14 @@ class ConditionCreator extends FreezeView {
             .then(conditionTypes => {
                 this.setState({conditionTypes})
         });
+    }
+
+    getCondtionEvents = () => {
+        this.setFreezeOn()
+        getConditionEvents(this.state.condition.id)
+        .then(result => this.setState({conditionEvents: result.events}))
+        .catch((e) => console.log(e))
+        .then(() => this.setFreezeOff());
     }
 
     handleValueChange = (key, value, index) =>  {
@@ -82,7 +91,7 @@ class ConditionCreator extends FreezeView {
                         name="conditionIDs"
                         data={condition}
                         list={conditions}
-                        filterKeys={["id"]}
+                        filterKeys={["id","name"]}
                         display={"name"}
                         match={"id"}
                         index={index}
@@ -161,6 +170,18 @@ class ConditionCreator extends FreezeView {
                 </React.Fragment>
             );
         }
+    }
+
+    renderEvents = () => {
+        const condition = this.state.condition;
+        return condition.events == null ? "" : 
+        condition.events.map(
+            event => (
+                <div className="condition-event">
+                    {(new Date(event.timestamp)).toString()} {event.value ? 'true' : 'false'}
+                </div>
+            )
+        );
     }
 
     renderCreator = () => {
@@ -265,6 +286,10 @@ class ConditionCreator extends FreezeView {
         const templateFunc = () => {
             this.setState({templateMode: true});
         }
+
+        const eventsFunc = () => {
+            this.getCondtionEvents();
+        }
         const op = condition.operator;
         const addConditionBtn = op === "AND" || op === "OR" || (op === "NOT" && this.state.conditionLength < 1) ? 
         (<div className="datapoint-editor-button" onClick={addConditionFunc}>more</div>) :
@@ -276,10 +301,12 @@ class ConditionCreator extends FreezeView {
                     <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
                     <div className="datapoint-editor-button" onClick={newFunc}>New</div>
                     <div className="datapoint-editor-button" onClick={cancelFunc}>Cancel</div>
-                    <div className="datapoint-editor-button" onClick={templateFunc}>Template</div>                    
+                    <div className="datapoint-editor-button" onClick={templateFunc}>Template</div>
+                    <div className="datapoint-editor-button" onClick={eventsFunc}>Events</div> 
                     {addConditionBtn}
                 </div>
                 {this.renderCreator()}
+                {this.renderEvents()}
             </div>
         );
     }
