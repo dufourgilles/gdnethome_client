@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
 import FreezeView from "../common/FreezeView";
 import ConditionTemplateViewer from './ConditionTemplateViewer';
+import { Button } from 'react-bootstrap';
+import FontAwesome from 'react-fontawesome';
 
 class ConditionCreator extends FreezeView {
     state = {
@@ -39,7 +41,7 @@ class ConditionCreator extends FreezeView {
 
     handleValueChange = (key, value, index) =>  {
         const condition = Object.assign({}, this.state.condition);
-        let conditionLength = this.state.conditionLength
+        let conditionLength = this.state.conditionLength;
         if (key === "triggerEventID") {
             condition[key] = value.id == null ? value : value.id;
         }
@@ -71,6 +73,16 @@ class ConditionCreator extends FreezeView {
         this.setState({condition,conditionLength});
     };
 
+    handleDelete = (index) =>  {
+        const condition = Object.assign({}, this.state.condition);
+        if (index < 0 || index >= this.state.conditionLength) {
+            return;
+        }
+        condition.conditionIDs.splice(index, 1);
+        const conditionLength = condition.conditionIDs.length;
+        this.setState({condition,conditionLength});
+    }
+
     renderConditionParameters() {
         const condition = this.state.condition;
         const conditions = this.props.conditions;
@@ -83,19 +95,27 @@ class ConditionCreator extends FreezeView {
                 const condChanged = (key,value) => {
                     this.handleValueChange(key, value, index);
                 }
+                const deleteCondition = () => {
+                    this.handleDelete(index);
+                }
                 return (
-                    <DatapointParameter
-                        key={`cond${index}`}
-                        onChange={condChanged}
-                        label={`Condition ${index+1}`}
-                        name="conditionIDs"
-                        data={condition}
-                        list={conditions}
-                        filterKeys={["id","name"]}
-                        display={"name"}
-                        match={"id"}
-                        index={index}
-                    />
+                    <div key={`cond${index}`} className='condition-item'>
+                        <DatapointParameter
+                            key={`cond${index}`}
+                            onChange={condChanged}
+                            label={`Condition ${index+1}`}
+                            name="conditionIDs"
+                            data={condition}
+                            list={conditions}
+                            filterKeys={["id","name"]}
+                            display={"name"}
+                            match={"id"}
+                            index={index}
+                        />
+                        <Button id="btnDeleteCondition" className="condition-item-delete" onClick={deleteCondition}>
+                            <FontAwesome name="trash"/>
+                        </Button>
+                    </div>
                 );
             }
             const renderedConditions = [];
