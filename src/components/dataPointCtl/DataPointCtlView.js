@@ -7,21 +7,29 @@ import { getEmptyDatapointCtl } from "../../reducers/dataPointCtlReducer";
 import {deleteAllDataPointCtls} from "../../actions/dataPointCtlAction";
 import PropTypes from "prop-types";
 import { toastr } from "react-redux-toastr";
+import './DataPointViewCtl.scss';
 
 class DataPointCtlView extends FreezeView {
     state = {
-        selectedDataPointCtl: getEmptyDatapointCtl()
+        selectedDataPointCtl: getEmptyDatapointCtl(),
+        selectionVersion: 0
     };
 
     selectDataPointCtl = dataPointCtl => {
         if (this.state.freeOn === true) {
             return;
         }
-        this.setState({selectedDataPointCtl: dataPointCtl});
+        this.setState({
+            selectedDataPointCtl: dataPointCtl,
+            selectionVersion: this.state.selectionVersion + 1
+        });
     };
 
     newDataPointCtl = () => {
-        this.setState({selectedDataPointCtl: getEmptyDatapointCtl()})
+        this.setState({
+            selectedDataPointCtl: getEmptyDatapointCtl(),
+            selectionVersion: this.state.selectionVersion + 1
+        });
     }
 
     handleDeleteAll = () =>  {
@@ -37,18 +45,30 @@ class DataPointCtlView extends FreezeView {
     };
 
     renderContent() {
+        const selected = this.state.selectedDataPointCtl;
+        const selectedTitle = selected.id === "" ? "New controller" : selected.name || selected.id;
         return (
-            <div className="gdnet-view">
-                <div className="gdnet-title">DataPointCtl</div>
-                <div className={`view-container ${this.isFreezed() === true ? "blurred" : ""}`}>
-                    <div className="datapoint-view-buttons">
-                        <div className="datapoint-editor-button" onClick={this.handleDeleteAll}>
-                            Delete DP Controllers
-                        </div>
+            <div className="gdnet-view datapointctl-view">
+                <div className="datapointctl-header">
+                    <div>
+                        <div className="gdnet-title">DataPointCtl</div>
+                        <div className="datapointctl-subtitle">{this.props.dataPointCtls.length} controllers configured</div>
                     </div>
-                    <div className="datapoint-view-info">
+                </div>
+                <div className={`view-container datapointctl-container ${this.isFreezed() === true ? "blurred" : ""}`}>
+                    <div className="datapointctl-panel datapointctl-list-panel">
+                        <div className="datapointctl-panel-header">
+                            <span>Controllers</span>
+                        </div>
                         <DatapointList datapoints={this.props.dataPointCtls} select={this.selectDataPointCtl}/>
+                    </div>
+                    <div className="datapointctl-editor-panel">
+                        <div className="datapointctl-panel-header">
+                            <span>{selectedTitle}</span>
+                            <span className="datapointctl-panel-meta">{selected.type}</span>
+                        </div>
                         <DataPointCtlEditor
+                            key={this.state.selectionVersion}
                             dataPointCtl={this.state.selectedDataPointCtl}
                             newDataPointCtl={this.newDataPointCtl}
                         />
@@ -75,5 +95,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataPointCtlView);
-
 

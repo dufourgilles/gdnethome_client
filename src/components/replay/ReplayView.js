@@ -4,7 +4,7 @@ import DatapointParameter from "../datapoint/DatapointParameter";
 import { updateReplayInfo, getReplayFile } from "../../actions/replayActions";
 import { toastr } from "react-redux-toastr";
 import {connect} from 'react-redux';
-import "./ReplayView.css";
+import "./ReplayView.scss";
 import PropTypes from 'prop-types';
 
 class ReplayView extends FreezeView {

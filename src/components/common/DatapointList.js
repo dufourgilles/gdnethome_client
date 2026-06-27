@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './DatapointList.css';
+import './DatapointList.scss';
 
 class DatapointList extends Component {
     state = {
@@ -20,6 +20,7 @@ class DatapointList extends Component {
             return (
                 <div key={datapoint.id} className="datapoint-list-line" onClick={handleClick}>
                     <div className="datapoint-list-line-id">{datapoint.id}</div>
+                    {this.props.showProtocol ? <div className="datapoint-list-line-protocol">{datapoint.protocol || "knx"}</div> : ""}
                     <div className="datapoint-list-line-name">{datapoint.name}</div>
                 </div>
             );
@@ -35,7 +36,13 @@ class DatapointList extends Component {
         if (filter.length === 0) return true;
         try {
             const res = (dp.name.indexOf(filter) >= 0) || (dp.id.indexOf(filter) >= 0) ||
+            (dp.protocol !== undefined && dp.protocol.indexOf(filter) >= 0) ||
             (dp.description !== undefined && dp.description.indexOf(filter) >= 0) ||
+            (dp.knxName !== undefined && dp.knxName.indexOf(filter) >= 0) ||
+            (dp.knxGroupName !== undefined && dp.knxGroupName.indexOf(filter) >= 0) ||
+            (dp.somfyDeviceURL !== undefined && dp.somfyDeviceURL.indexOf(filter) >= 0) ||
+            (dp.somfyStateName !== undefined && dp.somfyStateName.indexOf(filter) >= 0) ||
+            (dp.somfyCommandName !== undefined && dp.somfyCommandName.indexOf(filter) >= 0) ||
             (dp.statusReaderID !== undefined && dp.statusReaderID.indexOf(filter) >= 0) || 
             (dp.commandWriterID !== undefined && dp.commandWriterID.indexOf(filter) >= 0);
             return res;
@@ -69,10 +76,9 @@ class DatapointList extends Component {
 DatapointList.propTypes = {
     datapoints: PropTypes.array.isRequired,
     select: PropTypes.func,
-    format: PropTypes.func
+    format: PropTypes.func,
+    showProtocol: PropTypes.bool
 };
 
 
 export default DatapointList;
-
-

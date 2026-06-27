@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import './TitleBox.css';
+import './TitleBox.scss';
 import FontAwesome from 'react-fontawesome';
 import { Button } from 'react-bootstrap';
 
@@ -44,5 +44,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TitleBox);
-
 

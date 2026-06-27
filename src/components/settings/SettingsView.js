@@ -5,7 +5,7 @@ import {fetchConfig, updateConfig} from "../../actions/configActions";
 import DatapointParameter from "../datapoint/DatapointParameter";
 import InterfaceEditor from "./InterfacesEditor";
 
-import "./SettingsView.css";
+import "./SettingsView.scss";
 
 class SettingsView extends FreezeView {
     state = {
@@ -175,5 +175,4 @@ class SettingsView extends FreezeView {
 
 
 export default connect(undefined, undefined)(SettingsView);
-
 

@@ -4,28 +4,56 @@ import PropTypes from 'prop-types';
 import DatapointParameter from './DatapointParameter';
 import {getDatapointByID } from "../../reducers/datapointReducer";
 import {createNewDatapoint, updateDatapoint, deleteDatapoint} from "../../actions/datapointActions";
-import './DatapointEditor.css';
+import './DatapointEditor.scss';
 import { toastr } from "react-redux-toastr";
 
+const DATAPOINT_PROTOCOLS = [
+    {id: "knx", name: "KNXDataPoint"},
+    {id: "somfy", name: "SomfyDataPoint"}
+];
+
+const getProtocol = datapoint => datapoint.protocol || "knx";
+
+const getCommandParametersText = datapoint => {
+    if (datapoint.somfyCommandParameters == null) {
+        return "[]";
+    }
+    if (typeof datapoint.somfyCommandParameters === "string") {
+        return datapoint.somfyCommandParameters;
+    }
+    return JSON.stringify(datapoint.somfyCommandParameters);
+};
+
+const normalizeDatapoint = datapoint => ({
+    protocol: "knx",
+    somfyCommandParameters: [],
+    ...datapoint
+});
+
+const isNewDatapoint = datapoint => datapoint == null || datapoint.id == null || datapoint.id === "";
 
 class DatapointEditor extends Component {
     state = {
-        datapoint: this.props.datapoint,
-        editableID: true,
+        datapoint: normalizeDatapoint(this.props.datapoint),
+        somfyCommandParametersText: getCommandParametersText(this.props.datapoint),
+        editableID: isNewDatapoint(this.props.datapoint),
         modified: false,
-        isNew: true,
-        valid: false,
+        isNew: isNewDatapoint(this.props.datapoint),
+        valid: !isNewDatapoint(this.props.datapoint),
         freezeOn: false
     };
 
     componentDidUpdate(prevProps) {
-        if(prevProps.datapoint.id !== this.props.datapoint.id) {
+        if(prevProps.datapoint !== this.props.datapoint) {
+            const datapoint = normalizeDatapoint(this.props.datapoint);
+            const isNew = isNewDatapoint(datapoint);
             this.setState({
-                datapoint: this.props.datapoint,
+                datapoint,
+                somfyCommandParametersText: getCommandParametersText(datapoint),
                 modified: false,
-                valid: false,
-                isNew: this.props.datapoint.id === "",
-                editableID: this.props.datapoint.id === ""
+                valid: !isNew,
+                isNew,
+                editableID: isNew
             });
         }
     }
@@ -42,12 +70,17 @@ class DatapointEditor extends Component {
 
     saveDatapoint = () => {
         this.setFreeze(true);
+        const datapoint = this.prepareDatapointForSave();
+        if (datapoint == null) {
+            this.setFreeze(false);
+            return Promise.resolve();
+        }
         let action;
         if (this.state.isNew) {
-            action = this.props.createNewDatapoint(this.state.datapoint)
+            action = this.props.createNewDatapoint(datapoint)
         }
         else {
-            action = this.props.updateDatapoint(this.state.datapoint);
+            action = this.props.updateDatapoint(datapoint);
         }
         return action
             .then(() => toastr.success('Success', "Save OK"))
@@ -56,6 +89,10 @@ class DatapointEditor extends Component {
     };
 
     deleteDatapoint = () => {
+        if (this.state.isNew) {
+            this.newDataPoint();
+            return Promise.resolve();
+        }
         return this.props.deleteDatapoint(this.state.datapoint).catch(e => {
                 toastr.error('Error', e.message);
             })
@@ -65,15 +102,40 @@ class DatapointEditor extends Component {
             });
     };
 
-    validateID = id => {
+    validateIDForDatapoint = (id, datapoint) => {
         const dp = this.props.getDatapointByID(id);
-        return !(((this.state.isNew === true) && (dp != null)) ||
-            (id.match(/\d+[.]\d+[.]\d+/) == null));
+        if ((this.state.isNew === true) && (dp != null)) {
+            return false;
+        }
+        if (id == null || id.trim() === "") {
+            return false;
+        }
+        if (getProtocol(datapoint) === "knx") {
+            return id.match(/\d+[.]\d+[.]\d+/) != null;
+        }
+        return true;
 
     };
 
-    validateDatapoint = dp => {
-        return this.validateID(dp.id);
+    validateID = id => this.validateIDForDatapoint(id, this.state.datapoint);
+
+    validateDatapoint = (dp, somfyCommandParametersText = this.state.somfyCommandParametersText) => {
+        if (!this.validateIDForDatapoint(dp.id, dp) || dp.type == null || dp.type.trim() === "") {
+            return false;
+        }
+        if (getProtocol(dp) === "somfy") {
+            if (dp.somfyDeviceURL == null || dp.somfyDeviceURL.trim() === "") {
+                return false;
+            }
+            try {
+                const parameters = JSON.parse(somfyCommandParametersText || "[]");
+                return Array.isArray(parameters);
+            }
+            catch (e) {
+                return false;
+            }
+        }
+        return true;
     };
 
     handleValueChange = (key, value) => {
@@ -82,11 +144,104 @@ class DatapointEditor extends Component {
         }
         const datapoint = Object.assign({}, this.state.datapoint);
         datapoint[key] = value;
+        if (key === "protocol") {
+            datapoint.protocol = value;
+        }
         this.setState({
             modified: true,
             datapoint: datapoint,
             valid: this.validateDatapoint(datapoint)
         });
+    };
+
+    handleSomfyCommandParametersChange = (_key, value) => {
+        if (this.state.freezeOn === true) {
+            return;
+        }
+        const datapoint = Object.assign({}, this.state.datapoint, {
+            somfyCommandParameters: value
+        });
+        this.setState({
+            modified: true,
+            datapoint,
+            somfyCommandParametersText: value,
+            valid: this.validateDatapoint(datapoint, value)
+        });
+    };
+
+    prepareDatapointForSave = () => {
+        const datapoint = Object.assign({}, this.state.datapoint);
+        if (getProtocol(datapoint) === "somfy") {
+            try {
+                const parameters = JSON.parse(this.state.somfyCommandParametersText || "[]");
+                if (!Array.isArray(parameters)) {
+                    throw new Error("Somfy command parameters must be a JSON array");
+                }
+                datapoint.somfyCommandParameters = parameters;
+            }
+            catch (e) {
+                toastr.error("Error", e.message);
+                return null;
+            }
+        }
+        return datapoint;
+    };
+
+    renderKNXFields = datapoint => {
+        if (getProtocol(datapoint) !== "knx") {
+            return null;
+        }
+        return (
+            <React.Fragment>
+                <DatapointParameter key="knxName" label="KNX name" data={datapoint} name="knxName"/>
+                <DatapointParameter label="KNX Group" data={datapoint} name="knxGroupName"/>
+            </React.Fragment>
+        );
+    };
+
+    renderSomfyFields = datapoint => {
+        if (getProtocol(datapoint) !== "somfy") {
+            return null;
+        }
+        const somfyParameters = Object.assign({}, datapoint, {
+            somfyCommandParameters: this.state.somfyCommandParametersText
+        });
+        return (
+            <React.Fragment>
+                <DatapointParameter
+                    key="somfyDeviceURL"
+                    editable={!this.state.freezeOn}
+                    label="Somfy device URL"
+                    name="somfyDeviceURL"
+                    onChange={this.handleValueChange}
+                    data={datapoint}
+                />
+                <DatapointParameter
+                    key="somfyStateName"
+                    editable={!this.state.freezeOn}
+                    label="Somfy state"
+                    name="somfyStateName"
+                    onChange={this.handleValueChange}
+                    data={datapoint}
+                />
+                <DatapointParameter
+                    key="somfyCommandName"
+                    editable={!this.state.freezeOn}
+                    label="Somfy command"
+                    name="somfyCommandName"
+                    onChange={this.handleValueChange}
+                    data={datapoint}
+                />
+                <DatapointParameter
+                    key="somfyCommandParameters"
+                    editable={!this.state.freezeOn}
+                    label="Command parameters"
+                    name="somfyCommandParameters"
+                    onChange={this.handleSomfyCommandParametersChange}
+                    data={somfyParameters}
+                />
+            </React.Fragment>
+        );
     };
 
 
@@ -119,12 +274,22 @@ class DatapointEditor extends Component {
         }
 
         return (
-            <div className="datapoint-editor">
-                <div className="datapoint-editor-actions">
-                    <div className="datapoint-editor-button" onClick={this.newDataPoint.bind(this)}>New</div>
-                    <div className={savebtnClassname} onClick={saveFunc}>Save</div>
-                    <div className="datapoint-editor-button" onClick={this.deleteDatapoint.bind(this)}>Delete</div>
+            <div className="datapoint-editor datapoint-dashboard-editor">
+                <div className="datapoint-editor-actions datapoint-dashboard-editor-actions">
+                    <button className="datapoint-dashboard-button" type="button" onClick={this.newDataPoint}>New</button>
+                    <button className={savebtnClassname} type="button" onClick={saveFunc}>Save</button>
+                    <button className="datapoint-dashboard-button datapoint-dashboard-button-danger" type="button" onClick={this.deleteDatapoint}>Delete</button>
                 </div>
+                <DatapointParameter
+                    key="protocol"
+                    label="protocol"
+                    name="protocol"
+                    onChange={this.handleValueChange}
+                    data={datapoint}
+                    list={DATAPOINT_PROTOCOLS}
+                    display="name"
+                    match="id"
+                />
                 <DatapointParameter
                     key="id"
                     validator={this.validateID}
@@ -142,7 +307,6 @@ class DatapointEditor extends Component {
                     onChange={this.handleValueChange}
                     data={datapoint}
                 />
-                <DatapointParameter key="knxName" label="KNX name" data={datapoint} name="knxName"/>
                 <DatapointParameter
                     key="description"
                     editable={!this.state.freezeOn}
@@ -151,7 +315,6 @@ class DatapointEditor extends Component {
                     onChange={this.handleValueChange}
                     data={datapoint}
                 />
-                <DatapointParameter label="KNX Group" data={datapoint} name="knxGroupName"/>
                 <DatapointParameter
                     key="type"
                     label="type"
@@ -162,6 +325,8 @@ class DatapointEditor extends Component {
                     display="name"
                     match="name"
                 />
+                {this.renderKNXFields(datapoint)}
+                {this.renderSomfyFields(datapoint)}
             </div>
         );
     }
@@ -175,7 +340,7 @@ DatapointEditor.propTypes = {
     createNewDatapoint: PropTypes.func.isRequired,
     updateDatapoint: PropTypes.func.isRequired,
     deleteDatapoint: PropTypes.func.isRequired,
-    newDatapoint: PropTypes.func.isRequired
+    newDataPoint: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -193,5 +358,3 @@ const mapDispatchToProps = dispatch => {
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DatapointEditor);
-
-

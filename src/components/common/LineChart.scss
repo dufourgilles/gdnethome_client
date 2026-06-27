@@ -1,4 +1,4 @@
-@import '../constants.scss';
+@use "../constants" as *;
 
 $left-margin: 15px;
 $text-color: white;

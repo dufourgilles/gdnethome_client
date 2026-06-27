@@ -12,7 +12,7 @@ import TemplateParameter from './Templates/TemplateParameter';
 import TemplateConverter from './Templates/TemplateConverter';
 import AsyncFileReader from '../../utils/AsyncFiledReader';
 
-import "./Template.css";
+import "./Template.scss";
 
 class ConditionTemplateViewer extends FreezeView {
     state = {

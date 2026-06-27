@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import FreezeView from "../common/FreezeView";
 import {fetchActionTypes} from "../../actions/actionActions";
 import ActionTabs from "./ActionTabs"
-import "./ActionView.css";
+import "./ActionView.scss";
 
 class ActionView extends FreezeView {
     state = {
@@ -32,5 +32,4 @@ class ActionView extends FreezeView {
 
 
 export default connect(undefined, undefined)(ActionView);
-
 

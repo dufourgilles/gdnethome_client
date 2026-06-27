@@ -26,11 +26,7 @@ const genericDatapointPending = state => ({
 const fixDatapoints = datapoints =>
   datapoints.map(datapoint => ({
     ...datapoint,
-    value: Number.isNaN(datapoint.value - 1)
-      ? process.env.NODE_ENV === "production"
-        ? 0
-        : Math.random() * 100 // generate random val in dev if value is garbage
-      : datapoint.value
+    protocol: datapoint.protocol || "knx"
   }));
 
 const genericDatapointSuccess = (state, action) => ({
@@ -77,11 +73,18 @@ export const getDatapointByID = state => id =>
   getDatapointIndexedByName(state)[id];
 
 const EMPTY_DATAPOINT = {
+  protocol: "knx",
   name: "",
   id: "",
   description: "",
   knxName: "",
+  knxID: "",
+  knxAddress: "",
   knxGroupName: "",
+  somfyDeviceURL: "",
+  somfyStateName: "",
+  somfyCommandName: "",
+  somfyCommandParameters: [],
   type: "",
   actions: [],
   statusReaderID: null

@@ -3,7 +3,7 @@ import connect from "react-redux/es/connect/connect";
 import PropTypes from "prop-types";
 import {getEvents} from "../../socket/clientSocket";
 
-import './EventBox.css';
+import './EventBox.scss';
 
 const MAX_EVENTS = 5;
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import './GraphData.css';
+import './GraphData.scss';
 
 const MODE = [
     "min",

@@ -111,3 +111,14 @@ export const uploadFile =  dispatch => data => {
         );
 };
 
+export const importSomfy = dispatch => () => {
+    dispatch({type: types.UPLOAD_DATAPOINT_ETS5_PENDING});
+    return Api.post(`${DATAPOINT_BASE_URI}/import/somfy`)
+        .then(
+            response => _fetchDatapoints(dispatch).then(() => response),
+            error => {
+                dispatch({type: types.UPLOAD_DATAPOINT_ETS5_FAILURE, error: error.message});
+                return Promise.reject(error);
+            }
+        );
+};

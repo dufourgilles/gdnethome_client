@@ -16,14 +16,14 @@ import { toastr } from "react-redux-toastr";
 import { executeAction } from "../../actions/dataPointCtlAction";
 import PopupBox from "../common/PopupBox";
 import DataPointSelect from "../common/DataPointSelect";
+import { addEndpoint, removendpoint } from "../../actions/groupActions";
 
-import './Dashboard.css';
-import '../common/LineChart.css';
+import './Dashboard.scss';
+import '../common/LineChart.scss';
 
 const STATUS_GROUPNAME = "dashboard_status";
 const VALUES_GROUPNAME = "dashboard_values";
 
-const {addEndpoint, removendpoint} = require("../../actions/groupActions");
 const MAX_WIND_ENTRIES = 1024;
 
 class Dashboard extends Component {
@@ -263,5 +263,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
-
 

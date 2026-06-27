@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import "./TextSelect.css";
+import "./TextSelect.scss";
 
 class TextSelect extends Component {
     state = {

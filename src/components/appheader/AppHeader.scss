@@ -1,4 +1,4 @@
-@import "../constants.scss";
+@use "../constants" as *;
 
 .app-header {
   height: 100px;

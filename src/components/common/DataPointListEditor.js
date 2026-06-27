@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {Modal, Button} from 'react-bootstrap';
-import './DataPointListEditor.css';
+import './DataPointListEditor.scss';
 import DatapointList from '../common/DatapointList';
 import FontAwesome from 'react-fontawesome';
 
@@ -150,5 +150,4 @@ const mapStateToProps = state => ({
 
 
 export default connect(mapStateToProps, undefined)(DataPointListEditor);
-
 

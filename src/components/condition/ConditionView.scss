@@ -1,4 +1,4 @@
-@import "../constants.scss";
+@use "../constants" as *;
 
 .condition-view-container {
     display: flex;

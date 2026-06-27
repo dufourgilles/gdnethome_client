@@ -10,23 +10,19 @@ import DataPointCtlActions from "./DataPointCtlActions";
 
 const DATAPOINTCTL_NONE = {id: null, name: "none"};
 
+const isNewDataPointCtl = dataPointCtl => dataPointCtl == null || dataPointCtl.id == null || dataPointCtl.id === "";
+
 
 class DataPointCtlEditor extends FreezeView {
     state = {
-        dataPointCtl: this.props.dataPointCtl,
-        editableID: true,
+        dataPointCtl: Object.assign({}, this.props.dataPointCtl),
+        editableID: isNewDataPointCtl(this.props.dataPointCtl),
         modified: false,
-        isNew: true,
-        valid: false,
+        isNew: isNewDataPointCtl(this.props.dataPointCtl),
+        valid: !isNewDataPointCtl(this.props.dataPointCtl),
         ctltypes: []
     };
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.dataPointCtl.id !== this.props.dataPointCtl.id) {
-            this.setState({dataPointCtl: newProps.dataPointCtl});
-        }
-    }
-    
     newDataPointCtl = () => {
         this.props.newDataPointCtl();
     };
@@ -53,7 +49,10 @@ class DataPointCtlEditor extends FreezeView {
     };
 
     deleteDataPointCtl = () => {
-        debugger;
+        if (this.state.isNew) {
+            this.newDataPointCtl();
+            return Promise.resolve();
+        }
         return this.props.deleteDataPointCtl(this.state.dataPointCtl)
         .then(() => {
             toastr.success('Success', "Delete OK");
@@ -118,17 +117,16 @@ class DataPointCtlEditor extends FreezeView {
     }
 
     componentDidUpdate(prevProps) {
-        if (((this.props.dataPointCtl == null) && (prevProps.dataPointCtl == null)) ||
-                ((this.props.dataPointCtl != null) && (prevProps.dataPointCtl != null) &&
-                    (this.props.dataPointCtl.id === prevProps.dataPointCtl.id))) {
+        if (prevProps.dataPointCtl === this.props.dataPointCtl) {
             return;
         }
+        const isNew = isNewDataPointCtl(this.props.dataPointCtl);
         this.setState({
             dataPointCtl: Object.assign({}, this.props.dataPointCtl),
             modified: false,
-            valid: true,
-            isNew: false,
-            editableID: false
+            valid: !isNew,
+            isNew,
+            editableID: isNew
         });
     }
 
@@ -146,14 +144,17 @@ class DataPointCtlEditor extends FreezeView {
         const commandWriters = this.props.dataPoints.concat(DATAPOINTCTL_NONE);
         const actions = this.state.isNew ? "" : (<DataPointCtlActions dataPointCtl={dataPointCtl} />);
         const displayDataPointItem = item => {
-            return `${item.name}(${item.id})`;
+            const protocol = item.protocol == null ? "knx" : item.protocol;
+            const command = item.somfyCommandName ? ` -> ${item.somfyCommandName}` : "";
+            const state = item.somfyStateName ? ` / ${item.somfyStateName}` : "";
+            return `${item.name}${state}${command} (${protocol}:${item.id})`;
         }
         return (
-            <div className="datapoint-editor">
-                <div className="datapoint-editor-actions">
-                    <div className="datapoint-editor-button" onClick={this.newDataPointCtl}>New</div>
-                    <div className={savebtnClassname} onClick={saveFunc}>Save</div>
-                    <div className="datapoint-editor-button" onClick={this.deleteDataPointCtl}>Delete</div>
+            <div className="datapoint-editor datapointctl-editor">
+                <div className="datapoint-editor-actions datapointctl-editor-actions">
+                    <button className="datapointctl-button" type="button" onClick={this.newDataPointCtl}>New</button>
+                    <button className={savebtnClassname} type="button" onClick={saveFunc}>Save</button>
+                    <button className="datapointctl-button datapointctl-button-danger" type="button" onClick={this.deleteDataPointCtl}>Delete</button>
                 </div>
                 <DatapointParameter
                     key="id"
@@ -189,7 +190,7 @@ class DataPointCtlEditor extends FreezeView {
                     name="statusReaderID"
                     onChange={this.handleValueChange}
                     list={statusReaders}
-                    filterKeys={["id", "name"]}
+                    filterKeys={["id", "name", "protocol", "somfyStateName", "somfyCommandName", "somfyDeviceURL"]}
                     match="id"
                     display={displayDataPointItem}
                 />
@@ -200,7 +201,7 @@ class DataPointCtlEditor extends FreezeView {
                     name="commandWriterID"
                     onChange={this.handleValueChange}
                     list={commandWriters}
-                    filterKeys={["id", "name"]}
+                    filterKeys={["id", "name", "protocol", "somfyStateName", "somfyCommandName", "somfyDeviceURL"]}
                     match="id"
                     display={displayDataPointItem}
                 />
@@ -237,5 +238,3 @@ const mapDispatchToProps = dispatch => {
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DataPointCtlEditor);
-
-

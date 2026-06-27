@@ -5,7 +5,7 @@ import ConditionList from "./ConditionList";
 import { getEmptyCondition, getConditionByID } from "../../reducers/conditionReducer";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import "./ConditionView.css";
+import "./ConditionView.scss";
 
 
 class ConditionView extends FreezeView {
@@ -64,5 +64,4 @@ const mapStateToProps = state => ({
 
 
 export default connect(mapStateToProps, undefined )(ConditionView);
-
 

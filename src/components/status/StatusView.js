@@ -4,7 +4,7 @@ import FreezeView from "../common/FreezeView";
 import {fetchStatus, getLogFilePath, getLogTail} from "../../actions/statusActions";
 import PieGraph from "../common/PieGraph";
 
-import "./StatusView.css";
+import "./StatusView.scss";
 
 class StatusView extends FreezeView {
     state = {
@@ -138,5 +138,4 @@ class StatusView extends FreezeView {
 
 
 export default connect(undefined, undefined)(StatusView);
-
 

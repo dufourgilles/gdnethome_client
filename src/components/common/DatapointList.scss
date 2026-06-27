@@ -6,6 +6,14 @@
 .datapoint-list-line-id {
   padding-top: 10px;
   padding-left: 10px;
+  min-width: 90px;
+}
+
+.datapoint-list-line-protocol {
+  padding-top: 10px;
+  padding-left: 10px;
+  min-width: 50px;
+  text-transform: uppercase;
 }
 
 .datapoint-list-line-name {

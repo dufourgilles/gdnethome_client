@@ -1,1 +1,218 @@
-@import "../constants.scss";
+@use "../constants" as *;
+
+.datapointctl-view {
+  height: calc(100vh - 74px);
+  overflow: hidden;
+}
+
+.datapointctl-header {
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  justify-content: space-between;
+  min-height: 72px;
+  padding: 0 32px;
+}
+
+.datapointctl-subtitle {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.datapointctl-toolbar,
+.datapointctl-editor-actions {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.datapointctl-button,
+.datapointctl-view .datapoint-editor-button,
+.datapointctl-view .datapoint-editor-button-disabled {
+  background: rgba(147, 112, 219, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  min-height: 34px;
+  min-width: 92px;
+  padding: 7px 12px;
+  text-align: center;
+}
+
+.datapointctl-button:hover,
+.datapointctl-view .datapoint-editor-button:hover {
+  background: mediumpurple;
+}
+
+.datapointctl-button-danger {
+  background: rgba(130, 54, 82, 0.9);
+}
+
+.datapointctl-button-danger:hover {
+  background: rgb(144, 47, 82);
+}
+
+.datapointctl-view .datapoint-editor-button-disabled {
+  background: rgba(90, 98, 104, 0.72);
+  cursor: default;
+}
+
+.datapointctl-container {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  gap: 14px;
+  height: calc(100% - 72px);
+  padding: 14px 32px 24px;
+}
+
+.datapointctl-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  min-height: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.datapointctl-editor-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  min-height: 0;
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.datapointctl-panel-header {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  font-size: 14px;
+  font-weight: 600;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 0 14px;
+}
+
+.datapointctl-panel-meta {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.datapointctl-view .datapoint-list-block {
+  height: calc(100% - 42px);
+}
+
+.datapointctl-view .datapoint-filter {
+  margin: 10px;
+}
+
+.datapointctl-view .datapoint-filter input {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
+  color: white;
+  min-height: 32px;
+  padding: 0 9px;
+  width: calc(100% - 20px);
+}
+
+.datapointctl-view .datapoint-list {
+  height: calc(100% - 54px);
+  min-width: 0;
+  overflow: auto;
+  width: 100%;
+}
+
+.datapointctl-view .datapoint-list-line {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.datapointctl-view .datapoint-list-line:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.datapointctl-view .datapoint-list-line-id {
+  min-width: 120px;
+}
+
+.datapointctl-editor {
+  height: calc(100% - 42px);
+  overflow: auto;
+  padding: 14px;
+  width: auto;
+}
+
+.datapointctl-view .datapoint-editor-actions {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+}
+
+.datapointctl-view .datapoint-editor-entry {
+  align-items: center;
+  display: flex;
+  padding: 5px 0;
+}
+
+.datapointctl-view .datapoint-editor-key {
+  color: rgba(255, 255, 255, 0.72);
+  height: auto;
+  min-width: 200px;
+}
+
+.datapointctl-view .datapoint-editor-value,
+.datapointctl-view .text-select,
+.datapointctl-view .text-select-selection,
+.datapointctl-view .datapoint-editor-value select,
+.datapointctl-view .datapoint-editor-value input {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+}
+
+.datapointctl-view .datapoint-editor-value input,
+.datapointctl-view .datapoint-editor-value select,
+.datapointctl-view .text-select input {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
+  color: white;
+  min-height: 32px;
+  padding: 0 9px;
+}
+
+.datapointctl-view .datapoint-actions {
+  height: auto;
+  margin-top: 18px;
+  overflow: visible;
+}
+
+@media (max-width: 900px) {
+  .datapointctl-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 16px;
+  }
+
+  .datapointctl-container {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow: auto;
+    padding: 12px 16px 20px;
+  }
+}
