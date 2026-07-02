@@ -1,10 +1,28 @@
 .statusline-name {
-  font-size: 18px;
-  width: 400px;
-  padding-left: 10px; }
+  font-size: 15px;
+  font-weight: 300;
+  color: #273951;
+  width: auto;
+  min-width: 0;
+  padding-left: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
 
 .statusline-status {
-  padding-right: 10px; }
+  padding-right: 0;
+  color: #0d253d;
+  font-feature-settings: "tnum"; }
 
 .statusline {
-  display: flex; }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e3e8ee;
+  cursor: pointer; }
+
+.statusline:hover {
+  background: #f6f9fc; }

@@ -1,21 +1,52 @@
-$left-margin: 20px;
+@use "../constants" as *;
 
 .dashboard {
   display: flex;
   flex-direction: column;
-  margin-left: $left-margin;
+  gap: 16px;
+  margin: 0;
   width: 100%;
+  max-width: 1440px;
+  height: 100%;
+  color: $stripe-ink;
 }
 
 .dashboard-box {
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 400px);
+  gap: 16px;
+  min-height: 0;
+  height: calc(100vh - 430px);
 }
 
 .dashboard-charts {
   display: flex;
   flex-direction: row;
+  gap: 16px;
   justify-content: space-between;
   overflow: hidden;
+}
+
+.dashboard-charts > div {
+  border: 1px solid $stripe-hairline;
+  border-radius: 12px;
+  overflow: hidden !important;
+  background: $stripe-brand-dark;
+  box-shadow: 0 8px 24px rgba(0, 55, 112, .08), 0 2px 6px rgba(0, 55, 112, .04);
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    gap: 12px;
+  }
+
+  .dashboard-charts,
+  .dashboard-box {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .dashboard-charts > div {
+    width: 100% !important;
+  }
 }

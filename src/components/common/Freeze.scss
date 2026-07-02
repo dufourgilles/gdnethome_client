@@ -39,9 +39,14 @@
   color: yell;
 }
 .freeze-view-container {
-  width: 100%;
-  height: calc(100vh - 260px);
-  overflow: scroll;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+}
+
+.freeze-view-content {
+  flex: 1;
+  display: flex;
 }
 
 .hidden {

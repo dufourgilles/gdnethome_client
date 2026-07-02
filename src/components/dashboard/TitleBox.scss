@@ -1,27 +1,43 @@
-
-$boxcolor: white;
-$boxstyle: solid 1px;
+@use "../constants" as *;
 
 .titlebox {
   width: 50%;
-  height: calc(100vh - 470px);
+  min-width: 0;
+  height: 100%;
+  background: $stripe-canvas;
+  border: 1px solid $stripe-hairline;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 55, 112, .08);
+  overflow: hidden;
 }
 
 .titlebox-title {
   width: 100%;
-  height: 30px;
-  text-align: center;
-  font-size: 18px;
-  padding-top: 6px;
-  border: $boxstyle;
-  border-color: $boxcolor;
+  min-height: 48px;
+  text-align: left;
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.1;
+  color: $stripe-ink;
+  padding: 16px 20px 6px;
 }
 
 .titlebox-content {
   width: 100%;
-  max-height: calc(100vh - 470px);
-  min-height: calc(100vh - 470px);
-  border: $boxstyle;
-  border-color: $boxcolor;
-  overflow: scroll;
+  max-height: calc(100% - 90px);
+  min-height: calc(100% - 90px);
+  border-top: 1px solid $stripe-hairline;
+  overflow: auto;
+  font-feature-settings: "tnum";
+}
+
+.titlebox-edit {
+  margin: 0 20px 14px;
+}
+
+@media (max-width: 768px) {
+  .titlebox {
+    width: 100%;
+    min-height: 260px;
+  }
 }

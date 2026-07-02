@@ -1,6 +1,12 @@
 .event-box {
   display: flex;
   flex-direction: column;
-  border: solid 1px white;
+  border: 1px solid #e3e8ee;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #273951;
   min-height: 8em;
-  padding: 10px; }
+  padding: 16px 20px;
+  box-shadow: 0 1px 3px rgba(0, 55, 112, 0.08);
+  font-size: 13px;
+  font-feature-settings: "tnum"; }

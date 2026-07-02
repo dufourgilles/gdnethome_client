@@ -15,13 +15,6 @@
   min-width: 208px;
   height: 30px; }
 
-.datapoint-editor-value {
-  display: flex;
-  flex-direction: row; }
-
-.datapoint-editor-value select {
-  width: 250px; }
-
 .datapoint-editor-actions {
   display: flex;
   flex-direction: row; }
@@ -42,13 +35,6 @@
   border: solid 1px white;
   background-color: mediumpurple;
   cursor: pointer; }
-
-.datapoint-editor-button-disabled {
-  margin: 5px;
-  border-radius: 7px;
-  border: solid 1px white;
-  background-color: #5a6268;
-  padding: 5px; }
 
 .datapoint-parameter-invalid {
   height: 3px;

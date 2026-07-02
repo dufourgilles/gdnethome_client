@@ -1,99 +1,261 @@
 @use "../constants" as *;
 
-.action-view-container {
-  margin-left: 10%;
-  width: 80%;
-  height: calc(100vh - 110px);
-  overflow: scroll;
+.action-view {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
 
-.action-creator {
+.action-view .gdnet-title {
+  background: none;
+  font-size: 32px;
+  font-weight: 600;
+  height: auto;
+  margin-bottom: 0;
+  padding-left: 0;
+  position: static;
+  width: auto;
+}
+
+.action-dashboard-header {
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   display: flex;
+  justify-content: space-between;
+  min-height: 72px;
+  padding: 0 32px;
+}
+
+.action-dashboard-subtitle {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.action-dashboard-container {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  padding: 14px 32px 24px;
+  width: 100%;
+}
+
+.action-dashboard-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  display: flex;
+  flex: 1;
   flex-direction: column;
-  height: 100vh;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.action-tabs-panel .nav-tabs {
+  align-items: flex-end;
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 0 14px;
+}
+
+.action-tabs-panel .nav-tabs > li > a {
+  border-radius: 6px 6px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  margin-right: 4px;
+}
+
+.action-tabs-panel .nav-tabs > li.active > a,
+.action-tabs-panel .nav-tabs > li.active > a:hover,
+.action-tabs-panel .nav-tabs > li.active > a:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: white;
+}
+
+.action-tabs-panel .tab-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.action-tabs-panel .tab-pane.active {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.action-creator,
+.action-monitor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px;
+  width: auto;
 }
 
 .action-actions {
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
 }
 
-.action-list {
-  min-width: 520px;
-  width: 520px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-  height: calc(100vh - 260px);
-  overflow: scroll;
+.action-view .datapoint-editor-button,
+.action-view .datapoint-editor-button-disabled {
+  background: rgba(147, 112, 219, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  min-height: 34px;
+  min-width: 92px;
+  padding: 7px 12px;
+  text-align: center;
 }
 
-.action-list-item {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
+.action-view .datapoint-editor-button:hover {
+  background: mediumpurple;
 }
 
-.action-item-name {
-  height: 38px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: 16px;
-  padding-top:5px;
-  padding-right: 20px;
-  padding-left:10px;
-  max-width: 350px;
-  min-width: 350px;
-  vertical-align: middle;
+.action-view .datapoint-editor-button-disabled {
+  background: rgba(90, 98, 104, 0.72);
+  cursor: default;
 }
 
 .action-editor {
   display: flex;
+  flex: 1;
   flex-direction: row;
+  gap: 14px;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  padding: 14px;
+  width: 100%;
 }
 
-.action-parameter-info {
+.action-list {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  flex: 0 0 520px;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  padding: 0;
+}
+
+.action-list-item {
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   display: flex;
   flex-direction: row;
-  margin-top: 5px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  min-height: 40px;
+  padding: 0 10px;
+}
+
+.action-list-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.action-item-name {
+  flex: 1 1 auto;
+  font-size: 16px;
+  min-width: 0;
+  overflow: hidden;
+  padding-right: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action-editor > .action-creator {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.action-view .datapoint-editor-entry {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  min-width: 0;
+  padding: 5px 0;
+}
+
+.action-view .datapoint-editor-key,
+.action-parameter-info-name {
+  color: rgba(255, 255, 255, 0.72);
+  flex: 0 0 200px;
+  height: auto;
+  min-width: 0;
 }
 
 .action-advanced-params {
-  display: block;
-  border-top: solid white 1px;
-  border-bottom: solid white 1px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.action-parameter-info-name {
-  min-width: $gdnet-paramlength;
-}
-
-.action-monitor {
-  display: flex;
-  flex-direction: column;
-  width: 1000px;
-  margin-left: 15px;
-  margin-top: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 10px 0;
+  padding: 10px 0;
 }
 
 .action-monitor-files-select {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
-  max-height: 7em;
-  overflow: scroll;
   margin-top: 10px;
-  border: solid 1px white;
-  padding: 5px 5px 5px 5px;
+  max-height: 7em;
+  overflow: auto;
+  padding: 5px;
 }
 
 .action-monitor-action-select {
+  align-items: flex-start;
   display: flex;
   flex-direction: row;
+  gap: 12px;
 }
 
-.action-monitor-action-select select {
-  width: 200px;
-  margin-left: 20px;
+.action-monitor-action-select .datapoint-editor-entry {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 980px) {
+  .action-dashboard-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 16px;
+  }
+
+  .action-dashboard-container {
+    padding: 12px 16px 20px;
+  }
+
+  .action-editor {
+    flex-direction: column;
+  }
+
+  .action-list {
+    flex: 0 0 42%;
+  }
 }

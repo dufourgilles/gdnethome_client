@@ -9,7 +9,8 @@
 }
 
 .datapoint-action-btn {
-  padding: 7px;
+  display: flex;
+  align-items: center;
   border-radius: 7px;
   border: solid 1px white;
   background-color: $gdnet-purple;
@@ -17,11 +18,6 @@
 }
 
 .datapoint-action-btn:hover {
-  padding: 7px;
-  border-radius: 7px;
-  border: solid 1px white;
-  background-color: $gdnet-purple;
-  margin-right: 10px;
   cursor: pointer;
 }
 

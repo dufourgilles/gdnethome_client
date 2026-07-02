@@ -1,12 +1,14 @@
 @use "../constants" as *;
 
 $left-margin: 15px;
-$text-color: white;
-$backgroud-color: black;
+$text-color: rgba(255, 255, 255, .84);
+$backgroud-color: $stripe-brand-dark;
 
 .linechart {
   position: relative;
   background-color: $backgroud-color;
+  color: $text-color;
+  font-feature-settings: "tnum";
 }
 
 .linechart-ymin {
@@ -79,6 +81,8 @@ $backgroud-color: black;
   padding-left: 5px;
   position: absolute;
   color: $text-color;
+  font-size: 14px;
+  font-weight: 300;
   top: 0;
   left: 0;
   z-index: 20;

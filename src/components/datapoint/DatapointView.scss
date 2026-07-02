@@ -1,8 +1,23 @@
 @use "../constants" as *;
 
 .datapoint-view {
-  height: calc(100vh - 74px);
+  display: flex;
+  flex: 1;
+  height: 100%;
   overflow: hidden;
+}
+
+/* Neutralize the global .gdnet-title (absolute, full-width purple bar) that
+   otherwise overlaps the dashboard toolbar. */
+.datapoint-view .gdnet-title {
+  background: none;
+  font-size: 32px;
+  font-weight: 600;
+  height: auto;
+  margin-bottom: 0;
+  padding-left: 0;
+  position: static;
+  width: auto;
 }
 
 .datapoint-dashboard-header {
@@ -49,11 +64,11 @@
 }
 
 .datapoint-dashboard-button-danger {
-  background: rgba(130, 54, 82, 0.9);
+  background: $gdnet-danger
 }
 
 .datapoint-dashboard-button-danger:hover {
-  background: rgb(144, 47, 82);
+  background: $gdnet-danger
 }
 
 .datapoint-view .datapoint-editor-button-disabled {
@@ -62,19 +77,31 @@
 }
 
 .datapoint-dashboard-container {
-  display: grid;
+  display: flex;
+  flex-direction: row;
   gap: 14px;
-  grid-template-columns: minmax(380px, 40%) minmax(520px, 1fr);
   height: calc(100% - 72px);
   padding: 14px 32px 24px;
+  width: 100%;
 }
 
 .datapoint-dashboard-panel {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
   min-height: 0;
+  min-width: 0;
   overflow: hidden;
+}
+
+.datapoint-dashboard-list-panel {
+  flex: 1 1 0;
+}
+
+.datapoint-dashboard-editor-panel {
+  flex: 1 1 0;
 }
 
 .datapoint-dashboard-panel-header {
@@ -100,39 +127,28 @@
   height: calc(100% - 42px);
 }
 
-.datapoint-view .datapoint-filter {
-  margin: 10px;
+.datapoint-list-line {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.datapoint-view .datapoint-filter input {
-  background: rgba(0, 0, 0, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 5px;
-  color: white;
-  min-height: 32px;
-  padding: 0 9px;
-  width: calc(100% - 20px);
-}
-
-.datapoint-view .datapoint-list {
-  height: calc(100% - 54px);
-  min-width: 0;
-  overflow: auto;
-  width: 100%;
-}
-
-.datapoint-view .datapoint-list-line {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  cursor: pointer;
-  min-height: 40px;
-}
-
-.datapoint-view .datapoint-list-line:hover {
-  background: rgba(255, 255, 255, 0.07);
+.datapoint-list-line:hover {
+  background: $gdnet-disabled;
 }
 
 .datapoint-view .datapoint-list-line-id {
-  min-width: 130px;
+  flex: 0 0 300px;
+  width: 300px;
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  /* Truncate the start with an ellipsis so the end of the id stays visible
+     and never wraps or bleeds into the name column. */
+  text-overflow: ellipsis;
+  direction: rtl;
+  text-align: left;
 }
 
 .datapoint-view .datapoint-list-line-protocol {
@@ -154,43 +170,25 @@
 
 .datapoint-view .datapoint-editor-entry {
   align-items: center;
-  display: grid;
+  display: flex;
+  flex-direction: row;
   gap: 10px;
-  grid-template-columns: minmax(150px, 210px) minmax(280px, 1fr);
   min-width: 0;
   padding: 5px 0;
 }
 
 .datapoint-view .datapoint-editor-key {
   color: rgba(255, 255, 255, 0.72);
+  flex: 0 0 auto;
   height: auto;
   min-width: 0;
+  width: 200px;
 }
 
-.datapoint-view .datapoint-editor-value,
-.datapoint-view .text-select,
-.datapoint-view .text-select-selection,
-.datapoint-view .datapoint-editor-value select,
-.datapoint-view .datapoint-editor-value input {
-  min-width: 0;
-  width: 100%;
-}
-
-.datapoint-view .datapoint-editor-value input,
-.datapoint-view .datapoint-editor-value select,
-.datapoint-view .text-select input {
-  background: rgba(0, 0, 0, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 5px;
-  color: white;
-  min-height: 32px;
-  padding: 0 9px;
-}
 
 .datapoint-view .datapoint-parameter-invalid,
 .datapoint-view .datapoint-parameter-valid {
-  align-self: end;
-  grid-column: 2;
+  align-self: stretch;
   width: 100%;
 }
 
@@ -207,7 +205,7 @@
   }
 
   .datapoint-dashboard-container {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     height: auto;
     overflow: auto;
     padding: 12px 16px 20px;

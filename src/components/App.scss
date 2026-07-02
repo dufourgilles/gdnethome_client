@@ -1,0 +1,317 @@
+@use "./constants" as *;
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  background: #f6f9fc;
+}
+
+body {
+  color: $gdnet-background;
+  background: $gdnet-background;
+  font-family: Inter, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-feature-settings: "ss01";
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0;
+}
+
+input,
+button,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: #533afd;
+}
+
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+}
+
+.gdnet-app {
+  flex: 1;
+  display: flex;
+  padding: 18px 24px 24px;
+  overflow: hidden;
+}
+
+.gdnet-view {
+  display: flex;
+  flex-direction: column;
+  color: $gdnet-background;
+  flex: 1;
+  overflow: hidden;
+}
+
+.view-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  margin-left: 10px;
+  top: 60px;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    width: 100wh;
+    height: 100%;
+    overflow: hidden;
+}
+
+.btn,
+button.btn,
+.datapoint-editor-button,
+.datapoint-action-btn,
+.datapoint-dashboard-button,
+.gdnet-button,
+.graphdata-btn,
+.graphdata-btn-grey {
+  border: 0px;
+  border-radius: 9999px;
+  background: #533afd;
+  color: #ffffff;
+  min-height: 40px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  margin-right: 5px;
+  box-shadow: 0 1px 3px rgba(0, 55, 112, .08);
+}
+
+.btn:hover,
+button.btn:hover,
+.datapoint-editor-button:hover,
+.datapoint-action-btn:hover,
+.datapoint-dashboard-button:hover,
+.gdnet-button:hover,
+.graphdata-btn:hover {
+  cursor: pointer;
+}
+
+.form-control,
+input,
+select,
+textarea {
+  background: $gdnet-background;
+  color: $stripe-canvas;
+}
+
+
+.table,
+.react-bs-table table {
+  color: $gdnet-background;
+  font-feature-settings: "tnum";
+}
+
+.table th,
+.table td,
+.react-bs-table table th,
+.react-bs-table table td {
+  border-color: #e3e8ee;
+}
+
+.modal-dialog {
+  border: 1px solid #e3e8ee;
+  border-radius: 12px;
+  background: #ffffff;
+  color: $gdnet-background;
+  box-shadow: 0 8px 24px rgba(0, 55, 112, .08), 0 2px 6px rgba(0, 55, 112, .04);
+}
+
+.modal-header {
+  color: $gdnet-background;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.btn-selected {
+  border-color: #ea2261;
+  background: #ffffff;
+  color: #ea2261;
+}
+
+.status-false {
+  color: #ea2261;
+}
+
+@media (max-width: 768px) {
+  .gdnet-app {
+    top: 76px;
+    height: calc(100vh - 76px);
+    padding: 12px;
+  }
+}
+
+.gdnet-title {
+  background: none;
+  font-size: 32px;
+  font-weight: 600;
+  height: auto;
+  margin-bottom: 0;
+  padding-left: 0;
+  position: static;
+  width: auto;
+  color: rgb(233, 227, 227);
+}
+
+.gdnet-subtitle {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.gdnet-text {
+  color: #1c1e54;
+  font-weight: 600;
+  font-size: 18px;
+  height: auto;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.gdnet-container-header {
+  align-items: center;
+  border-bottom: 4px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  justify-content: space-between;
+  min-height: 72px;
+  padding: 0 32px;
+}
+
+.gdnet-container-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  background: $stripe-canvas;
+}
+
+.gdnet-input {
+  background-color: $gdnet-background;
+  color: #1c1e54;
+}
+
+.gddnet-container-header {
+  align-items: center;
+  display: flex;
+  font-size: 24px;
+  color: #4434d4;
+  font-weight: 800;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 10px 14px;
+}
+
+.gdnet-container {
+  display: flex;
+  flex: 1;
+  gap: 14px;
+  min-height: 0;
+  padding: 14px 32px 24px;
+}
+
+.gdnet-filter {
+  margin: 10px;
+  border-radius: 5px;
+  min-height: 32px;
+  padding: 0 9px;
+  display: flex;
+}
+
+.gdnet-filter input {
+  width: 100%;
+  border: unset;
+  box-sizing: unset;
+}
+
+.gdnet-editor-line {
+  display: flex;
+  flex-direction: row;
+  margin: 5px 20px;
+  max-width: 800px;
+}
+
+.gdnet-editor-value {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  margin-right: 10px;
+}
+
+.gdnet-editor-value input {
+  height: 40px;
+  line-height: 40px;
+  border-radius: 5px;
+  background: $gdnet-background;
+}
+
+.gdnet-editor-value select {
+  height: 40px;
+  min-height: 40px;
+  line-height: 38px; /* height minus 2px border */
+  padding: 0 12px;
+  box-sizing: border-box;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
+  margin-top: 10px;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.gdnet-editor-value select option {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.gdnet-editor-row {
+  align-items: center;
+  display: flex;
+  padding: 5px 0;
+}
+
+.gdnet-block {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.disabled {
+  background: $stripe-ink-mute;
+}
+
+.disabled:hover {
+  cursor: unset;
+}
+
+.gdnet-list {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

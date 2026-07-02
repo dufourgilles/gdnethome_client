@@ -1,3 +1,5 @@
+@use "../constants" as *;
+
 .datapoint-list-line {
   display: flex;
   flex-direction: row;
@@ -14,22 +16,4 @@
   padding-left: 10px;
   min-width: 50px;
   text-transform: uppercase;
-}
-
-.datapoint-list-line-name {
-  padding-top: 10px;
-  padding-left: 10px;
-}
-
-.datapoint-list {
-  display: block;
-  width: 40%;
-  min-width: 300px;
-  overflow: scroll;
-  height: 612px;
-}
-
-.datapoint-filter {
-  margin-left: 10px;
-  margin-top: 10px;
 }

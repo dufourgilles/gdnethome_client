@@ -1,6 +1,8 @@
 @use "../constants" as *;
 
 .text-select {
+  display:flex;
+  flex: 1;
   overflow: visible;
 }
 
@@ -19,8 +21,18 @@
   z-index: 100;
 }
 
-input {
-  width: 250px;
+.text-select input {
+  height: 40px;
+  min-height: 40px;
+  line-height: 38px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-right: 10px;
+  flex: 1;
 }
 
 .text-select-option {

@@ -1,37 +1,10 @@
 @use "../constants" as *;
 
-.datapoint-editor {
-  padding-top: 10px;
-  width: 60%;
-  position: relative;
-  top: 0px;
-  left: 0px;
-}
-
 .datapoint-editor-entry {
   display: flex;
   flex-direction: row;
   min-width: 500px;
   padding-bottom: 5px;
-}
-
-.text-select input {
-  width: 100%;
-}
-
-.datapoint-editor-key {
-  min-width: $gdnet-paramlength;
-  height: 30px;
-  width: 200px;
-}
-
-.datapoint-editor-value {
-  display: flex;
-  flex-direction: column;
-}
-
-.datapoint-editor-value select {
-  width: 250px;
 }
 
 .datapoint-editor-actions {
@@ -58,15 +31,6 @@
   cursor: pointer;
 }
 
-
-.datapoint-editor-button-disabled {
-  margin: 5px;
-  border-radius: 7px;
-  border: solid 1px white;
-  background-color: $gdnet-grey;
-  padding: 5px;
-}
-
 .datapoint-parameter-invalid {
   height: 3px;
   width: 100%;
@@ -76,4 +40,56 @@
 .datapoint-parameter-valid {
   height: 3px;
   width: 131px;
+}
+
+.somfy-knx-mappings {
+  align-items: flex-start;
+}
+
+.somfy-knx-mappings-table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  width: 100%;
+}
+
+.somfy-knx-mappings-header,
+.somfy-knx-mappings-row {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.somfy-knx-mappings-header {
+  font-weight: bold;
+}
+
+.somfy-knx-mappings-header span:nth-child(1),
+.somfy-knx-mappings-header span:nth-child(2),
+.somfy-knx-mappings-row input {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.somfy-knx-mappings-header span:nth-child(3),
+.somfy-knx-mappings-remove {
+  flex: 0 0 28px;
+}
+
+.somfy-knx-mappings-remove {
+  background: none;
+  border: none;
+  color: $gdnet-purple;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+}
+
+.somfy-knx-mappings-add {
+  align-self: flex-start;
+  cursor: pointer;
+  margin-top: 4px;
 }

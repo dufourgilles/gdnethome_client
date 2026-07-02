@@ -1,83 +1,110 @@
 @use "../constants" as *;
 
 .app-header {
-  height: 100px;
-  width: 100%;
-  min-width: 1000px;
-  margin-left: 0px;
-  display: block;
-  background-color: $gdnet-grey;
-  vertical-align: middle;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  z-index: 1000;
+  height: 84px;
+  flex: 1;
+  margin: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $stripe-canvas;
+  border: 1px solid rgba(227, 232, 238, .86);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 55, 112, .08), 0 2px 6px rgba(0, 55, 112, .04);
+  backdrop-filter: blur(18px);
 }
 
 .app-header-title {
-  font-size: 25px;
-  text-decoration: underline;
-  margin-top: 25px;
-  margin-left: 25px;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.header-menu-button {
+  margin-right: 14px;
+  padding: 0;
+  border: 1px solid $stripe-canvas;
+  background: $stripe-canvas;
+  color: $gdnet-background;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 55, 112, .08);
+}
+
+.header-menu-button:focus {
+  outline: 2px solid $gdnet-background;
+  outline-offset: 4px;
 }
 
 .header-menu-bars {
-  position: absolute;
-  top: 14px;
-  right: 20px;
-  color: $gdnet-purple;
-}
-
-.app-header-dropdown-hidden {
-  position: absolute;
-  top: 80px;
-  right: 20px;
-  background-color: $gdnet-grey;
-  color: $gdnet-purple;
-  padding: 20px;
-  font-size: 25px;
-  display: none;
-  flex-direction: column;
+  font-size: 20px;
+  line-height: 1;
 }
 
 .app-header-dropdown {
   position: absolute;
-  top: 80px;
-  right: 20px;
-  background-color: $gdnet-grey;
-  color: $gdnet-purple;
-  padding: 20px;
-  font-size: 25px;
+  top: 72px;
+  right: 0;
+  background-color: $stripe-canvas;
+  color: $stripe-ink;
+  padding: 8px;
+  min-width: 220px;
+  font-size: 15px;
+  font-weight: 300;
   display: flex;
   flex-direction: column;
+  border: 1px solid $stripe-hairline;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 55, 112, .08), 0 2px 6px rgba(0, 55, 112, .04);
 }
 
 .dropdown-link {
-  background-color: $gdnet-grey;
-  color: $gdnet-purple;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  background-color: $stripe-canvas;
+  color: $stripe-ink-secondary;
+  padding: 10px 12px;
   text-decoration: none;
-  border: 1px;
-  border-radius: 7px;
-  margin: 3px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  margin: 2px;
+  display: block;
 }
 
 .dropdown-link-current {
-  background-color: white;
-  color: $gdnet-purple;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  background-color: #b9b9f9;
+  color: $stripe-primary-deep;
+  padding: 10px 12px;
   text-decoration: none;
-  border: 1px;
-  border-radius: 7px;
-  margin: 3px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  margin: 2px;
+  display: block;
 }
 
-.dropdown-link:hover {
+.dropdown-link:hover,
+.dropdown-link:focus {
   cursor: pointer;
+  background-color: $stripe-canvas-soft;
+  color: $stripe-primary;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    width: calc(100% - 24px);
+    height: 56px;
+    margin: 10px 12px;
+  }
+
+  .app-header-title {
+    margin-left: 14px;
+  }
+
+  .app-header-title img {
+    width: 84px !important;
+  }
+
+  .app-header-dropdown {
+    top: 64px;
+    right: 0;
+    left: auto;
+  }
 }
