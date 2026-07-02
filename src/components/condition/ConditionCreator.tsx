@@ -309,17 +309,17 @@ class ConditionCreator extends FreezeView {
         }
         const op = condition.operator;
         const addConditionBtn = op === "AND" || op === "OR" || (op === "NOT" && this.state.conditionLength < 1) ? 
-        (<div className="datapoint-editor-button" onClick={addConditionFunc}>more</div>) :
+        (<button className="gdnet-button" onClick={addConditionFunc}>more</button>) :
         "";
 
         return (
-            <div className="condition-creator">
-                <div className="action-actions">
-                    <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
-                    <div className="datapoint-editor-button" onClick={newFunc}>New</div>
-                    <div className="datapoint-editor-button" onClick={cancelFunc}>Cancel</div>
-                    <div className="datapoint-editor-button" onClick={templateFunc}>Template</div>
-                    <div className="datapoint-editor-button" onClick={eventsFunc}>Events</div> 
+            <div className="gdnet-block">
+                <div className="row">
+                    <button className="gdnet-button" type="button" onClick={saveFunc}>Save</button>
+                    <button className="gdnet-button" onClick={newFunc}>New</button>
+                    <button className="gdnet-button" onClick={cancelFunc}>Cancel</button>
+                    <button className="gdnet-button" onClick={templateFunc}>Template</button>
+                    <button className="gdnet-button" onClick={eventsFunc}>Events</button> 
                     {addConditionBtn}
                 </div>
                 {this.renderCreator()}

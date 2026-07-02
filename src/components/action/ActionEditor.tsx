@@ -60,8 +60,8 @@ class ActionEditor extends Component {
             (<ActionCreator action={this.state.action} />);
 
         return (
-            <div className="action-editor">
-                <div className="action-list">
+            <div className="gdnet-container">
+                <div className="gdnet-list">
                     {renderedActions}
                 </div>
                 {renderedEditableAction}

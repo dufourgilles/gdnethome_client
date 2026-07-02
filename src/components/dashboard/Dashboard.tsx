@@ -154,11 +154,11 @@ class Dashboard extends Component {
             }
             return (
                 <StatusLine 
-                key={dpctl.id} 
-                name={dpctl.name} 
-                status={dpctl.value == null ? "unknown" : dpctl.value} 
-                onClick={toggleSwitch}
-                formatStatus={this.formatStatus}
+                    key={dpctl.id} 
+                    name={dpctl.name} 
+                    status={dpctl.value == null ? "unknown" : dpctl.value} 
+                    onClick={toggleSwitch}
+                    formatStatus={this.formatStatus}
                 />
             );
         });
@@ -206,17 +206,20 @@ class Dashboard extends Component {
                         values={this.state.rightValues}/>
                     </div>
                 </div>
-                <div className="dashboard-box">
-                    <TitleBox
-                        title="Status"
-                        edit={openStatusBoxEditor}
-                        content={statusLines}
-                    />
-                    <TitleBox
-                        title="Values"
-                        edit={openValuesBoxEditor}
-                        content={valuesLines}
-                    />
+
+                <div className="gdnet-container-panel">
+                    <div className="row">
+                        <TitleBox
+                            title="Status"
+                            edit={openStatusBoxEditor}
+                            content={statusLines}
+                        />
+                        <TitleBox
+                            title="Values"
+                            edit={openValuesBoxEditor}
+                            content={valuesLines}
+                        />
+                    </div>
                 </div>
                 <EventBox/>
                 <PopupBox 

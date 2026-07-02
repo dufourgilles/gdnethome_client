@@ -4,7 +4,6 @@ import DatapointList from '../common/DatapointList';
 import DatapointEditor from './DatapointEditor';
 import { getEmptyDatapoint } from "../../hooks/domain";
 import FreezeView from "../common/FreezeView";
-import './DatapointView.scss'
 import PropTypes from "prop-types";
 import { toastr } from "../../hooks/toastr";
 import PopupBox from "../common/PopupBox";
@@ -119,41 +118,41 @@ class DatapointView extends FreezeView {
         const selectedTitle = selected.id === "" ? "New datapoint" : selected.name || selected.id;
         const protocolSummary = selected.protocol == null ? "knx" : selected.protocol;
         return (
-            <div className="gdnet-view datapoint-view">
-                <div className="datapoint-dashboard-header">
+            <div className="gdnet-view">
+                <div className="gdnet-container-header">
                     <div>
                         <div className="gdnet-title">DataPoints</div>
-                        <div className="datapoint-dashboard-subtitle">{this.props.datapoints.length} datapoints available</div>
+                        <div className="gdnet-subtitle">{this.props.datapoints.length} datapoints available</div>
                     </div>
-                    <div className="datapoint-dashboard-toolbar">
-                        <button className="datapoint-dashboard-button" type="button" onClick={this.newDataPoint}>
+                    <div className="gdnet-toolbar">
+                        <button className="gdnet-button" type="button" onClick={this.newDataPoint}>
                             New Datapoint
                         </button>
-                        <button className="datapoint-dashboard-button" type="button" onClick={this.openFileSelect}>
+                        <button className="gdnet-button" type="button" onClick={this.openFileSelect}>
                             Upload ETS5
                         </button>
-                        <button className="datapoint-dashboard-button" type="button" onClick={this.importSomfy}>
+                        <button className="gdnet-button" type="button" onClick={this.importSomfy}>
                             Import Somfy
                         </button>
-                        <button className="datapoint-dashboard-button" type="button" onClick={this.downloadDatapoints}>
+                        <button className="gdnet-button" type="button" onClick={this.downloadDatapoints}>
                             Download
                         </button>
-                        <button className="datapoint-dashboard-button datapoint-dashboard-button-danger" type="button" onClick={this.handleDeleteAll}>
+                        <button className="gdnet-button gdnet-button-danger" type="button" onClick={this.handleDeleteAll}>
                             Delete All
                         </button>
                     </div>
                 </div>
-                <div className={`datapoint-dashboard-container ${this.state.freezeOn === true ? "blurred" : ""}`}>
-                    <div className="datapoint-dashboard-panel datapoint-dashboard-list-panel">
-                        <div className="datapoint-dashboard-panel-header">
+                <div className={`gdnet-container ${this.state.freezeOn === true ? "blurred" : ""}`}>
+                    <div className="gdnet-container-panel">
+                        <div className="gdnet-panel-header">
                             <span>Datapoints</span>
                         </div>
                         <DatapointList datapoints={this.props.datapoints} select={this.selectDatapoint} showProtocol/>
                     </div>
-                    <div className="datapoint-dashboard-panel datapoint-dashboard-editor-panel">
-                        <div className="datapoint-dashboard-panel-header">
+                    <div className="gdnet-container-panel">
+                        <div className="gdnet-panel-header">
                             <span>{selectedTitle}</span>
-                            <span className="datapoint-dashboard-panel-meta">{protocolSummary} / {selected.type}</span>
+                            <span className="gdnet-panel-meta">{protocolSummary} / {selected.type}</span>
                         </div>
                         <DatapointEditor
                             key={this.state.selectionVersion}

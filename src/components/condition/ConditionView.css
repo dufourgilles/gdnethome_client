@@ -4,11 +4,6 @@
   position: absolute;
   top: 60px; }
 
-.condition-creator {
-  display: block;
-  height: 100vh;
-  margin-left: 20px; }
-
 #condition-list {
   width: 460px;
   min-width: 460px;

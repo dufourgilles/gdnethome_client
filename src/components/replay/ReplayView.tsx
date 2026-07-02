@@ -4,7 +4,6 @@ import FreezeView from "../common/FreezeView";
 import DatapointParameter from "../datapoint/DatapointParameter";
 import { getReplayFile, useReplay } from "../../hooks/useReplay";
 import { toastr } from "../../hooks/toastr";
-import "./ReplayView.scss";
 import PropTypes from 'prop-types';
 
 class ReplayView extends FreezeView {
@@ -51,7 +50,11 @@ class ReplayView extends FreezeView {
         if (this.state.replayInfo == null) {
             return (
                 <div className="gdnet-view">
-                    <div className="gdnet-title">Replay</div>
+                    <div className="gdnet-container-header">
+                        <div>
+                            <div className="gdnet-title">Replay</div>
+                        </div>
+                    </div>
                 </div>
             );
         }
@@ -69,12 +72,16 @@ class ReplayView extends FreezeView {
 
         return (
             <div className="gdnet-view">
-                <div className="gdnet-title">Replay</div>
-                <div className="view-container">
-                <div className="replay-view">
-                    <div className="replay-view-actions">
-                        <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
-                        <div className="datapoint-editor-button" onClick={cancelFunc}>Cancel</div>
+                <div className="gdnet-container-header">
+                    <div>
+                        <div className="gdnet-title">Replay</div>
+                    </div>
+                </div>
+
+                <div className="gdnet-block">
+                    <div className="row">
+                        <button className="gdnet-button" onClick={saveFunc}>Save</button>
+                        <button className="gdnet-button" onClick={cancelFunc}>Cancel</button>
                     </div>
                     <DatapointParameter 
                         key="enable"
@@ -121,12 +128,11 @@ class ReplayView extends FreezeView {
                         data={this.state.replayInfo}                    
                     />
                 </div>
-                <div className="replay-file">
+                <div className="gdnet-container-panel gdnet-log-panel">
                     <pre>
                     {this.state.filteredContent}
                     </pre>
                 </div>
-            </div>
             </div>
         );
     }

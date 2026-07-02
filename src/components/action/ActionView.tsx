@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from "prop-types";
 import FreezeView from "../common/FreezeView";
 import ActionTabs from "./ActionTabs"
-import "./ActionView.scss";
 import { useActionQuery } from "../../hooks/useAction";
 
 class ActionView extends FreezeView {
@@ -13,14 +12,14 @@ class ActionView extends FreezeView {
 
     renderContent() {
         return (
-            <div className="gdnet-view action-view">
-                <div className="action-dashboard-header">
+            <div className="gdnet-view">
+                <div className="gdnet-container-header">
                     <div>
                         <div className="gdnet-title">Actions</div>
-                        <div className="action-dashboard-subtitle">{this.props.actions.length} actions configured</div>
+                        <div className="gdnet-subtitle">{this.props.actions.length} actions configured</div>
                     </div>
                 </div>
-                <div className={`action-dashboard-container ${this.isFreezed() === true ? "blurred" : ""}`}>
+                <div className={`gdnet-container ${this.isFreezed() === true ? "blurred" : ""}`}>
                     <ActionTabs />
                 </div>
             </div>

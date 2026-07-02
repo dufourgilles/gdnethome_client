@@ -230,9 +230,9 @@ class ActionCreator extends FreezeView {
         const advancedParams = this.renderAdvancedParams(action);
         return (
             <div className="action-creator">
-                <div className="action-actions">
-                    <div className="datapoint-editor-button" onClick={saveFunc}>Save</div>
-                    <div className="datapoint-editor-button" onClick={cancelFunc}>Cancel</div>
+                <div className="row">
+                    <button className="gdnet-button" onClick={saveFunc}>Save</button>
+                    <button className="gdnet-button" onClick={cancelFunc}>Cancel</button>
                 </div>
                 <DatapointParameter
                     key="id"
@@ -319,4 +319,3 @@ export default function ActionCreatorQuery(props) {
         />
     );
 }
-

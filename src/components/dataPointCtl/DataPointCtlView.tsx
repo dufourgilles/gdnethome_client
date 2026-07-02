@@ -6,7 +6,6 @@ import DataPointCtlEditor from './DataPointCtlEditor';
 import { getEmptyDatapointCtl } from "../../hooks/domain";
 import PropTypes from "prop-types";
 import { toastr } from "../../hooks/toastr";
-import './DataPointViewCtl.scss';
 import { useDatapointCtl } from "../../hooks/useDatapointCtl";
 
 class DataPointCtlView extends FreezeView {
@@ -56,16 +55,16 @@ class DataPointCtlView extends FreezeView {
                     </div>
                 </div>
                 <div className={`gdnet-container ${this.isFreezed() === true ? "blurred" : ""}`}>
-                    <div className="gdnet-container-panel datapointctl-list-panel">
-                        <div className="gddnet-container-header">
+                    <div className="gdnet-container-panel">
+                        <div className="gdnet-panel-header">
                             <span>Controllers</span>
                         </div>
                         <DatapointList datapoints={this.props.dataPointCtls} select={this.selectDataPointCtl}/>
                     </div>
                     <div className="gdnet-container-panel">
-                        <div className="gddnet-container-header">
+                        <div className="gdnet-panel-header">
                             <span>{selectedTitle}</span>
-                            <span className="datapointctl-panel-meta">{selected.type}</span>
+                            <span className="gdnet-panel-meta">{selected.type}</span>
                         </div>
                         <DataPointCtlEditor
                             key={this.state.selectionVersion}

@@ -148,7 +148,7 @@ class ConditionTemplateViewer extends FreezeView {
 
         return (
             <div className="condition-template">
-                <label htmlFor="template-loader" className="datapoint-editor-button">Load Template</label>
+                <label htmlFor="template-loader" className="gdnet-button">Load Template</label>
                 <input id="template-loader" type="file" onChange={this.loadTemplate}/>
                 <DatapointParameter 
                     key="template"
@@ -161,8 +161,8 @@ class ConditionTemplateViewer extends FreezeView {
                     match="id"
                 />
                 {templateData}
-                <div className="action-actions">
-                    <div className="datapoint-editor-button" onClick={this.createCondition}>Generate</div>
+                <div className="row">
+                    <div className="gdnet-button" onClick={this.createCondition}>Generate</div>
                 </div>
             </div>
         );

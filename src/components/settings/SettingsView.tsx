@@ -5,8 +5,6 @@ import {updateConfig, useConfigQuery} from "../../hooks/useSystem";
 import DatapointParameter from "../datapoint/DatapointParameter";
 import InterfaceEditor from "./InterfacesEditor";
 
-import "./SettingsView.scss";
-
 class SettingsView extends FreezeView {
     state = {
         config: null,
@@ -110,9 +108,13 @@ class SettingsView extends FreezeView {
         );
         return (
             <div className="gdnet-view">
-                <div className="gdnet-title">Settings</div>
-                <div className="view-container">
-                <div className="settings-view-container">
+                <div className="gdnet-container-header">
+                    <div>
+                        <div className="gdnet-title">Settings</div>
+                    </div>
+                </div>
+                <div className="gdnet-container">
+                <div className="gdnet-block">
                     <DatapointParameter
                         key="dbName"
                         onChange={handleDBValueChange}
@@ -160,11 +162,11 @@ class SettingsView extends FreezeView {
                         match="id"
                         display="id"
                     />
-                    <div onMouseUp={toggleAdvancedParams}>Advanced Params</div>
+                    <div className="gdnet-section-toggle" onMouseUp={toggleAdvancedParams}>Advanced Params</div>
                     {this.state.advanced === true ? advancedParams : ""}
-                    <div className="settings-view-btns">               
-                        <div className="btn" onClick={this.submit}>Submit</div>
-                        <div className="btn" onClick={this.cancel}>Cancel</div>
+                    <div className="row">               
+                        <button className="gdnet-button" onClick={this.submit}>Submit</button>
+                        <button className="gdnet-button" onClick={this.cancel}>Cancel</button>
                     </div>
                 </div>
                 </div>

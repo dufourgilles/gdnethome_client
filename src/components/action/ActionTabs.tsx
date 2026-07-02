@@ -11,7 +11,7 @@ class ActionTabs extends Component {
     };
     render() {
         return (
-            <div className="action-dashboard-panel action-tabs-panel">
+            <div className="gdnet-container-panel gdnet-tabs-panel">
                <Tabs
                    id="action-tabs"
                    activeKey={this.state.key}

@@ -5,7 +5,6 @@ import ConditionCreator from "./ConditionCreator";
 import ConditionList from "./ConditionList";
 import { getById, getEmptyCondition } from "../../hooks/domain";
 import PropTypes from "prop-types";
-import "./ConditionView.scss";
 import { useConditionQuery } from "../../hooks/useCondition";
 
 
@@ -40,24 +39,24 @@ class ConditionView extends FreezeView {
         const condition = this.state.condition;
         const selectedTitle = condition.id === "" ? "New condition" : condition.name || condition.id;
         return (
-            <div className="gdnet-view condition-view">
-                <div className="condition-dashboard-header">
+            <div className="gdnet-view">
+                <div className="gdnet-container-header">
                     <div>
                         <div className="gdnet-title">Conditions</div>
-                        <div className="condition-dashboard-subtitle">{this.props.conditions.length} conditions configured</div>
+                        <div className="gdnet-subtitle">{this.props.conditions.length} conditions configured</div>
                     </div>
                 </div>
-                <div key={"condition-view"} className={`condition-dashboard-container ${this.isFreezed() === true ? "blurred" : ""}`}>
-                    <div className="condition-dashboard-panel condition-dashboard-list-panel">
-                        <div className="condition-dashboard-panel-header">
+                <div key={"condition-view"} className={`gdnet-container ${this.isFreezed() === true ? "blurred" : ""}`}>
+                    <div className="gdnet-container-panel">
+                        <div className="gdnet-panel-header">
                             <span>Conditions</span>
                         </div>
                         <ConditionList onSelect={this.handleSelect} onDelete={this.handleDelete} selected={condition} />
                     </div>
-                    <div className="condition-dashboard-panel condition-dashboard-editor-panel">
-                        <div className="condition-dashboard-panel-header">
+                    <div className="gdnet-container-panel gdnet-container-panel-wide">
+                        <div className="gdnet-panel-header">
                             <span>{selectedTitle}</span>
-                            <span className="condition-dashboard-panel-meta">{condition.operator}</span>
+                            <span className="gdnet-panel-meta">{condition.operator}</span>
                         </div>
                         <ConditionCreator
                             id={condition.id}

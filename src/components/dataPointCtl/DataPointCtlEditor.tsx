@@ -132,7 +132,7 @@ class DataPointCtlEditor extends FreezeView {
         const dataPointCtl = this.state.dataPointCtl;
         let savebtnClassname, saveFunc;
         if (this.state.valid && this.state.modified) {
-            savebtnClassname = "datapoint-editor-button";
+            savebtnClassname = "gdnet-button";
             saveFunc = this.saveDataPointCtl;
         }
         else {
@@ -152,7 +152,7 @@ class DataPointCtlEditor extends FreezeView {
                 <div className="row">
                     <button className="gdnet-button" type="button" onClick={this.newDataPointCtl}>New</button>
                     <button className={savebtnClassname} type="button" onClick={saveFunc}>Save</button>
-                    <button className="gdnet-button datapointctl-button-danger" type="button" onClick={this.deleteDataPointCtl}>Delete</button>
+                    <button className="gdnet-button gdnet-button-danger" type="button" onClick={this.deleteDataPointCtl}>Delete</button>
                 </div>
                 <DatapointParameter
                     key="id"

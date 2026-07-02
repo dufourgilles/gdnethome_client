@@ -10,8 +10,8 @@ class StatusLine extends Component {
         this.props.status :
         this.props.formatStatus(this.props.status);
         return (
-            <div className="statusline" onClick={this.props.onClick}>
-                <div className="statusline-name">{this.props.name}</div>
+            <div className="datapoint-list-line" onClick={this.props.onClick}>
+                <div className="gdnet-text">{this.props.name}</div>
                 <div className="statusline-status">{status}</div>
             </div>
         );

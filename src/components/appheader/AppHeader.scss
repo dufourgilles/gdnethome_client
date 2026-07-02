@@ -12,6 +12,8 @@
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 55, 112, .08), 0 2px 6px rgba(0, 55, 112, .04);
   backdrop-filter: blur(18px);
+  position: relative;
+  z-index: 1000;
 }
 
 .app-header-title {

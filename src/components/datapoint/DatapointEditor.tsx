@@ -374,7 +374,7 @@ class DatapointEditor extends Component {
                     ))}
                     <button
                         type="button"
-                        className="datapoint-dashboard-button somfy-knx-mappings-add"
+                        className="gdnet-button somfy-knx-mappings-add"
                         disabled={this.state.freezeOn}
                         onClick={this.addKNXSomfyMapping}
                     >
@@ -474,7 +474,7 @@ class DatapointEditor extends Component {
                     ))}
                     <button
                         type="button"
-                        className="datapoint-dashboard-button somfy-knx-mappings-add"
+                        className="gdnet-button somfy-knx-mappings-add"
                         disabled={this.state.freezeOn}
                         onClick={this.addSomfyKNXMapping}
                     >
@@ -507,19 +507,19 @@ class DatapointEditor extends Component {
         const datapoint = this.state.datapoint;
         let savebtnClassname, saveFunc;
         if (this.state.valid && this.state.modified) {
-            savebtnClassname = "datapoint-editor-button";
+            savebtnClassname = "gdnet-button";
             saveFunc = this.saveDatapoint;
         }
         else {
-            savebtnClassname = "datapoint-editor-button-disabled";
+            savebtnClassname = "gdnet-button disabled";
         }
 
         return (
-            <div className="datapoint-editor datapoint-dashboard-editor">
-                <div className="datapoint-editor-actions datapoint-dashboard-editor-actions">
-                    <button className="datapoint-dashboard-button" type="button" onClick={this.newDataPoint}>New</button>
+            <div className="gdnet-block">
+                <div className="datapoint-editor-actions">
+                    <button className="gdnet-button" type="button" onClick={this.newDataPoint}>New</button>
                     <button className={savebtnClassname} type="button" onClick={saveFunc}>Save</button>
-                    <button className="datapoint-dashboard-button datapoint-dashboard-button-danger" type="button" onClick={this.deleteDatapoint}>Delete</button>
+                    <button className="gdnet-button gdnet-button-danger" type="button" onClick={this.deleteDatapoint}>Delete</button>
                 </div>
                 <DatapointParameter
                     key="protocol"

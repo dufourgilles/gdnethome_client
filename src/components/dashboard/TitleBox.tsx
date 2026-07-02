@@ -14,14 +14,13 @@ class TitleBox extends Component {
         };
 
         return (
-            <div className="titlebox">
-                <div>
-                    <div className="titlebox-title">{this.props.title}</div>
+            <div className="gdnet-block">
+                <div className="gdnet-panel-header">{this.props.title}
                     <Button id="btnEditDataPointList" className="titlebox-edit" onClick={handleContentEditor}>
                         <FontAwesome name="plus"/> Edit List
                     </Button>
                 </div>
-                <div className="titlebox-content">
+                <div className="gdnet-list">
                     {this.props.content != null ? this.props.content : ""}
                 </div>
             </div>

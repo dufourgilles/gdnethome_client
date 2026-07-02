@@ -4,8 +4,6 @@ import FreezeView from "../common/FreezeView";
 import {getLogFilePath, getLogTail, useStatusQuery} from "../../hooks/useSystem";
 import PieGraph from "../common/PieGraph";
 
-import "./StatusView.scss";
-
 class StatusView extends FreezeView {
     state = {
         status: null,
@@ -112,24 +110,39 @@ class StatusView extends FreezeView {
 
         return (
             <div className="gdnet-view">
-                <div className="gdnet-title">Status</div>
-                <div className="view-container">
-                <div className="status-view-container">
-                    <div className="status-disks" >
-                        {this.renderAllDiskInfo()}
-                    </div>
-                    <div className="status-resources">
-                        {this.renderRessources()}
-                    </div>                    
-                    <div className="status-logs">
-                        {this.renderLogs()}
-                    </div>
+                <div className="gdnet-container-header">
                     <div>
-                        <form method="get" action={getLogFilePath()}>
-                            <button type="submit">Download Log Files</button>
-                        </form>
+                        <div className="gdnet-title">Status</div>
                     </div>
+                    <form method="get" action={getLogFilePath()}>
+                        <button className="gdnet-button" type="submit">Download Log Files</button>
+                    </form>
                 </div>
+                <div className="gdnet-container-panel">
+                    <div className="gdnet-container-panel">
+                        <div className="gdnet-panel-header">
+                            <span>Disks</span>
+                        </div>
+                        <div className="row gdnet-block">
+                        {this.renderAllDiskInfo()}
+                        </div>
+                    </div>
+                    <div className="gdnet-container-panel">
+                        <div className="gdnet-panel-header">
+                            <span>Resources</span>
+                        </div>
+                        <div className="row gdnet-block">
+                        {this.renderRessources()}
+                        </div>
+                    </div>
+                    <div className="gdnet-container-panel">
+                        <div className="gdnet-panel-header">
+                            <span>Logs</span>
+                        </div>
+                        <div className=" gdnet-block gdnet-list">
+                        {this.renderLogs()}
+                        </div>
+                    </div>
                 </div>
             </div>
         );

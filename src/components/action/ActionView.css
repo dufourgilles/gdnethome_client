@@ -9,10 +9,6 @@
   flex-direction: column;
   height: 100vh; }
 
-.action-actions {
-  display: flex;
-  flex-direction: row; }
-
 .action-list {
   min-width: 520px;
   width: 520px;
@@ -39,9 +35,6 @@
   min-width: 350px;
   vertical-align: middle; }
 
-.action-editor {
-  display: flex;
-  flex-direction: row; }
 
 .action-parameter-info {
   display: flex;
