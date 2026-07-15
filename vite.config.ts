@@ -7,12 +7,12 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8001', // your backend URL
+        target: 'http://192.168.1.9:8000', // your backend URL
         changeOrigin: true,
         secure: false,
       },
       '/socketio': {
-        target: 'http://127.0.0.1:8001',
+        target: 'http://192.168.1.9:8000',
         changeOrigin: true,
         secure: false,
         ws: true

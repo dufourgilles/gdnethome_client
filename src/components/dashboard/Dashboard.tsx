@@ -221,6 +221,7 @@ class Dashboard extends Component {
                         />
                     </div>
                 </div>
+                
                 <EventBox/>
                 <PopupBox 
                     title="Select Datapoint to monitor"

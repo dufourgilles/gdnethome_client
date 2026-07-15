@@ -74,10 +74,13 @@ class ActionCreator extends FreezeView {
         const toggleAdvancedParams = () => {
             this.setState({advanced: !this.state.advanced})
         }
-        if (this.state.advanced) {
-            return (
-                <div className="action-advanced-params">
-                    <div onMouseUp={toggleAdvancedParams}>hide advanced params</div>
+        return (
+            <div className="action-advanced-params">
+                <div className="gdnet-section-toggle" onMouseUp={toggleAdvancedParams}>
+                    {this.state.advanced ? "hide advanced params" : "advanced params"}
+                </div>
+                {this.state.advanced &&
+                <React.Fragment>
                     <DatapointParameter
                         key="maxExecute"
                         onChange={this.handleValueChange}
@@ -152,14 +155,10 @@ class ActionCreator extends FreezeView {
                         data={action}
                         editable={false}
                     />
-                </div>
-            );
-        }
-        else {
-            return (
-                <div className="action-advanced-params" onMouseUp={toggleAdvancedParams}>advanced params</div>
-            );
-        }
+                </React.Fragment>
+                }
+            </div>
+        );
     }
     renderContent() {
         const saveFunc = () => {

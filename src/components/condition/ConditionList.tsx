@@ -52,7 +52,7 @@ class ConditionList extends React.Component {
 
     render() {
         return (
-            <div className="action-list">
+            <div className="gdnet-list gdnet-block">
                 {this.renderCondition()}
             </div>
         )

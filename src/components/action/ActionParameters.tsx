@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import ActionParameter from "./ActionParameter";
 import PropTypes from "prop-types";
 
+import "./ActionView.scss";
+
 class ActionParameters extends Component {
     render() {
         const parameterTypes = this.props.parameterTypes;

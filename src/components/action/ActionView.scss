@@ -160,13 +160,10 @@
   padding: 5px 0;
 }
 
-.action-view .datapoint-editor-key,
-.action-parameter-info-name {
-  color: rgba(255, 255, 255, 0.72);
-  flex: 0 0 200px;
-  height: auto;
-  min-width: 0;
-}
+.action-parameters {
+  margin-left: 10px;
+  color: $stripe-brand-dark;
+} 
 
 .action-advanced-params {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
