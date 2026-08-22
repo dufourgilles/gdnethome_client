@@ -106,6 +106,28 @@ class StatusView extends FreezeView {
         });
     }
 
+    renderSomfyStatus() {
+        if (this.state.status == null) {
+            return "";
+        }
+        const somfyStatus = this.state.status.somfyStatus;
+        if (somfyStatus == null) {
+            return "";
+        }
+        return (
+            <div className="gdnet-container-panel">
+                <div className="gdnet-panel-header">
+                    <span>Somfy</span>
+                </div>
+                <div className=" gdnet-block gdnet-list">
+                    <div>IP: {somfyStatus.ip ? somfyStatus.ip : "N/A"}</div>
+                    <div>Connected: {somfyStatus.connected ? "Yes" : "No"}</div>
+                    <div>Last Error: {somfyStatus.lastError}</div>
+                </div>
+            </div>
+        );
+    }
+
     renderContent() {
 
         return (
@@ -133,6 +155,14 @@ class StatusView extends FreezeView {
                         </div>
                         <div className="row gdnet-block">
                         {this.renderRessources()}
+                        </div>
+                    </div>
+                    <div className="gdnet-container-panel">
+                        <div className="gdnet-panel-header">
+                            <span>Somfy</span>
+                        </div>
+                        <div className="row gdnet-block">
+                        {this.renderSomfyStatus()}
                         </div>
                     </div>
                     <div className="gdnet-container-panel">

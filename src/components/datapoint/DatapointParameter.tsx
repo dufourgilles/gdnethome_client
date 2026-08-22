@@ -124,7 +124,7 @@ class DatapointParameter extends Component {
         const entryClass = this.props.className == null ? "gdnet-editor-line" : this.props.className;
         const keyClass = this.props.className == null ? "gdnet-text" : "";
         return (
-            <div key={this.props.key} className={entryClass}>
+            <div className={entryClass}>
                 <div className={keyClass}>{this.props.label}</div>
                 {valueLine()}
                 { this.props.filterKeys &&
@@ -140,7 +140,6 @@ class DatapointParameter extends Component {
 }
 
 DatapointParameter.propTypes = {
-    key: PropTypes.string,
     className: PropTypes.string,
     data: PropTypes.object.isRequired,
     editable: PropTypes.bool,

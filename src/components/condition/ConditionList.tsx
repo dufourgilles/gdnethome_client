@@ -30,10 +30,11 @@ class ConditionList extends React.Component {
                 event.preventDefault();
                 this.props.onSelect(condition);
             };
-            let btnEditClass = this.props.selected.id === condition.id ? "btn-selected" : "condition-item-edit";
-            if (condition.status === false) {
-                btnEditClass += " status-false";
+            let btnEditClass = "condition-item-edit";
+            if (this.props.selected.id === condition.id) {
+                btnEditClass += " btn-selected";
             }
+            btnEditClass += condition.status === true ? " status-true" : " status-false";
             return (
                 <div className="action-list-item" key={condition.id}>
                     <div className="action-item-name">{condition.name}</div>

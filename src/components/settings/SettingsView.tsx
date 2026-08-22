@@ -49,7 +49,7 @@ class SettingsView extends FreezeView {
     renderContent() {
         const handleDBValueChange = (name, value) => this.handleValueChange("DB", name, value);
         const handleKNXValueChange = (name, value) => this.handleValueChange("KNX", name, value);
-        const handleLOGGINGValueChange = (name, value) => this.handleValueChange("LOGGING", name, value);
+        const handleSOMFYValueChange = (name, value) => this.handleValueChange("SOMFY", name, value);
         const handleGLOBALValueChange = (name, value) => this.handleValueChange("GLOBAL", name, value);
         const handleWEBSERVERValueChange = (name, value) => this.handleValueChange("WEBSERVER", name, value);
         const handleNETWORKValueChange = (name, value) => this.handleValueChange("NETWORK", name, value);
@@ -60,6 +60,45 @@ class SettingsView extends FreezeView {
         if (this.state.config == null) {
             return "";
         }
+
+        const renderLoggingEntry = (entry, index) => {
+            const handleChange = (name, value) => {
+                const config = this.state.config;
+                config.LOGGING[index][name] = value;
+                this.setState({config});
+            };
+            const otherKeys = Object.keys(entry).filter(key => key !== "level" && !key.startsWith("_"));
+            return (
+                <React.Fragment key={`logging-${index}`}>
+                    <DatapointParameter
+                        key={`loggingLevel-${index}`}
+                        onChange={handleChange}
+                        label={`Logging ${index + 1} Level`}
+                        name="level"
+                        data={entry}
+                        list={[
+                            {id: "error", value: "error"},
+                            {id: "warning", value: "warning"},
+                            {id: "info", value: "info"},
+                            {id: "debug", value: "debug"},
+                            {id: "trace", value: "trace"}
+                        ]}
+                        match="id"
+                        display="id"
+                    />
+                    {otherKeys.map(key => (
+                        <DatapointParameter
+                            key={`logging-${index}-${key}`}
+                            onChange={handleChange}
+                            label={`Logging ${index + 1} ${key}`}
+                            name={key}
+                            data={entry}
+                            editable={true}
+                        />
+                    ))}
+                </React.Fragment>
+            );
+        };
 
         const advancedParams = (
             <div className="settings-advanced-params">                
@@ -147,21 +186,35 @@ class SettingsView extends FreezeView {
                         data={this.state.config.KNX.gateway}
                         editable={true}
                     />
-                    <DatapointParameter
-                        key="loggingLevel"
-                        onChange={handleLOGGINGValueChange}
-                        label="Logging Level"
-                        name="level"
-                        data={this.state.config.LOGGING}
-                        list={[
-                            {id: "error", value: "error"},
-                            {id: "warning", value: "warning"},
-                            {id: "info", value: "info"}, 
-                            {id: "debug", value: "debug"}
-                        ]}
-                        match="id"
-                        display="id"
-                    />
+                    {this.state.config.SOMFY != null &&
+                    <React.Fragment>
+                        <DatapointParameter
+                            key="somfyIp"
+                            onChange={handleSOMFYValueChange}
+                            label="Somfy IP"
+                            name="ip"
+                            data={this.state.config.SOMFY}
+                            editable={true}
+                        />
+                        <DatapointParameter
+                            key="somfyPort"
+                            onChange={handleSOMFYValueChange}
+                            label="Somfy Port"
+                            name="port"
+                            data={this.state.config.SOMFY}
+                            editable={true}
+                        />
+                        <DatapointParameter
+                            key="somfyApiKey"
+                            onChange={handleSOMFYValueChange}
+                            label="Somfy API Key"
+                            name="apiKey"
+                            data={this.state.config.SOMFY}
+                            editable={true}
+                        />
+                    </React.Fragment>
+                    }
+                    {(this.state.config.LOGGING || []).map(renderLoggingEntry)}
                     <div className="gdnet-section-toggle" onMouseUp={toggleAdvancedParams}>Advanced Params</div>
                     {this.state.advanced === true ? advancedParams : ""}
                     <div className="row">               

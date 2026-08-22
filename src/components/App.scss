@@ -132,13 +132,33 @@ textarea {
 }
 
 .btn-selected {
-  border-color: #ea2261;
-  background: #ffffff;
-  color: #ea2261;
+  border: 2px solid #ea2261;
 }
 
-.status-false {
-  color: #ea2261;
+button.status-true {
+  background: #1a9c53;
+}
+
+button.status-true:hover {
+  background: #16833f;
+}
+
+button.status-false {
+  background: $stripe-ink-mute;
+}
+
+button.status-false:hover {
+  background: $stripe-ink-mute;
+}
+
+button.condition-item-delete,
+button.action-item-delete {
+  background: $gdnet-danger;
+}
+
+button.condition-item-delete:hover,
+button.action-item-delete:hover {
+  background: $gdnet-danger;
 }
 
 @media (max-width: 768px) {
@@ -171,10 +191,15 @@ textarea {
   color: $stripe-brand-dark;
   font-weight: 600;
   font-size: 18px;
+  flex:1;
   height: auto;
   min-width: 200px;
   display: flex;
   align-items: center;
+  max-width: 500px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .gdnet-container-header {
@@ -318,7 +343,6 @@ textarea {
   height: 40px;
   min-height: 40px;
   line-height: 38px; /* height minus 2px border */
-  padding: 0 12px;
   box-sizing: border-box;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -349,6 +373,8 @@ textarea {
   flex: 1;
   flex-direction: column;
   min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: $stripe-canvas;
 }
 
@@ -364,11 +390,12 @@ textarea {
 .disabled:hover {
   cursor: unset;
 }
-
 .gdnet-list {
-  display: block;
-  flex: 1;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
   min-height: 0;
+  min-width: 0;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -433,6 +460,7 @@ textarea {
   align-items: center;
   cursor: pointer;
   display: flex;
+  flex: 1;
   flex-direction: row;
   min-height: 40px;
   padding-left: 10px;
@@ -440,7 +468,7 @@ textarea {
 
 .datapoint-list-line:hover,
 .action-list-item:hover {
-  background: rgba(13, 37, 61, 0.07);
+  background: #ccd3dd;
 }
 
 .datapoint-list-line-id {
